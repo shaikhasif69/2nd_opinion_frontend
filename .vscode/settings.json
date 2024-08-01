@@ -1,3 +1,4 @@
 {
-  "java.configuration.updateBuildConfiguration": "interactive"
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "cmake.sourceDirectory": "C:/Users/Shaikh Asif/OneDrive/Desktop/DoctorApp/2nd_opinion_frontend/linux/flutter"
 }

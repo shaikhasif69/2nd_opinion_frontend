@@ -32,11 +32,11 @@ class SideMenuTitle extends StatelessWidget {
         Stack(
           children: [
             AnimatedPositioned(
-              duration: Duration(milliseconds: 200),
+              duration: Duration(milliseconds: 300),
               height: 56,
               curve: Curves.fastOutSlowIn,
               left: 0,
-              width: isActive ? 270 : 0,
+              width: isActive ? MediaQuery.of(context).size.width / 1.3 : 0,
               child: Container(
                 decoration: BoxDecoration(
                     color: Colors.blue[200],
@@ -46,7 +46,7 @@ class SideMenuTitle extends StatelessWidget {
             ListTile(
                 onTap: press,
                 leading: SizedBox(
-                  height: 36,
+                  height: MediaQuery.of(context).size.width / 11,
                   width: 50,
                   child: RiveAnimation.asset(
                     menu.src,

@@ -22,13 +22,14 @@ class MenuBtn extends StatelessWidget {
           width: 40,
           decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.white,
+              color: Color.fromARGB(255, 3, 190, 150),
               boxShadow: [
                 BoxShadow(
                     color: Colors.black12, offset: Offset(0, 3), blurRadius: 8),
               ]),
           child: RiveAnimation.asset(
-            "assets/RiveAssets/hamburger_menu.riv",
+            "assets/RiveAssets/icons.riv",
+            artboard: "SETTINGS",
             onInit: riveOnInit,
           ),
         ),

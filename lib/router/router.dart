@@ -7,7 +7,7 @@ import 'package:doctor_opinion/screens/otpForm.dart';
 import 'package:doctor_opinion/screens/patient/Dashboard_screen.dart';
 import 'package:doctor_opinion/screens/patient/home_page.dart';
 import 'package:doctor_opinion/screens/patient/Profile_screen.dart';
-import 'package:doctor_opinion/screens/patient/homepage.dart';
+// import 'package:doctor_opinion/screens/patient/homepage.dart';
 import 'package:doctor_opinion/screens/patient/register.dart';
 import 'package:doctor_opinion/screens/views/Screen1.dart';
 import 'package:doctor_opinion/screens/views/doctor_details_screen.dart';
@@ -25,22 +25,22 @@ class MyGoRouter {
     //   },
     // ),
 
-    GoRoute(
-      path: "/",
-      name: CommonRoutes.login,
-      pageBuilder: (context, state) {
-        return MaterialPage(child: SideMenu());
-      },
-    ),
-
-    //uncomment this later!
     // GoRoute(
     //   path: "/",
     //   name: CommonRoutes.login,
     //   pageBuilder: (context, state) {
-    // return MaterialPage(child: on_boarding());
+    //     return MaterialPage(child: Homepage());
     //   },
     // ),
+
+    //uncomment this later!
+    GoRoute(
+      path: "/",
+      name: CommonRoutes.login,
+      pageBuilder: (context, state) {
+    return MaterialPage(child: on_boarding());
+      },
+    ),
     GoRoute(
         path: DoctorRoutes.signUp,
         name: DoctorRoutes.signUp,

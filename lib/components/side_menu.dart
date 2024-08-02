@@ -18,7 +18,7 @@ class _SideMenuState extends State<SideMenu> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        width: MediaQuery.of(context).size.width / 1.45,
+        width: MediaQuery.of(context).size.width / 1.35,
         height: double.infinity,
         color: Colors.blueGrey,
         child: SafeArea(
@@ -29,7 +29,7 @@ class _SideMenuState extends State<SideMenu> {
                 height: 10,
               ),
               const InfoCard(
-                name: "Shaikh Asif",
+                name: "Mehreen",
                 proffesion: "Developer",
               ),
               const Padding(

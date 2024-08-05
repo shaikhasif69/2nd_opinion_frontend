@@ -1,6 +1,7 @@
 import 'package:doctor_opinion/screens/views/doctor_details_screen.dart';
 import 'package:doctor_opinion/widgets/doctorList.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -15,10 +16,7 @@ class appointment extends StatelessWidget {
       appBar: AppBar(
         leading: GestureDetector(
           onTap: () {
-            Navigator.pushReplacement(
-                context,
-                PageTransition(
-                    type: PageTransitionType.fade, child: DoctorDetails()));
+          GoRouter.of(context).pop();
           },
           child: Container(
             height: 10,

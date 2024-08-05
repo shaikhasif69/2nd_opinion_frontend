@@ -50,13 +50,13 @@ class login extends StatelessWidget {
             const SizedBox(
               height: 60,
             ),
-            Auth_text_field(
-                text: "Enter you email", icon: "lib/icons/email.png"),
-            const SizedBox(
-              height: 5,
-            ),
-            Auth_text_field(
-                text: "Enter your password", icon: "lib/icons/lock.png"),
+            // Auth_text_field(
+            //     text: "Enter you email", icon: "lib/icons/email.png"),
+            // const SizedBox(
+            //   height: 5,
+            // ),
+            // Auth_text_field(
+            //     text: "Enter your password", icon: "lib/icons/lock.png"),
             Row(mainAxisAlignment: MainAxisAlignment.end, children: [
               GestureDetector(
                 onTap: () {
@@ -121,13 +121,7 @@ class login extends StatelessWidget {
                       fontSize: 15.sp, color: Colors.black87),
                 ),
                 GestureDetector(
-                  // onTap: () {
-                  //   Navigator.push(
-                  //       context,
-                  //       PageTransition(
-                  //           type: PageTransitionType.rightToLeft,
-                  //           child: register()));
-                  // },
+    
                   onTap: () {
                     _showSignUpRoleDialog(context);
                   },

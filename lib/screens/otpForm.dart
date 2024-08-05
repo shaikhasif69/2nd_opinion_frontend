@@ -1,28 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:pinput/pinput.dart';
+import 'package:doctor_opinion/services/patient/patientServices.dart';
 
-class OtpFormPage extends StatelessWidget {
-  const OtpFormPage({Key? key}) : super(key: key);
+class OtpFormPage extends StatefulWidget {
+  final String email;
+
+  OtpFormPage({Key? key, required this.email}) : super(key: key);
+
+  @override
+  _OtpFormPageState createState() => _OtpFormPageState();
+}
+
+class _OtpFormPageState extends State<OtpFormPage> {
+  final TextEditingController otpController = TextEditingController();
+  final UserService userService = UserService();
+
+  void verifyOtp(BuildContext context) async {
+    final response =
+        await userService.verifyOtp(widget.email, otpController.text);
+    print(response['response']);
+    print('see above!');
+    if (response['response'] == 'Success') {
+      Navigator.pushReplacementNamed(context, '/home');
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Invalid OTP')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final defaultPinTheme = PinTheme(
-      width: 56,
-      height: 60,
-      textStyle: const TextStyle(
-        fontSize: 22,
-        color: Colors.black,
-      ),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.secondaryContainer,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.transparent),
-      ),
-    );
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-        title: const Text('OTP TextField'),
+        title: const Text('OTP Verification'),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -52,23 +63,33 @@ class OtpFormPage extends StatelessWidget {
               ),
               Container(
                 margin: const EdgeInsets.only(bottom: 40),
-                child: const Text(
-                  "email@gamil.com",
+                child: Text(
+                  widget.email,
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 18,
                   ),
                 ),
               ),
-              Pinput(
-                length: 5,
-                defaultPinTheme: defaultPinTheme,
-                focusedPinTheme: defaultPinTheme.copyWith(
-                  decoration: defaultPinTheme.decoration!.copyWith(
-                    border: Border.all(color: Colors.green),
-                  ),
+              TextField(
+                controller: otpController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Enter OTP',
                 ),
-                onCompleted: (pin) => debugPrint(pin),
+                maxLength: 6, // Adjust the length as needed
+                onChanged: (value) {
+                  if (value.length == 6) {
+                    verifyOtp(
+                        context); // Automatically verify when 6 digits are entered
+                  }
+                },
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () => verifyOtp(context),
+                child: Text('Verify OTP'),
               ),
             ],
           ),

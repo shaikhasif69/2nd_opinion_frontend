@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
-class Auth_text_field extends StatelessWidget {
+class AuthTextField extends StatelessWidget {
+  final TextEditingController controller;
   final String text;
   final String icon;
 
-  Auth_text_field({required this.text, required this.icon});
+  AuthTextField({
+    required this.controller,
+    required this.text,
+    required this.icon,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +19,10 @@ class Auth_text_field extends StatelessWidget {
         width: MediaQuery.of(context).size.width * 0.9,
         decoration: BoxDecoration(
           color: Color.fromARGB(255, 247, 247, 247),
-          borderRadius: BorderRadius.circular(30)
+          borderRadius: BorderRadius.circular(30),
         ),
         child: TextField(
+          controller: controller,
           textAlign: TextAlign.start,
           textInputAction: TextInputAction.none,
           obscureText: false,
@@ -28,9 +34,7 @@ class Auth_text_field extends StatelessWidget {
             fillColor: Colors.transparent,
             filled: true,
             prefixIcon: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Container(
                 child: Image.asset(icon),
               ),

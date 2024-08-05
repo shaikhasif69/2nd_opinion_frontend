@@ -1,4 +1,6 @@
 import 'package:doctor_opinion/screens/login.dart';
+import 'package:doctor_opinion/screens/otpForm.dart';
+import 'package:doctor_opinion/services/patient/patientServices.dart';
 import 'package:doctor_opinion/widgets/Auth_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -6,8 +8,47 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class register extends StatelessWidget {
-  const register({super.key});
+class Register extends StatefulWidget {
+  const Register({super.key});
+
+  @override
+  State<Register> createState() => _RegisterState();
+}
+
+class _RegisterState extends State<Register> {
+  final UserService userService = UserService();
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  bool otpSent = false;
+
+  void register() async {
+    final userInfo = {
+      'firstName': firstNameController.text,
+      'lastName': lastNameController.text,
+      'email': emailController.text,
+      'phone': phoneController.text,
+      'password': passwordController.text,
+    };
+
+    final response = await userService.collectUserInfo(userInfo);
+    if (response['message'] == 'OTP sent to email. Please verify.') {
+      setState(() {
+        otpSent = true;
+      });
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => OtpFormPage(email: emailController.text),
+        ),
+      );
+    } else {
+      // Handle error
+      print(response['error']);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +62,10 @@ class register extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.06,
               child: Image.asset("lib/icons/back2.png")),
           onPressed: () {
-            Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.leftToRight, child: login()));
+            // Navigator.push(
+            //     context,
+            //     PageTransition(
+            //         type: PageTransitionType.leftToRight, child: Login()));
           },
         ),
         title: Text(
@@ -50,6 +91,7 @@ class register extends StatelessWidget {
               height: MediaQuery.of(context).size.height * 0.1,
               width: MediaQuery.of(context).size.width * 0.9,
               child: TextField(
+                controller: emailController,
                 textAlign: TextAlign.start,
                 textInputAction: TextInputAction.none,
                 obscureText: false,
@@ -83,16 +125,24 @@ class register extends StatelessWidget {
           const SizedBox(
             height: 5,
           ),
-          Auth_text_field(text: "First name", icon: "lib/icons/email.png"),
+          AuthTextField(
+              controller: firstNameController,
+              text: "First name",
+              icon: "lib/icons/email.png"),
           const SizedBox(
             height: 5,
           ),
-          Auth_text_field(text: "Last name", icon: "lib/icons/email.png"),
+          AuthTextField(
+              controller: lastNameController,
+              text: "Last name",
+              icon: "lib/icons/email.png"),
           const SizedBox(
             height: 5,
           ),
-          Auth_text_field(
-              text: "Enter your password", icon: "lib/icons/lock.png"),
+          AuthTextField(
+              controller: passwordController,
+              text: "Enter your password",
+              icon: "lib/icons/lock.png"),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -116,9 +166,7 @@ class register extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.05,
             width: MediaQuery.of(context).size.width * 0.9,
             child: ElevatedButton(
-              onPressed: () {
-                // Perform verification or other actions here
-              },
+              onPressed: register,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color.fromARGB(255, 3, 190, 150),
                 shape: RoundedRectangleBorder(
@@ -150,11 +198,11 @@ class register extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.bottomToTop,
-                          child: login()));
+                  // Navigator.push(
+                  //     context,
+                  //     PageTransition(
+                  //         type: PageTransitionType.bottomToTop,
+                  //         child: Login()));
                 },
                 child: Text(
                   "Sign in",

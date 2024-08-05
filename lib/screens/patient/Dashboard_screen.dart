@@ -1,3 +1,4 @@
+import 'package:doctor_opinion/router/NamedRoutes.dart';
 import 'package:doctor_opinion/screens/views/articlePage.dart';
 import 'package:doctor_opinion/screens/views/doctor_search.dart';
 import 'package:doctor_opinion/widgets/article.dart';
@@ -5,6 +6,7 @@ import 'package:doctor_opinion/widgets/banner.dart';
 import 'package:doctor_opinion/widgets/listIcons.dart';
 import 'package:doctor_opinion/widgets/list_doctor1.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -140,11 +142,13 @@ class Dashboard extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushReplacement(
-                        context,
-                        PageTransition(
-                            type: PageTransitionType.rightToLeft,
-                            child: doctor_search()));
+                    // doctor_search
+                    GoRouter.of(context).pushNamed(PatientRoutes.doctorProfile);
+                    // Navigator.push(
+                    //     context,
+                    //     PageTransition(
+                    //         type: PageTransitionType.rightToLeft,
+                    //         child: doctor_search()));
                   },
                   child: Text(
                     "See all",

@@ -1,7 +1,10 @@
+import 'package:doctor_opinion/router/NamedRoutes.dart';
+import 'package:doctor_opinion/router/router.dart';
 import 'package:doctor_opinion/screens/views/appointment.dart';
 import 'package:doctor_opinion/widgets/date_select.dart';
 import 'package:doctor_opinion/widgets/doctorList.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -236,11 +239,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.pushReplacement(
-                              context,
-                              PageTransition(
-                                  type: PageTransitionType.rightToLeft,
-                                  child: appointment()));
+                          GoRouter.of(context).pushNamed(PatientRoutes.bookAppointment);
                         },
                         child: Container(
                           height: MediaQuery.of(context).size.height * 0.06,

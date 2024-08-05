@@ -10,6 +10,7 @@ import 'package:doctor_opinion/screens/patient/Profile_screen.dart';
 // import 'package:doctor_opinion/screens/patient/homepage.dart';
 import 'package:doctor_opinion/screens/patient/register.dart';
 import 'package:doctor_opinion/screens/views/Screen1.dart';
+import 'package:doctor_opinion/screens/views/appointment.dart';
 import 'package:doctor_opinion/screens/views/doctor_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -52,7 +53,7 @@ class MyGoRouter {
         path: PatientRoutes.signUp,
         name: PatientRoutes.signUp,
         pageBuilder: (context, state) {
-          return MaterialPage(child: register());
+          return MaterialPage(child: Register());
         }),
 
     GoRoute(
@@ -75,7 +76,12 @@ class MyGoRouter {
         pageBuilder: (context, state) {
           return MaterialPage(child: DoctorDetails());
         }),
-
+    GoRoute(
+            path: PatientRoutes.bookAppointment,
+            name: PatientRoutes.bookAppointment,
+            pageBuilder: (context, state) {
+              return MaterialPage(child: appointment());
+            }),
     GoRoute(
         path: PatientRoutes.dashboard,
         name: PatientRoutes.dashboard,

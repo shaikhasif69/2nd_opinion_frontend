@@ -100,7 +100,7 @@ class login_signup extends StatelessWidget {
               Navigator.pushReplacement(
                   context,
                   PageTransition(
-                      type: PageTransitionType.rightToLeft, child: register()));
+                      type: PageTransitionType.rightToLeft, child: Register()));
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Color.fromARGB(255, 255, 255, 255),

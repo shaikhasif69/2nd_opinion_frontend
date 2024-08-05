@@ -130,7 +130,7 @@ class Profile_screen extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "Weight",
+                        "WHAT WEIGHT",
                         style: GoogleFonts.poppins(
                             fontSize: 13.sp,
                             fontWeight: FontWeight.w600,

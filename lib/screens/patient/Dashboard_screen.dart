@@ -1,4 +1,6 @@
 import 'package:doctor_opinion/router/NamedRoutes.dart';
+import 'package:doctor_opinion/screens/patient/doctorRecomendationCorousel.dart';
+import 'package:doctor_opinion/screens/patient/topDoctorCard.dart';
 import 'package:doctor_opinion/screens/views/articlePage.dart';
 import 'package:doctor_opinion/screens/views/doctor_search.dart';
 import 'package:doctor_opinion/widgets/article.dart';
@@ -12,8 +14,15 @@ import 'package:page_transition/page_transition.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class Dashboard extends StatelessWidget {
-  const Dashboard({super.key});
+   Dashboard({super.key});
 
+
+
+final List<String> imgList = [
+  'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
+  'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
+  'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',
+];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,6 +30,24 @@ class Dashboard extends StatelessWidget {
         automaticallyImplyLeading: false,
         backgroundColor: Color.fromARGB(255, 255, 255, 255),
         actions: [
+          Container(
+            alignment: Alignment.bottomCenter,
+            height: MediaQuery.of(context).size.height * 0.065,
+            width: MediaQuery.of(context).size.width * 0.06,
+            child: GestureDetector(
+              onTap: () {
+                print("hellooo");
+                GoRouter.of(context).pushNamed(PatientRoutes.searchSection);
+              },
+              child: Icon(
+                Icons.search,
+                size: 28,
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 10,
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
             child: Container(
@@ -32,7 +59,7 @@ class Dashboard extends StatelessWidget {
                 filterQuality: FilterQuality.high,
               ),
             ),
-          ),
+          )
         ],
         title: Column(
           children: [
@@ -55,61 +82,42 @@ class Dashboard extends StatelessWidget {
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
       body: SingleChildScrollView(
         child: Column(children: [
+        RecomendDoctorCorousel(imgList: imgList),
           SizedBox(
             height: 20,
           ),
-          Center(
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.06,
-              width: MediaQuery.of(context).size.width * 0.9,
-             decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: Color.fromARGB(255, 241, 234, 234),
-          ),
-              child: TextField(
-                // onTap: () {
-                //   Navigator.push(
-                //       context,
-                //       PageTransition(
-                //           type: PageTransitionType.rightToLeft,
-                //           child: find_doctor()));
-                // },
-                textAlign: TextAlign.start,
-                textInputAction: TextInputAction.none,
-                autofocus: false,
-                obscureText: false,
-                keyboardType: TextInputType.name,
-                textAlignVertical: TextAlignVertical.center,
-                decoration: InputDecoration(
-                  focusColor: Colors.black26,
-                  fillColor: Colors.transparent,
-                  filled: true,
-                  focusedBorder: InputBorder.none,
-                  prefixIcon: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                    ),
-                    child: Container(
-                      height: 10,
-                      width: 10,
-                      child: Image.asset(
-                        "lib/icons/search.png",
-                        filterQuality: FilterQuality.high,
-                      ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Categories",
+                  style: GoogleFonts.inter(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w700,
+                    color: Color.fromARGB(255, 46, 46, 46),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    GoRouter.of(context).pushNamed(PatientRoutes.doctorProfile);
+                    // Navigator.push(
+                    //     context,
+                    //     PageTransition(
+                    //         type: PageTransitionType.rightToLeft,
+                    //         child: doctor_search()));
+                  },
+                  child: Text(
+                    "See all",
+                    style: GoogleFonts.inter(
+                      fontSize: 16.sp,
+                      color: const Color.fromARGB(255, 3, 190, 150),
                     ),
                   ),
-                  prefixIconColor: const Color.fromARGB(255, 3, 190, 150),
-                  label: Text("Search doctor, drugs, articles..."),
-                  enabledBorder: InputBorder.none,
-
-                  floatingLabelBehavior: FloatingLabelBehavior.never,
-             
                 ),
-              ),
+              ],
             ),
-          ),
-          SizedBox(
-            height: 20,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -120,10 +128,142 @@ class Dashboard extends StatelessWidget {
               listIcons(Icon: "lib/icons/Ambulance.png", text: "Ambulance"),
             ],
           ),
+           Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Available Doctors",
+                  style: GoogleFonts.inter(
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w700,
+                    color: Color.fromARGB(255, 46, 46, 46),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    GoRouter.of(context).pushNamed(PatientRoutes.doctorProfile);
+                    // Navigator.push(
+                    //     context,
+                    //     PageTransition(
+                    //         type: PageTransitionType.rightToLeft,
+                    //         child: doctor_search()));
+                  },
+                  child: Text(
+                    "See all",
+                    style: GoogleFonts.inter(
+                      fontSize: 16.sp,
+                      color: const Color.fromARGB(255, 3, 190, 150),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            child: Container(
+              height: 160,
+              width: MediaQuery.of(context).size.width * 1,
+              child: ListView(
+                physics: BouncingScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                children: [
+                  TopDoctorCard(
+                      distance: "130m Away",
+                      image: "lib/icons/male-doctor.png",
+                      maintext: "Dr. Marcus Horizon",
+                      numRating: "4.7",
+                      subtext: "Chardiologist"),
+                  TopDoctorCard(
+                      distance: "130m Away",
+                      image: "lib/icons/docto3.png",
+                      maintext: "Dr. Maria Elena",
+                      numRating: "4.6",
+                      subtext: "Psychologist"),
+                  TopDoctorCard(
+                      distance: "2km away",
+                      image: "lib/icons/doctor2.png",
+                      maintext: "Dr. Stevi Jessi",
+                      numRating: "4.8",
+                      subtext: "Orthopedist"),
+                ],
+              ),
+            ),
+          ),
           SizedBox(
             height: 10,
           ),
-          const banner(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Health article",
+                  style: GoogleFonts.inter(
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w700,
+                    color: Color.fromARGB(255, 46, 46, 46),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushReplacement(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.rightToLeft,
+                            child: articlePage()));
+                  },
+                  child: Text(
+                    "See all",
+                    style: GoogleFonts.inter(
+                      fontSize: 16.sp,
+                      color: const Color.fromARGB(255, 3, 190, 150),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+              width: MediaQuery.of(context).size.width * 1,
+            height: 155,
+            child: ListView(
+                physics: BouncingScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                children: [
+                  article(
+                image: "images/article1.png",
+                dateText: "Jun 10, 2021 ",
+                duration: "5min read",
+                mainText:
+                    "The 25 Healthiest Fruits You Can Eat,\nAccording to a Nutritionist"),
+                    article(
+                image: "images/article1.png",
+                dateText: "Jun 10, 2021 ",
+                duration: "5min read",
+                mainText:
+                    "The 25 Healthiest Fruits You Can Eat,\nAccording to a Nutritionist"),
+                    article(
+                image: "images/article1.png",
+                dateText: "Jun 10, 2021 ",
+                duration: "5min read",
+                mainText:
+                    "The 25 Healthiest Fruits You Can Eat,\nAccording to a Nutritionist"),
+                ],
+
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+           BannerCarousel(),
           const SizedBox(
             height: 20,
           ),
@@ -198,47 +338,7 @@ class Dashboard extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Health article",
-                  style: GoogleFonts.inter(
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.w700,
-                    color: Color.fromARGB(255, 46, 46, 46),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushReplacement(
-                        context,
-                        PageTransition(
-                            type: PageTransitionType.rightToLeft,
-                            child: articlePage()));
-                  },
-                  child: Text(
-                    "See all",
-                    style: GoogleFonts.inter(
-                      fontSize: 16.sp,
-                      color: const Color.fromARGB(255, 3, 190, 150),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          article(
-              image: "images/article1.png",
-              dateText: "Jun 10, 2021 ",
-              duration: "5min read",
-              mainText:
-                  "The 25 Healthiest Fruits You Can Eat,\nAccording to a Nutritionist"),
+          
         ]),
       ),
     );

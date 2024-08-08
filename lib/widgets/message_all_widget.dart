@@ -74,10 +74,7 @@ class message_all_widget extends StatelessWidget {
               height: MediaQuery.of(context).size.height * 0.06,
               width: MediaQuery.of(context).size.width * 0.1200,
               child: Column(children: [
-                const SizedBox(
-                  height: 10,
-                ),
-                //Time of chat text here e.g 10:24
+                // //Time of chat text here e.g 10:24
                 Text(time),
                 const SizedBox(
                   height: 10,

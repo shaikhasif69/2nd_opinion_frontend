@@ -83,15 +83,16 @@ class _HomepageState extends State<Homepage>
               child: ClipRRect(
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(30),
-                      bottomLeft:
-                          isSideBarClosed ? Radius.zero : Radius.circular(30)),
+                      bottomLeft: isSideBarClosed
+                          ? Radius.zero
+                          : const Radius.circular(30)),
                   child: Dashboard()),
             ),
           ),
         ),
         AnimatedPositioned(
-          duration: Duration(milliseconds: 200),
-          left: isSideBarClosed ? 0: MediaQuery.of(context).size.width / 1.8,
+          duration: const Duration(milliseconds: 200),
+          left: isSideBarClosed ? 0 : MediaQuery.of(context).size.width / 1.8,
           top: 16,
           curve: Curves.fastOutSlowIn,
           child: MenuBtn(

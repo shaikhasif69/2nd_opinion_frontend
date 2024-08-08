@@ -18,7 +18,7 @@ class MenuBtn extends StatelessWidget {
         onTap: press,
         child: Container(
           margin: EdgeInsets.only(left: 16),
-          height: 40,
+          height:30,
           width: 40,
           decoration: BoxDecoration(
               shape: BoxShape.circle,

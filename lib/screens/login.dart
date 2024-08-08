@@ -9,9 +9,18 @@ import 'package:page_transition/page_transition.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:go_router/go_router.dart';
 
-class login extends StatelessWidget {
-  // const login({super.key});
+class login extends StatefulWidget {
+  @override
+  State<login> createState() => _loginState();
+}
 
+TextEditingController password = TextEditingController();
+TextEditingController email = TextEditingController();
+
+
+class _loginState extends State<login> {
+
+  // const login({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,13 +59,15 @@ class login extends StatelessWidget {
             const SizedBox(
               height: 60,
             ),
-            // Auth_text_field(
-            //     text: "Enter you email", icon: "lib/icons/email.png"),
-            // const SizedBox(
-            //   height: 5,
-            // ),
-            // Auth_text_field(
-            //     text: "Enter your password", icon: "lib/icons/lock.png"),
+            AuthTextField(
+              controller: email,
+                text: "Enter you email", icon: "lib/icons/email.png"),
+            const SizedBox(
+              height: 5,
+            ),
+            AuthTextField(
+              controller: password,
+                text: "Enter your password", icon: "lib/icons/lock.png"),
             Row(mainAxisAlignment: MainAxisAlignment.end, children: [
               GestureDetector(
                 onTap: () {
@@ -178,6 +189,7 @@ class login extends StatelessWidget {
   }
 
   int selected = 0;
+
   void _showSignUpRoleDialog(BuildContext context) {
     showDialog(
         context: context,

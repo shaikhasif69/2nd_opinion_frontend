@@ -1,5 +1,8 @@
 class DoctorRoutes {
   static String signUp = "/doctor/signUp";
+  static String dProfile = "/doctor/profile";
+  static String homePage = "/doctor/homepage";
+  static String patientProfile = "/doctor/patient-profile";
 }
 
 class PatientRoutes {
@@ -10,6 +13,7 @@ class PatientRoutes {
   static String bookAppointment = "/patient/appointment";
   static String dashboard = "/patient/dashboard";
   static String forgetPass = "/patient/forgetPass";
+  static String searchSection = "/patient/searchPage";
 }
 
 class CommonRoutes {

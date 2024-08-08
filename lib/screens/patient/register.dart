@@ -80,145 +80,147 @@ class _RegisterState extends State<Register> {
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30),
-        child: Column(children: [
-          const SizedBox(
-            height: 40,
-          ),
-          Center(
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.1,
-              width: MediaQuery.of(context).size.width * 0.9,
-              child: TextField(
-                controller: emailController,
-                textAlign: TextAlign.start,
-                textInputAction: TextInputAction.none,
-                obscureText: false,
-                keyboardType: TextInputType.emailAddress,
-                textAlignVertical: TextAlignVertical.center,
-                decoration: InputDecoration(
-                    focusColor: Colors.black26,
-                    fillColor: Color.fromARGB(255, 247, 247, 247),
-                    filled: true,
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                      ),
-                      child: Container(
-                        child: Image.asset("lib/icons/person.png"),
-                      ),
-                    ),
-                    prefixIconColor: const Color.fromARGB(255, 3, 190, 150),
-                    label: Text(
-                      "Enter your email",
-                      style: GoogleFonts.poppins(fontSize: 15.sp),
-                    ),
-                    floatingLabelBehavior: FloatingLabelBehavior.never,
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.circular(30),
-                    )),
-              ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: Column(children: [
+            const SizedBox(
+              height: 40,
             ),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          AuthTextField(
-              controller: firstNameController,
-              text: "First name",
-              icon: "lib/icons/email.png"),
-          const SizedBox(
-            height: 5,
-          ),
-          AuthTextField(
-              controller: lastNameController,
-              text: "Last name",
-              icon: "lib/icons/email.png"),
-          const SizedBox(
-            height: 5,
-          ),
-          AuthTextField(
-              controller: passwordController,
-              text: "Enter your password",
-              icon: "lib/icons/lock.png"),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Checkbox(
-                value: false,
-                onChanged: (bool? value) {},
-              ),
-              Text(
-                "I agree to the terms and conditions",
-                style: GoogleFonts.poppins(
-                  fontSize: 14.sp,
-                  color: Colors.black87,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Container(
-            height: MediaQuery.of(context).size.height * 0.05,
-            width: MediaQuery.of(context).size.width * 0.9,
-            child: ElevatedButton(
-              onPressed: register,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromARGB(255, 3, 190, 150),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-              ),
-              child: Text(
-                "Create account",
-                textAlign: TextAlign.center,
-                style: GoogleFonts.poppins(
-                  fontSize: 18.sp,
-                  color: Color.fromARGB(255, 255, 255, 255),
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: 0,
+            Center(
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.1,
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: TextField(
+                  controller: emailController,
+                  textAlign: TextAlign.start,
+                  textInputAction: TextInputAction.none,
+                  obscureText: false,
+                  keyboardType: TextInputType.emailAddress,
+                  textAlignVertical: TextAlignVertical.center,
+                  decoration: InputDecoration(
+                      focusColor: Colors.black26,
+                      fillColor: Color.fromARGB(255, 247, 247, 247),
+                      filled: true,
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                        ),
+                        child: Container(
+                          child: Image.asset("lib/icons/person.png"),
+                        ),
+                      ),
+                      prefixIconColor: const Color.fromARGB(255, 3, 190, 150),
+                      label: Text(
+                        "Enter your email",
+                        style: GoogleFonts.poppins(fontSize: 15.sp),
+                      ),
+                      floatingLabelBehavior: FloatingLabelBehavior.never,
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(30),
+                      )),
                 ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Already have an account? ",
-                style:
-                    GoogleFonts.poppins(fontSize: 14.sp, color: Colors.black87),
-              ),
-              GestureDetector(
-                onTap: () {
-                  // Navigator.push(
-                  //     context,
-                  //     PageTransition(
-                  //         type: PageTransitionType.bottomToTop,
-                  //         child: Login()));
-                },
-                child: Text(
-                  "Sign in",
+            const SizedBox(
+              height: 5,
+            ),
+            AuthTextField(
+                controller: firstNameController,
+                text: "First name",
+                icon: "lib/icons/email.png"),
+            const SizedBox(
+              height: 5,
+            ),
+            AuthTextField(
+                controller: lastNameController,
+                text: "Last name",
+                icon: "lib/icons/email.png"),
+            const SizedBox(
+              height: 5,
+            ),
+            AuthTextField(
+                controller: passwordController,
+                text: "Enter your password",
+                icon: "lib/icons/lock.png"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Checkbox(
+                  value: false,
+                  onChanged: (bool? value) {},
+                ),
+                Text(
+                  "I agree to the terms and conditions",
                   style: GoogleFonts.poppins(
                     fontSize: 14.sp,
-                    color: const Color.fromARGB(255, 3, 190, 150),
-                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.05,
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: ElevatedButton(
+                onPressed: register,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color.fromARGB(255, 3, 190, 150),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+                child: Text(
+                  "Create account",
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.poppins(
+                    fontSize: 18.sp,
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 0,
                   ),
                 ),
               ),
-            ],
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-        ]),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Already have an account? ",
+                  style:
+                      GoogleFonts.poppins(fontSize: 14.sp, color: Colors.black87),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    // Navigator.push(
+                    //     context,
+                    //     PageTransition(
+                    //         type: PageTransitionType.bottomToTop,
+                    //         child: Login()));
+                  },
+                  child: Text(
+                    "Sign in",
+                    style: GoogleFonts.poppins(
+                      fontSize: 14.sp,
+                      color: const Color.fromARGB(255, 3, 190, 150),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+          ]),
+        ),
       ),
     );
   }

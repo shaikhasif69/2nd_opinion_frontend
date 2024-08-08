@@ -20,6 +20,7 @@ class UserService {
 
   Future<Map<String, dynamic>> verifyOtp(String email, String otp) async {
     print("THIS IS OTP: " + otp);
+     print("Sending email: " + email);
     final response = await http.post(
       Uri.parse('http://192.168.0.102:3000/api/user/verify-otp'),
       headers: {'Content-Type': 'application/json'},

@@ -1,5 +1,7 @@
+import 'package:doctor_opinion/router/NamedRoutes.dart';
 import 'package:flutter/material.dart';
 import 'package:doctor_opinion/services/patient/patientServices.dart';
+import 'package:go_router/go_router.dart';
 
 class OtpFormPage extends StatefulWidget {
   final String email;
@@ -20,7 +22,7 @@ class _OtpFormPageState extends State<OtpFormPage> {
     print(response['response']);
     print('see above!');
     if (response['response'] == 'Success') {
-      Navigator.pushReplacementNamed(context, '/home');
+      GoRouter.of(context).pushNamed(PatientRoutes.homePage);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Invalid OTP')),

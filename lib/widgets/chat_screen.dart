@@ -242,7 +242,7 @@ class chat_screen extends StatelessWidget {
                                   image: DecorationImage(
                                       image: AssetImage("lib/icons/ticks.png"),
                                       filterQuality: FilterQuality.high)),
-                            )
+                            ),
                           ]),
                     ),
                   ],

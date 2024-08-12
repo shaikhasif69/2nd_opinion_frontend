@@ -1,16 +1,19 @@
+import 'package:doctor_opinion/components/constant.dart';
 import 'package:doctor_opinion/services/doctor/Registeration.dart';
 import 'package:flutter/material.dart';
 
 class UserNameWidget extends StatefulWidget {
-  UserNameWidget(
-      {required TextEditingController this.con,
-      required Function this.vadliateUsername});
+  const UserNameWidget({
+    required this.con,
+    required this.vadliateUsername,
+  });
+
   final TextEditingController con;
   final Function vadliateUsername;
+
   @override
   State<StatefulWidget> createState() {
     return _UserNameWidget();
-    throw UnimplementedError();
   }
 }
 
@@ -19,48 +22,127 @@ class _UserNameWidget extends State<UserNameWidget> {
   bool _vusername = false;
   Widget? status = null;
   String? error = null;
-  // final _controller = TextEditingController();
-  Widget build(context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: TextFormField(
-        controller: widget.con,
-        onChanged: (username) async {
-          username = username.trim();
-          if (username.isEmpty) {
-            error = null;
-            status = null;
-            widget.vadliateUsername(username, false);
-            setState(() {});
-            return;
-          }
-          if (username.isNotEmpty) {
-            _username = username;
-            setState(() {
-              status = CircularProgressIndicator();
-            });
-            bool res = await DoctorRegisterationApi.validateUsername(username);
-            print(res);
-            if (res) {
-              setState(() {
-                status = Icon(Icons.check);
-                error = null;
-                _vusername = res;
-                widget.vadliateUsername(username, res);
-              });
-            } else {
-              setState(() {
-                status = Icon(Icons.close);
-                error = "username already exist";
-                _vusername = res;
+  bool isLable = true;
+  bool showBorder = false;
 
-                widget.vadliateUsername(username, res);
-              });
-            }
-          }
-        },
-        decoration: InputDecoration(
-            errorText: error, label: const Text("username"), suffix: status),
+  final FocusNode _focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(() {
+      setState(() {
+        showBorder = _focusNode.hasFocus;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.06,
+        width: MediaQuery.of(context).size.width * 0.9,
+        decoration: BoxDecoration(
+          color: Color.fromARGB(255, 247, 247, 247),
+          borderRadius: BorderRadius.circular(30),
+          border: showBorder ? Border.all(width: 2, color: ourPrimary) : Border.all(width: 0, color: ourPrimary)
+        ),
+        child: Stack(
+          children: [
+            TextFormField(
+              controller: widget.con,
+              focusNode: _focusNode,
+              onChanged: (username) async {
+                username = username.trim();
+                var len = widget.con.text;
+                if (len.isNotEmpty) {
+                  setState(() {
+                    isLable = false;
+                  });
+                } else {
+                  setState(() {
+                    isLable = true;
+                  });
+                }
+                if (username.isEmpty) {
+                  setState(() {
+                    error = null;
+                    status = null;
+                  });
+                  widget.vadliateUsername(username, false);
+                  return;
+                }
+                setState(() {
+                  status = CircularProgressIndicator();
+                });
+                bool res =
+                    await DoctorRegisterationApi.validateUsername(username);
+                if (res) {
+                  setState(() {
+                    status = Icon(Icons.check);
+                    error = null;
+                    _vusername = res;
+                    widget.vadliateUsername(username, res);
+                  });
+                } else {
+                  setState(() {
+                    status = Icon(Icons.close);
+                    error = "Username already exists";
+                    _vusername = res;
+                    widget.vadliateUsername(username, res);
+                  });
+                }
+              },
+              textAlign: TextAlign.start,
+              textInputAction: TextInputAction.none,
+              obscureText: false,
+              keyboardType: TextInputType.emailAddress,
+              textAlignVertical: TextAlignVertical.center,
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.only(left: 60, right: 40),
+                suffixIcon: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Container(
+                    child: error != null ? Icon(Icons.close) : status,
+                  ),
+                ),
+                suffixIconColor: ourPrimary,
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Container(
+                    child: Icon(Icons.account_box_outlined),
+                  ),
+                ),
+                prefixIconColor: ourPrimary,
+                focusedBorder: InputBorder.none,
+                focusColor: Colors.black26,
+                fillColor: Colors.transparent,
+                filled: true,
+                enabledBorder: InputBorder.none,
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+              ),
+            ),
+            Positioned(
+              left: 40,
+              top: 12,
+              child: Text(
+                isLable ? "Username" : "",
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

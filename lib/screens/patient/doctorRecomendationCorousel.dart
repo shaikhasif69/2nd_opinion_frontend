@@ -2,7 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 class RecomendDoctorCorousel extends StatefulWidget {
-  List<String> imgList;
+  final List<String> imgList;
 
   RecomendDoctorCorousel({required this.imgList});
 
@@ -19,7 +19,7 @@ class _RecomendDoctorCorouselState extends State<RecomendDoctorCorousel> {
         .asMap()
         .entries
         .map((entry) => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2.0),
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: AnimatedContainer(
                 duration: Duration(milliseconds: 300),
                 curve: Curves.easeInOut,
@@ -29,78 +29,64 @@ class _RecomendDoctorCorouselState extends State<RecomendDoctorCorousel> {
                       : Colors.grey[300],
                   borderRadius: BorderRadius.all(Radius.circular(15)),
                 ),
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(5.0),
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: AnimatedOpacity(
-                              duration: Duration(milliseconds: 300),
-                              opacity: _current == entry.key ? 1.0 : 0.0,
-                              child: Container(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
-                                    Text(
-                                      "Doctor Name",
-                                      style: TextStyle(
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    SizedBox(height: 10.0),
-                                    Text(
-                                      "Specialty",
-                                      style: TextStyle(
-                                        fontSize: 16.0,
-                                        color: Colors.white70,
-                                      ),
-                                    ),
-                                  ],
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 5,
+                      child: AnimatedOpacity(
+                        duration: Duration(milliseconds: 300),
+                        opacity: _current == entry.key ? 1.0 : 0.0,
+                        child: const Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Doctor Name",
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
                                 ),
                               ),
-                            ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  right: 10.0, top: 10, bottom: 3),
-                              child: Container(
-                                alignment: Alignment.topCenter,
-                                height: _current == entry.key ? 90 : 50,
-                                width: _current == entry.key ? 100 : 50,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: NetworkImage(entry.value),
-                                    filterQuality: FilterQuality.high,
-                                    fit: BoxFit.cover,
-                                  ),
-                                  shape: BoxShape.circle,
+                              SizedBox(height: 10.0),
+                              Text(
+                                "Specialty",
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: Colors.white70,
                                 ),
                               ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      if (_current == entry.key)
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 8.0),
-                          child: Text(
-                            "Looking for your Desire Specialist Doctor",
-                            style: TextStyle(fontSize: 15),
+                              SizedBox(height: 10.0),
+                              Text(
+                                "Looking for your Desire Specialist Doctor",
+                                style: TextStyle(
+                                  fontSize: 15.0,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                    ],
-                  ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 3,
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(15),
+                          bottomRight: Radius.circular(15),
+                        ),
+                        child: Image.network(
+                          entry.value,
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: MediaQuery.of(context).size.height * 0.25,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ))
@@ -126,9 +112,22 @@ class _RecomendDoctorCorouselState extends State<RecomendDoctorCorousel> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: widget.imgList.map((url) {
             int index = widget.imgList.indexOf(url);
-            return const SizedBox();
+            return GestureDetector(
+              onTap: () => _current = index,
+              child: Container(
+                // width: 8.0,
+                // height: 8.0,
+                margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 3.0),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: _current == index
+                      ? Color.fromRGBO(0, 0, 0, 0.9)
+                      : Color.fromRGBO(0, 0, 0, 0.4),
+                ),
+              ),
+            );
           }).toList(),
-        )
+        ),
       ],
     );
   }

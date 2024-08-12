@@ -1,3 +1,4 @@
+import 'package:doctor_opinion/components/constant.dart';
 import 'package:doctor_opinion/router/NamedRoutes.dart';
 import 'package:doctor_opinion/screens/login_signup.dart';
 import 'package:flutter/material.dart';
@@ -9,17 +10,15 @@ import 'package:page_transition/page_transition.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:go_router/go_router.dart';
 
-class login extends StatefulWidget {
+class DoctorLogin extends StatefulWidget {
   @override
-  State<login> createState() => _loginState();
+  State<DoctorLogin> createState() => _DoctorLoginState();
 }
 
 TextEditingController password = TextEditingController();
 TextEditingController email = TextEditingController();
 
-
-class _loginState extends State<login> {
-
+class _DoctorLoginState extends State<DoctorLogin> {
   // const login({super.key});
   @override
   Widget build(BuildContext context) {
@@ -41,7 +40,7 @@ class _loginState extends State<login> {
         ),
         centerTitle: true,
         title: Text(
-          "Login",
+          "Welcome",
           style: GoogleFonts.inter(
               color: Colors.black87,
               fontSize: 28.sp,
@@ -57,17 +56,33 @@ class _loginState extends State<login> {
           padding: const EdgeInsets.symmetric(horizontal: 30),
           child: Column(children: [
             const SizedBox(
-              height: 60,
+              height: 20,
             ),
-            AuthTextField(
-              controller: email,
-                text: "Enter you email", icon: "lib/icons/email.png"),
+            Center(
+              child: Text(
+                textAlign: TextAlign.center,
+                "All doctors treat, but a good doctor lets nature heal.",
+                style: GoogleFonts.inter(
+                    color: MyColors.ourPrimary,
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0),
+              ),
+            ),
             const SizedBox(
-              height: 5,
+              height: 20,
             ),
             AuthTextField(
-              controller: password,
-                text: "Enter your password", icon: "lib/icons/lock.png"),
+                controller: email,
+                text: "Enter you email",
+                icon: "lib/icons/email.png"),
+            const SizedBox(
+              height: 10,
+            ),
+            AuthTextField(
+                controller: password,
+                text: "Enter your password",
+                icon: "lib/icons/lock.png"),
             Row(mainAxisAlignment: MainAxisAlignment.end, children: [
               GestureDetector(
                 onTap: () {
@@ -121,14 +136,13 @@ class _loginState extends State<login> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Don't have an account? ",
+                  "Join Us as a Doctor? ",
                   style: GoogleFonts.poppins(
-                      fontSize: 15.sp, color: Colors.black87),
+                      fontSize: 16.sp, color: Colors.black87),
                 ),
                 GestureDetector(
-    
                   onTap: () {
-                    _showSignUpRoleDialog(context);
+                    GoRouter.of(context).pushNamed(DoctorRoutes.signUp);
                   },
                   child: Text(
                     "Sign Up",
@@ -142,7 +156,7 @@ class _loginState extends State<login> {
               ],
             ),
             const SizedBox(
-              height: 30,
+              height: 20,
             ),
             const Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -163,33 +177,6 @@ class _loginState extends State<login> {
               ],
             ),
             const SizedBox(
-              height: 10,
-            ),
-             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Login As a Doctor! ",
-                  style: GoogleFonts.poppins(
-                      fontSize: 16.sp, color: Colors.black),
-                ),
-                GestureDetector(
-    
-                  onTap: () {
-                    GoRouter.of(context).pushNamed(DoctorRoutes.loginPage);
-                  },
-                  child: Text(
-                    "Click here",
-                    style: GoogleFonts.poppins(
-                      fontSize: 15.sp,
-                      color: const Color.fromARGB(255, 3, 190, 150),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-             const SizedBox(
               height: 30,
             ),
             auth_social_logins(
@@ -352,14 +339,14 @@ class _loginState extends State<login> {
                     Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: ElevatedButton(
-                        // onHover: (value) => ,
+                          // onHover: (value) => ,
                           onPressed: () {
                             if (selected == 0) {
                               GoRouter.of(context)
                                   .pushNamed(DoctorRoutes.signUp);
-                            }
-                            else if(selected == 1) {
-                              GoRouter.of(context).pushNamed(PatientRoutes.signUp);
+                            } else if (selected == 1) {
+                              GoRouter.of(context)
+                                  .pushNamed(PatientRoutes.signUp);
                             }
                           },
                           child: const Text("Sign up")),

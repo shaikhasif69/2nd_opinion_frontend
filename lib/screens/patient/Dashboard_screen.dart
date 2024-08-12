@@ -83,7 +83,7 @@ final List<String> imgList = [
       body: SingleChildScrollView(
         child: Column(children: [
         RecomendDoctorCorousel(imgList: imgList),
-          SizedBox(
+         const SizedBox(
             height: 20,
           ),
           Padding(
@@ -196,73 +196,7 @@ final List<String> imgList = [
           SizedBox(
             height: 10,
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Health article",
-                  style: GoogleFonts.inter(
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.w700,
-                    color: Color.fromARGB(255, 46, 46, 46),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushReplacement(
-                        context,
-                        PageTransition(
-                            type: PageTransitionType.rightToLeft,
-                            child: articlePage()));
-                  },
-                  child: Text(
-                    "See all",
-                    style: GoogleFonts.inter(
-                      fontSize: 16.sp,
-                      color: const Color.fromARGB(255, 3, 190, 150),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Container(
-              width: MediaQuery.of(context).size.width * 1,
-            height: 155,
-            child: ListView(
-                physics: BouncingScrollPhysics(),
-                scrollDirection: Axis.vertical,
-                children: [
-                  article(
-                image: "images/article1.png",
-                dateText: "Jun 10, 2021 ",
-                duration: "5min read",
-                mainText:
-                    "The 25 Healthiest Fruits You Can Eat,\nAccording to a Nutritionist"),
-                    article(
-                image: "images/article1.png",
-                dateText: "Jun 10, 2021 ",
-                duration: "5min read",
-                mainText:
-                    "The 25 Healthiest Fruits You Can Eat,\nAccording to a Nutritionist"),
-                    article(
-                image: "images/article1.png",
-                dateText: "Jun 10, 2021 ",
-                duration: "5min read",
-                mainText:
-                    "The 25 Healthiest Fruits You Can Eat,\nAccording to a Nutritionist"),
-                ],
-
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
+          
            BannerCarousel(),
           const SizedBox(
             height: 20,
@@ -335,10 +269,73 @@ final List<String> imgList = [
               ),
             ),
           ),
-          const SizedBox(
-            height: 20,
+                 const SizedBox(
+            height: 10,
           ),
-          
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Health article",
+                  style: GoogleFonts.inter(
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w700,
+                    color: Color.fromARGB(255, 46, 46, 46),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushReplacement(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.rightToLeft,
+                            child: articlePage()));
+                  },
+                  child: Text(
+                    "See all",
+                    style: GoogleFonts.inter(
+                      fontSize: 16.sp,
+                      color: const Color.fromARGB(255, 3, 190, 150),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+              width: MediaQuery.of(context).size.width * 1,
+            height: 155,
+            child: ListView(
+                physics: BouncingScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                children: [
+                  article(
+                image: "images/article1.png",
+                dateText: "Jun 10, 2021 ",
+                duration: "5min read",
+                mainText:
+                    "The 25 Healthiest Fruits You Can Eat,\nAccording to a Nutritionist"),
+                    article(
+                image: "images/article1.png",
+                dateText: "Jun 10, 2021 ",
+                duration: "5min read",
+                mainText:
+                    "The 25 Healthiest Fruits You Can Eat,\nAccording to a Nutritionist"),
+                    article(
+                image: "images/article1.png",
+                dateText: "Jun 10, 2021 ",
+                duration: "5min read",
+                mainText:
+                    "The 25 Healthiest Fruits You Can Eat,\nAccording to a Nutritionist"),
+                ],
+
+            ),
+          ),
         ]),
       ),
     );

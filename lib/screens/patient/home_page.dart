@@ -28,7 +28,7 @@ class _HomepageState extends State<Homepage>
   @override
   void initState() {
     _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 200))
+        AnimationController(vsync: this, duration: Duration(milliseconds: 100))
           ..addListener(() {
             setState(() {});
           });
@@ -62,7 +62,7 @@ class _HomepageState extends State<Homepage>
     List<Widget> pages = [
       Stack(children: [
         AnimatedPositioned(
-          duration: Duration(milliseconds: 200),
+          duration: Duration(milliseconds: 300),
           curve: Curves.fastOutSlowIn,
           width: sideBarWidth,
           left: isSideBarClosed ? -(MediaQuery.of(context).size.width / 1) : 0,

@@ -181,8 +181,9 @@ bool _vphone = false;
 String _email = "";
 bool _vemail = false;
 String firstName = "";
+String Uage = "";
 String lastName = "";
-
+String Upass = "";
 String gender = "";
 
 class BasicDetails extends StatefulWidget {
@@ -303,6 +304,9 @@ class _BasicDetailsState extends State<BasicDetails> {
                     padding: const EdgeInsets.fromLTRB(0, 8, 16, 8),
                     child: TextFormField(
                       controller: lname,
+                      onChanged: (v) {
+                        lastName = v;
+                      },
                       decoration: InputDecoration(label: Text("Last Name")),
                     ),
                   )),
@@ -315,7 +319,9 @@ class _BasicDetailsState extends State<BasicDetails> {
                     padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
                     child: TextFormField(
                       controller: age,
-                      onChanged: (v) {},
+                      onChanged: (v) {
+                        Uage = v;
+                      },
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(label: Text("Age")),
                     ),
@@ -352,11 +358,14 @@ class _BasicDetailsState extends State<BasicDetails> {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: TextFormField(
-                  onChanged: (v) {},
+                  onChanged: (v) {
+                    Upass = v;
+                  },
                   decoration: const InputDecoration(label: Text("Password")),
                 ),
               ),
               Phonewidget(con: conPhone, validatePhone: validatePhone),
+              SizedBox(height: 10,),
               EmailWidget(con: conEmail, validateEmail: validateEmail),
               FilledButton(
                   onPressed: () {
@@ -494,23 +503,27 @@ class _EducationalDetails extends ConsumerState<EducationalDetails> {
             FilledButton(
                 onPressed: () async {
                   if (checkAllFilesAreUploaded(context)) {
+                    print('yep yep');
                     bool res = await DoctorRegisterationApi.signin(
                         firstName: firstName,
                         lastname: lastName,
-                        age: age,
+                        age: Uage,
                         gender: gender,
                         phone: _phone,
                         email: _email,
                         username: _username,
-                        password: password,
+                        password: Upass,
                         profile: _profileImage!);
                     if (res) {
-                      GoRouter.of(context)
-                          .pushReplacementNamed(CommonRoutes.login);
-                      widget.setPointer(0);
-                      _profileImage = null;
-                      selectedMedicalDegreesAndSpecializations = {};
-                      disposeEverything();
+                      print('navigate him to otp section!');
+                      GoRouter.of(context).pushNamed(DoctorRoutes.docOtp,
+                          pathParameters: {'email': _email.trim()});
+                      // GoRouter.of(context)
+                      //     .pushReplacementNamed(CommonRoutes.login);
+                      // widget.setPointer(0);
+                      // _profileImage = null;
+                      // selectedMedicalDegreesAndSpecializations = {};
+                      // disposeEverything();
                     }
                   }
                 },

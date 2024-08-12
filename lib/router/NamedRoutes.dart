@@ -1,8 +1,10 @@
 class DoctorRoutes {
   static String signUp = "/doctor/signUp";
+  static String loginPage = "/doctor/login";
   static String dProfile = "/doctor/profile";
   static String homePage = "/doctor/homepage";
   static String patientProfile = "/doctor/patient-profile";
+  static String docOtp = "/doctor/doc-otp";
 }
 
 class PatientRoutes {

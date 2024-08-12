@@ -1,9 +1,12 @@
 import 'package:doctor_opinion/components/side_menu.dart';
 import 'package:doctor_opinion/router/NamedRoutes.dart';
 import 'package:doctor_opinion/screens/On_Board/on_boarding.dart';
+import 'package:doctor_opinion/screens/doctor/dHomePage.dart';
+import 'package:doctor_opinion/screens/doctor/dLoginPage.dart';
+import 'package:doctor_opinion/screens/doctor/doctorOtpForm.dart';
 import 'package:doctor_opinion/screens/doctor/signup.dart';
 import 'package:doctor_opinion/screens/loginPage.dart';
-import 'package:doctor_opinion/screens/otpForm.dart';
+import 'package:doctor_opinion/screens/patient/userOtpForm.dart';
 import 'package:doctor_opinion/screens/patient/Dashboard_screen.dart';
 import 'package:doctor_opinion/screens/patient/home_page.dart';
 import 'package:doctor_opinion/screens/patient/Profile_screen.dart';
@@ -18,23 +21,7 @@ import 'package:go_router/go_router.dart';
 
 class MyGoRouter {
   final GoRouter router = GoRouter(routes: [
-    // GoRoute(
-    //   path: "/",
-    //   name: CommonRoutes.login,
-    //   pageBuilder: (context, state) {
-    //     // return MaterialPage(child: LoginPage());
-    //     return MaterialPage(child: LoginPage());
-    //   },
-    // ),
-
-    // GoRoute(
-    //   path: "/",
-    //   name: CommonRoutes.login,
-    //   pageBuilder: (context, state) {
-    //     return MaterialPage(child: Homepage());
-    //   },
-    // ),
-
+    //Patient routes
     //uncomment this later!
     GoRoute(
       path: "/",
@@ -43,13 +30,40 @@ class MyGoRouter {
         return MaterialPage(child: on_boarding());
       },
     ),
+
+
+    
     GoRoute(
         path: DoctorRoutes.signUp,
         name: DoctorRoutes.signUp,
         pageBuilder: (context, state) {
           return MaterialPage(child: doctorSignUpPage());
         }),
+    GoRoute(path: DoctorRoutes.loginPage,
+    name: DoctorRoutes.loginPage,
+    pageBuilder: (context, state) {
+      return MaterialPage(child: DoctorLogin());
+    },),
+    GoRoute(
+        path: '${DoctorRoutes.docOtp}/:email',
+        name: DoctorRoutes.docOtp,
+        pageBuilder: (context, state) {
+          final email = state.pathParameters['email']!;
+          return MaterialPage(
+              child: DoctorOptForm(
+            email: email,
+          ));
+        }),
 
+
+    GoRoute(path: DoctorRoutes.homePage,
+    name: DoctorRoutes.homePage,
+    pageBuilder: (context, state) {
+      return MaterialPage(child: DoctorHomePage());
+    },),
+
+
+    //Patient Routes
     GoRoute(
         path: PatientRoutes.signUp,
         name: PatientRoutes.signUp,

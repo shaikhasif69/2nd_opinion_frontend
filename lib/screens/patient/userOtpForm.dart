@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:doctor_opinion/services/patient/patientServices.dart';
 import 'package:go_router/go_router.dart';
 
-class OtpFormPage extends StatefulWidget {
+class userOtpFormPage extends StatefulWidget {
   final String email;
 
-  OtpFormPage({Key? key, required this.email}) : super(key: key);
+  userOtpFormPage({Key? key, required this.email}) : super(key: key);
 
   @override
-  _OtpFormPageState createState() => _OtpFormPageState();
+  _userOtpFormPageState createState() => _userOtpFormPageState();
 }
 
-class _OtpFormPageState extends State<OtpFormPage> {
+class _userOtpFormPageState extends State<userOtpFormPage> {
   final TextEditingController otpController = TextEditingController();
   final UserService userService = UserService();
 

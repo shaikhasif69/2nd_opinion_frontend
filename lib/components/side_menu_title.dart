@@ -46,7 +46,7 @@ class SideMenuTitle extends StatelessWidget {
             ListTile(
                 onTap: press,
                 leading: SizedBox(
-                  height: MediaQuery.of(context).size.width / 11,
+                  height: MediaQuery.of(context).size.width / 12,
                   width: 50,
                   child: RiveAnimation.asset(
                     menu.src,
@@ -56,7 +56,7 @@ class SideMenuTitle extends StatelessWidget {
                 ),
                 title: Text(
                   menu.title,
-                  style: TextStyle(fontSize: 18, color: Colors.white),
+                  style: TextStyle(fontSize: 17, color: Colors.white),
                 )),
           ],
         ),

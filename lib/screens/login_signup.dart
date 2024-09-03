@@ -1,6 +1,9 @@
+import 'package:doctor_opinion/router/NamedRoutes.dart';
 import 'package:doctor_opinion/screens/login.dart';
 import 'package:doctor_opinion/screens/patient/register.dart';
+import 'package:doctor_opinion/screens/patient/sign_in_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -63,6 +66,10 @@ class login_signup extends StatelessWidget {
           width: MediaQuery.of(context).size.width * 0.7,
           child: ElevatedButton(
             onPressed: () {
+              // showCustomDialog(
+              //                 context,
+              //                 onValue: (_) {},
+              //               );
               Navigator.pushReplacement(
                   context,
                   PageTransition(

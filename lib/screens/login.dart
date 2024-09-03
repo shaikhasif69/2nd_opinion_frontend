@@ -1,26 +1,90 @@
+import 'package:doctor_opinion/models/hiveModels/user.dart';
+import 'package:doctor_opinion/models/patient/User.dart';
+import 'package:doctor_opinion/provider/userProviders/UserProviders.dart';
 import 'package:doctor_opinion/router/NamedRoutes.dart';
 import 'package:doctor_opinion/screens/login_signup.dart';
+import 'package:doctor_opinion/screens/patient/home_page.dart';
+import 'package:doctor_opinion/services/authServices.dart';
+import 'package:doctor_opinion/services/hiveServices.dart';
+import 'package:doctor_opinion/services/patient/patientServices.dart';
 import 'package:flutter/material.dart';
+import 'package:doctor_opinion/models/patient/User.dart' as custom_user;
+import 'package:flutter_chat_types/flutter_chat_types.dart' as chat_user;
 import 'package:google_fonts/google_fonts.dart';
 import 'package:doctor_opinion/screens/forgot_pass.dart';
 import 'package:doctor_opinion/Widgets/Auth_text_field.dart';
 import 'package:doctor_opinion/Widgets/auth_social_login.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class login extends StatefulWidget {
   @override
   State<login> createState() => _loginState();
 }
 
-TextEditingController password = TextEditingController();
-TextEditingController email = TextEditingController();
-
-
 class _loginState extends State<login> {
+  TextEditingController password = TextEditingController();
+  TextEditingController email = TextEditingController();
+  final AuthService _authService = AuthService();
 
-  // const login({super.key});
+  bool isLoading = false;
+
+  Future<void> _login() async {
+    // print("????");
+    setState(() {
+      isLoading = true;
+    });
+
+    final response = await UserService.login(
+      email.text.trim(),
+      password.text.trim(),
+    );
+    print("BROOOOOOOOOOOOOOOOOO");
+    setState(() {
+      isLoading = false;
+    });
+
+    if (response['success'] == true) {
+      User user = User.fromJson(response['user']);
+
+    HiveUser hiveUser = HiveUser(
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      address: user.address,
+      phone: user.phone,
+      email: user.email,
+      username: user.username,
+      profilePicture: user.profilePicture,
+      gender: user.gender,
+    );
+    
+    // Save HiveUser to Hive
+    final hiveService = HiveService();
+    await hiveService.saveUser(hiveUser);
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
+      userProvider.setUser(user);
+      await _authService.storeLoginDetails(
+        'user',
+        response['token'] ?? '',
+        email.text.trim(),
+      );
+      // GoRouter.of(context).pushReplacementNamed(PatientRoutes.homePage);
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => Homepage(),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Invalid credentials, please try again')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,14 +124,16 @@ class _loginState extends State<login> {
               height: 60,
             ),
             AuthTextField(
-              controller: email,
-                text: "Enter you email", icon: "lib/icons/email.png"),
+                controller: email,
+                text: "Enter you email",
+                icon: "lib/icons/email.png"),
             const SizedBox(
               height: 5,
             ),
             AuthTextField(
-              controller: password,
-                text: "Enter your password", icon: "lib/icons/lock.png"),
+                controller: password,
+                text: "Enter your password",
+                icon: "lib/icons/lock.png"),
             Row(mainAxisAlignment: MainAxisAlignment.end, children: [
               GestureDetector(
                 onTap: () {
@@ -93,9 +159,9 @@ class _loginState extends State<login> {
               height: MediaQuery.of(context).size.height * 0.05,
               width: MediaQuery.of(context).size.width * 0.9,
               child: ElevatedButton(
-                onPressed: () {
-                  GoRouter.of(context).pushNamed(PatientRoutes.homePage);
-                },
+                onPressed: _login,
+                // GoRouterof(context).pushNamed(PatientRoutes.homePage);
+
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color.fromARGB(255, 3, 190, 150),
                   shape: RoundedRectangleBorder(
@@ -126,7 +192,6 @@ class _loginState extends State<login> {
                       fontSize: 15.sp, color: Colors.black87),
                 ),
                 GestureDetector(
-    
                   onTap: () {
                     _showSignUpRoleDialog(context);
                   },
@@ -165,16 +230,15 @@ class _loginState extends State<login> {
             const SizedBox(
               height: 10,
             ),
-             Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   "Login As a Doctor! ",
-                  style: GoogleFonts.poppins(
-                      fontSize: 16.sp, color: Colors.black),
+                  style:
+                      GoogleFonts.poppins(fontSize: 16.sp, color: Colors.black),
                 ),
                 GestureDetector(
-    
                   onTap: () {
                     GoRouter.of(context).pushNamed(DoctorRoutes.loginPage);
                   },
@@ -189,7 +253,7 @@ class _loginState extends State<login> {
                 ),
               ],
             ),
-             const SizedBox(
+            const SizedBox(
               height: 30,
             ),
             auth_social_logins(
@@ -352,14 +416,16 @@ class _loginState extends State<login> {
                     Padding(
                       padding: const EdgeInsets.all(4.0),
                       child: ElevatedButton(
-                        // onHover: (value) => ,
+                          // onHover: (value) => ,
                           onPressed: () {
                             if (selected == 0) {
+                              Navigator.of(context).pop();
                               GoRouter.of(context)
                                   .pushNamed(DoctorRoutes.signUp);
-                            }
-                            else if(selected == 1) {
-                              GoRouter.of(context).pushNamed(PatientRoutes.signUp);
+                            } else if (selected == 1) {
+                              Navigator.of(context).pop();
+                              GoRouter.of(context)
+                                  .pushNamed(PatientRoutes.signUp);
                             }
                           },
                           child: const Text("Sign up")),

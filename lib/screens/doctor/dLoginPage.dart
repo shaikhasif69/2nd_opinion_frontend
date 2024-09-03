@@ -1,6 +1,11 @@
 import 'package:doctor_opinion/components/constant.dart';
+import 'package:doctor_opinion/models/doctor/Doctor.dart';
+import 'package:doctor_opinion/models/hiveModels/doctor_hive.dart';
 import 'package:doctor_opinion/router/NamedRoutes.dart';
 import 'package:doctor_opinion/screens/login_signup.dart';
+import 'package:doctor_opinion/services/authServices.dart';
+import 'package:doctor_opinion/services/doctor/Registeration.dart';
+import 'package:doctor_opinion/services/hiveServices.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:doctor_opinion/screens/forgot_pass.dart';
@@ -9,17 +14,61 @@ import 'package:doctor_opinion/Widgets/auth_social_login.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DoctorLogin extends StatefulWidget {
   @override
   State<DoctorLogin> createState() => _DoctorLoginState();
 }
 
-TextEditingController password = TextEditingController();
-TextEditingController email = TextEditingController();
-
 class _DoctorLoginState extends State<DoctorLogin> {
-  // const login({super.key});
+  TextEditingController password = TextEditingController();
+  TextEditingController email = TextEditingController();
+
+  bool isLoading = false;
+  final AuthService _authService = AuthService();
+  Future<void> _login() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    final response = await DoctorRegisterationApi.dLogin(
+      email.text.trim(),
+      password.text.trim(),
+    );
+    setState(() {
+      isLoading = false;
+    });
+
+    if (response['success'] == true) {
+      Doctor doctor = Doctor.fromJson(response['doctor']);
+      DoctorHive hiveDoctor = DoctorHive(
+        id: doctor.id,
+        firstName: doctor.firstName,
+        lastName: doctor.lastName,
+        address: doctor.address,
+        phone: doctor.phone,
+        email: doctor.email,
+        username: doctor.username,
+        profilePicture: doctor.profilePicture,
+        gender: doctor.gender,
+      );
+      
+    final hiveService = HiveService();
+    await hiveService.saveDcotr(hiveDoctor);
+      await _authService.storeLoginDetails(
+        'doctor',
+        response['token'] ?? '',
+        email.text.trim(),
+      );
+      GoRouter.of(context).pushReplacementNamed(DoctorRoutes.homePage);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Invalid credentials, please try again')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,13 +153,16 @@ class _DoctorLoginState extends State<DoctorLogin> {
             SizedBox(
               height: 10,
             ),
+            // isLoading
+            // ? CircularProgressIndicator()
+            // :
             Container(
               height: MediaQuery.of(context).size.height * 0.05,
               width: MediaQuery.of(context).size.width * 0.9,
               child: ElevatedButton(
-                onPressed: () {
-                  GoRouter.of(context).pushNamed(PatientRoutes.homePage);
-                },
+                onPressed:
+                    // print("clicking!!!");
+                    _login,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color.fromARGB(255, 3, 190, 150),
                   shape: RoundedRectangleBorder(
@@ -120,11 +172,10 @@ class _DoctorLoginState extends State<DoctorLogin> {
                 child: Text(
                   "Login",
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
-                    fontSize: 18.sp,
-                    color: Color.fromARGB(255, 255, 255, 255),
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
                     fontWeight: FontWeight.w500,
-                    letterSpacing: 0,
                   ),
                 ),
               ),

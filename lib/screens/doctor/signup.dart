@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:doctor_opinion/main.dart';
 import 'package:doctor_opinion/models/doctor/degrees.dart';
+import 'package:doctor_opinion/provider/docProvider/DocProviders.dart';
 import 'package:doctor_opinion/provider/dropdown.dart';
 import 'package:doctor_opinion/router/NamedRoutes.dart';
 import 'package:doctor_opinion/services/doctor/Registeration.dart';
 import 'package:doctor_opinion/tp.dart';
+import 'package:provider/provider.dart' as pov;
 import 'package:doctor_opinion/widgets/doctor/customDropDown.dart';
 import 'package:doctor_opinion/widgets/doctor/email.dart';
 import 'package:doctor_opinion/widgets/doctor/phone.dart';
@@ -78,7 +80,6 @@ class _SignUpPage extends ConsumerState<doctorSignUpPage> {
     BasicDetails(
       setPointer: setPointer,
     ),
-    // Singlefilepicker(),
     EducationalDetails(
       setPointer: setPointer,
     ),
@@ -203,10 +204,6 @@ class _BasicDetailsState extends State<BasicDetails> {
 
   @override
   void dispose() {
-    // fname.dispose();
-    // lname.dispose();
-    // age.dispose();
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -365,7 +362,9 @@ class _BasicDetailsState extends State<BasicDetails> {
                 ),
               ),
               Phonewidget(con: conPhone, validatePhone: validatePhone),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               EmailWidget(con: conEmail, validateEmail: validateEmail),
               FilledButton(
                   onPressed: () {
@@ -407,7 +406,6 @@ class EducationalDetails extends ConsumerStatefulWidget {
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
     return _EducationalDetails();
-    throw UnimplementedError();
   }
 }
 
@@ -418,129 +416,111 @@ class _EducationalDetails extends ConsumerState<EducationalDetails> {
 
   bool search = false;
   List<String> data = [];
-  Widget build(context) {
-    return Scaffold(
-      // appBar: AppBar(
-      //   // centerTitle: true,
-      //   title: Row(
-      //     children: [
-      //       IconButton(
-      //           onPressed: () {
-      //             widget.setPointer(1);
-      //           },
-      //           icon: const Icon(Icons.arrow_back)),
-      //       Image.asset(
-      //         'assets/test.png',
-      //         width: 80,
-      //         height: 50,
-      //       ),
-      //       const Text("Education/specialization"),
-      //     ],
-      //   ),
-      //   automaticallyImplyLeading: false,
-      // ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: TextFormField(
-                onChanged: (v) {
-                  setState(() {
-                    if (v.isEmpty || v == "") {
-                      search = false;
-                    } else {
-                      search = true;
-                    }
-                  });
-                  ref
-                      .read(DropDownProvider.notifier)
-                      .searchDegreeMethod(v.toUpperCase());
-                  // ref.refresh(DropDownProvider);
-                },
-                decoration: new InputDecoration(
-                  suffix: Icon(Icons.search),
-                  labelText: "Search your degree",
-                  disabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25.0),
-                    borderSide: BorderSide(
-                      width: 2.0,
+  Widget build(BuildContext context) {
+    return pov.Consumer<DoctorProvider>(builder: (context, doctorProvider, child) {
+      return Scaffold(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: TextFormField(
+                  onChanged: (v) {
+                    setState(() {
+                      if (v.isEmpty || v == "") {
+                        search = false;
+                      } else {
+                        search = true;
+                      }
+                    });
+                    ref
+                        .read(DropDownProvider.notifier)
+                        .searchDegreeMethod(v.toUpperCase());
+                    // ref.refresh(DropDownProvider);
+                  },
+                  decoration: new InputDecoration(
+                    suffix: Icon(Icons.search),
+                    labelText: "Search your degree",
+                    disabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25.0),
+                      borderSide: BorderSide(
+                        width: 2.0,
+                      ),
                     ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25.0),
-                    borderSide: BorderSide(
-                      width: 2.0,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25.0),
+                      borderSide: BorderSide(
+                        width: 2.0,
+                      ),
                     ),
-                  ),
 
-                  //fillColor: Colors.green
-                ),
-                keyboardType: TextInputType.emailAddress,
-              ),
-            ),
-            search
-                ? CustoDropDown()
-                : Container(
-                    child: selectedMedicalDegreesAndSpecializations.isEmpty
-                        ? Column(
-                            children: [
-                              SizedBox(
-                                child: Image.asset('assets/empty-folder.png'),
-                              ),
-                              Text("Add your Specilaization")
-                            ],
-                          )
-                        : Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 16.0, horizontal: 8),
-                            child: Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.7,
-                                child: selectedDegree(context, upadateState)),
-                          ),
+                    //fillColor: Colors.green
                   ),
-            FilledButton(
-                onPressed: () async {
-                  if (checkAllFilesAreUploaded(context)) {
-                    print('yep yep');
-                    bool res = await DoctorRegisterationApi.signin(
+                  keyboardType: TextInputType.emailAddress,
+                ),
+              ),
+              search
+                  ? CustoDropDown()
+                  : Container(
+                      child: selectedMedicalDegreesAndSpecializations.isEmpty
+                          ? Column(
+                              children: [
+                                SizedBox(
+                                  child: Image.asset('assets/empty-folder.png'),
+                                ),
+                                Text("Add your Specilaization")
+                              ],
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 16.0, horizontal: 8),
+                              child: Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.7,
+                                  child: selectedDegree(context, upadateState)),
+                            ),
+                    ),
+              FilledButton(
+                  onPressed: () async {
+                    if (checkAllFilesAreUploaded(context)) {
+                      print('yep yep');
+                      await doctorProvider.registerDoctor(
                         firstName: firstName,
-                        lastname: lastName,
+                        lastName: lastName,
                         age: Uage,
                         gender: gender,
                         phone: _phone,
                         email: _email,
                         username: _username,
                         password: Upass,
-                        profile: _profileImage!);
-                    if (res) {
-                      print('navigate him to otp section!');
-                      GoRouter.of(context).pushNamed(DoctorRoutes.docOtp,
+                        profile: _profileImage!,
+                      );
+                      if (!doctorProvider.isSubmitting) {
+                        print("?? working if?");
+                          print("doctor logged igesss");
+                          GoRouter.of(context).pushNamed(DoctorRoutes.docOtp,
                           pathParameters: {'email': _email.trim()});
-                      // GoRouter.of(context)
-                      //     .pushReplacementNamed(CommonRoutes.login);
-                      // widget.setPointer(0);
-                      // _profileImage = null;
-                      // selectedMedicalDegreesAndSpecializations = {};
-                      // disposeEverything();
+                      }
+                      else{
+                        print("what ? ");
+                      }
                     }
-                  }
-                },
-                child: Text("Submit"))
-            // Padding(
-            //   padding: const EdgeInsets.all(12.0),
-            //   child: Container(
-            //     height: MediaQuery.of(context).size.height * 0.5,
-            //     decoration: BoxDecoration(
-            //         border: Border.all(
-            //             color: Theme.of(context).colorScheme.outlineVariant)),
-            //   ),
-            // )
-          ],
+                  },
+                  child: Text("Submit"))
+              // Padding(
+              //   padding: const EdgeInsets.all(12.0),
+              //   child: Container(
+              //     height: MediaQuery.of(context).size.height * 0.5,
+              //     decoration: BoxDecoration(
+              //         border: Border.all(
+              //             color: Theme.of(context).colorScheme.outlineVariant)),
+              //   ),
+              // )
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
 
@@ -588,7 +568,7 @@ Widget selectedDegree(context, Function updateState) {
     value.forEach((v) {
       print(v);
       data.add(Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 1),
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
         child: Card(
             child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -643,11 +623,11 @@ Widget selectedDegree(context, Function updateState) {
                   ),
                 ),
                 const SizedBox(
-                  width: 10,
+                  width: 5,
                 ),
                 Container(
                   // color: Colors.amber,
-                  width: MediaQuery.of(context).size.width * 0.6,
+                  width: MediaQuery.of(context).size.width * 0.59,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

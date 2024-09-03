@@ -1,11 +1,13 @@
 import 'package:doctor_opinion/components/side_menu.dart';
 import 'package:doctor_opinion/router/NamedRoutes.dart';
 import 'package:doctor_opinion/screens/On_Board/on_boarding.dart';
+import 'package:doctor_opinion/screens/On_Board/onboding_screen.dart';
 import 'package:doctor_opinion/screens/doctor/dHomePage.dart';
 import 'package:doctor_opinion/screens/doctor/dLoginPage.dart';
 import 'package:doctor_opinion/screens/doctor/doctorOtpForm.dart';
 import 'package:doctor_opinion/screens/doctor/signup.dart';
 import 'package:doctor_opinion/screens/loginPage.dart';
+import 'package:doctor_opinion/screens/patient/login_form.dart';
 import 'package:doctor_opinion/screens/patient/userOtpForm.dart';
 import 'package:doctor_opinion/screens/patient/Dashboard_screen.dart';
 import 'package:doctor_opinion/screens/patient/home_page.dart';
@@ -18,32 +20,60 @@ import 'package:doctor_opinion/screens/views/doctor_details_screen.dart';
 import 'package:doctor_opinion/screens/views/searchPage.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyGoRouter {
   final GoRouter router = GoRouter(routes: [
     //Patient routes
     //uncomment this later!
+    // GoRoute(
+    //   path: "/",
+    //   name: CommonRoutes.login,
+    //   pageBuilder: (context, state) {
+    //     return MaterialPage(child: on_boarding());
+    //   },
+    // ),
     GoRoute(
-      path: "/",
-      name: CommonRoutes.login,
-      pageBuilder: (context, state) {
-        return MaterialPage(child: on_boarding());
+      path: '/',
+      redirect: (context, state) async {
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+        final bool isDoctorLoggedIn =
+            prefs.getBool('doctor_isLoggedIn') ?? false;
+        final bool isUserLoggedIn = prefs.getBool('user_isLoggedIn') ?? false;
+
+        if (isDoctorLoggedIn) {
+          return DoctorRoutes.homePage;
+        } else if (isUserLoggedIn) {
+          return PatientRoutes.homePage;
+        } else {
+          return DoctorRoutes.loginPage;
+          // return CommonRoutes.onBoardScreen;
+        }
       },
     ),
 
+    // common routes:
+    GoRoute(
+        path: CommonRoutes.onBoardScreen,
+        name: CommonRoutes.onBoardScreen,
+        pageBuilder: (context, state) {
+          return const MaterialPage(child: on_boarding());
+        }),
 
-    
     GoRoute(
         path: DoctorRoutes.signUp,
         name: DoctorRoutes.signUp,
         pageBuilder: (context, state) {
           return MaterialPage(child: doctorSignUpPage());
         }),
-    GoRoute(path: DoctorRoutes.loginPage,
-    name: DoctorRoutes.loginPage,
-    pageBuilder: (context, state) {
-      return MaterialPage(child: DoctorLogin());
-    },),
+    GoRoute(
+      path: DoctorRoutes.loginPage,
+      name: DoctorRoutes.loginPage,
+      pageBuilder: (context, state) {
+        return MaterialPage(child: DoctorLogin());
+      },
+    ),
     GoRoute(
         path: '${DoctorRoutes.docOtp}/:email',
         name: DoctorRoutes.docOtp,
@@ -55,13 +85,13 @@ class MyGoRouter {
           ));
         }),
 
-
-    GoRoute(path: DoctorRoutes.homePage,
-    name: DoctorRoutes.homePage,
-    pageBuilder: (context, state) {
-      return MaterialPage(child: DoctorHomePage());
-    },),
-
+    GoRoute(
+      path: DoctorRoutes.homePage,
+      name: DoctorRoutes.homePage,
+      pageBuilder: (context, state) {
+        return MaterialPage(child: DoctorHomePage());
+      },
+    ),
 
     //Patient Routes
     GoRoute(
@@ -70,7 +100,12 @@ class MyGoRouter {
         pageBuilder: (context, state) {
           return MaterialPage(child: Register());
         }),
-
+    // GoRoute(
+    //     path: CommonRoutes.onBoardScreen,
+    //     name: CommonRoutes.onBoardScreen,
+    //     pageBuilder: (context, state) {
+    //       return MaterialPage(child: OnbodingScreen());
+    //     }),
     GoRoute(
         path: PatientRoutes.pProfile,
         name: PatientRoutes.pProfile,

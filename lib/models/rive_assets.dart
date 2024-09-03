@@ -53,7 +53,36 @@ List<RiveAsset> sideMenus = [
 
 List<RiveAsset> sideMenus2 = [
   RiveAsset("assets/RiveAssets/icons.riv",
-      artboard: "TIMER", stateMachineName: "TIMER_Interactivity", title: "History"),
+      artboard: "TIMER",
+      stateMachineName: "TIMER_Interactivity",
+      title: "History"),
+  RiveAsset("assets/RiveAssets/icons.riv",
+      artboard: "BELL",
+      stateMachineName: "BELL_Interactivity",
+      title: "Notification"),
+];
+
+
+List<RiveAsset> DsideMenus = [
+  RiveAsset("assets/RiveAssets/icons.riv",
+      artboard: "LIKE/STAR",
+      stateMachineName: "STAR_Interactivity",
+      title: "Favs"),
+  RiveAsset("assets/RiveAssets/icons.riv",
+      artboard: "CHAT",
+      stateMachineName: "CHAT_Interactivity",
+      title: "Medical Records"),
+  RiveAsset("assets/RiveAssets/icons.riv",
+      artboard: "USER",
+      stateMachineName: "USER_Interactivity",
+      title: "Patient List"),
+];
+
+List<RiveAsset> DsideMenus2 = [
+  RiveAsset("assets/RiveAssets/icons.riv",
+      artboard: "TIMER",
+      stateMachineName: "TIMER_Interactivity",
+      title: "TimeLine"),
   RiveAsset("assets/RiveAssets/icons.riv",
       artboard: "BELL",
       stateMachineName: "BELL_Interactivity",

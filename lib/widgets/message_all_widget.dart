@@ -1,3 +1,4 @@
+import 'package:doctor_opinion/components/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -19,19 +20,22 @@ class message_all_widget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Column(children: [
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         Container(
-          height: MediaQuery.of(context).size.height * 0.06,
+          height: MediaQuery.of(context).size.height * 0.07,
           width: MediaQuery.of(context).size.width * 0.9,
-          color: Colors.white,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(15))
+          ),
           child: Row(children: [
             Container(
               height: MediaQuery.of(context).size.height * 0.06,
               width: MediaQuery.of(context).size.width * 0.1500,
               decoration: BoxDecoration(
-                  color: Colors.green,
+                  // color: MyColors.backgroundColorLight,
                   shape: BoxShape.circle,
                   image: DecorationImage(
                       image: AssetImage(image),

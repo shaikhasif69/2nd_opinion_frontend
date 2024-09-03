@@ -1,8 +1,12 @@
+import 'package:doctor_opinion/router/NamedRoutes.dart';
 import 'package:doctor_opinion/screens/On_Board/on_board1.dart';
 import 'package:doctor_opinion/screens/On_Board/on_board2.dart';
 import 'package:doctor_opinion/screens/On_Board/on_board3.dart';
+import 'package:doctor_opinion/screens/On_Board/onboding_screen.dart';
 import 'package:doctor_opinion/screens/login_signup.dart';
+import 'package:doctor_opinion/screens/patient/sign_in_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:page_transition/page_transition.dart';
@@ -65,11 +69,17 @@ class _on_boardingState extends State<on_boarding> {
               onLastpage
                   ? GestureDetector(
                       onTap: () {
+                        //      showCustomDialog(
+                        //   context,
+                        //   onValue: (_) {},
+                        // );
+                        // GoRouter.of(context)
+                        //     .pushNamed(CommonRoutes.onBoardScreen);
                         Navigator.push(
                             context,
                             PageTransition(
                                 type: PageTransitionType.bottomToTop,
-                                child: login_signup()));
+                                child: OnbodingScreen()));
                       },
                       child: Container(
                         height: MediaQuery.of(context).size.height * 0.05,

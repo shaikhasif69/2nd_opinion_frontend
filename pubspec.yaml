@@ -56,10 +56,18 @@ dependencies:
   rive: ^0.13.12
   http: ^1.2.2
   carousel_slider: ^4.2.1
+  shared_preferences: ^2.3.1
+  flutter_svg: ^2.0.10+1
+  provider: ^6.1.2
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  socket_io_client: ^3.0.0-beta.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  hive_generator: ^2.0.1
+  build_runner: ^2.1.7
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -88,6 +96,8 @@ flutter:
     - assets/RiveAssets/hamburger_menu.riv
     - assets/RiveAssets/menu_icon.riv
     - assets/RiveAssets/menu_button.riv
+    - assets/RiveAssets/button.riv
+    - assets/RiveAssets/shapes.riv
 
   #   - images/a_dot_ham.jpeg
 

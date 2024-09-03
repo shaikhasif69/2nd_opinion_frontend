@@ -1,8 +1,10 @@
+import 'package:doctor_opinion/provider/docProvider/DocProviders.dart';
 import 'package:doctor_opinion/router/NamedRoutes.dart';
 import 'package:doctor_opinion/services/doctor/Registeration.dart';
 import 'package:flutter/material.dart';
 import 'package:doctor_opinion/services/patient/patientServices.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class DoctorOptForm extends StatefulWidget {
   final String email;
@@ -18,11 +20,29 @@ class _DoctorOptFormState extends State<DoctorOptForm> {
   final UserService userService = UserService();
 
   void verifyOtp(BuildContext context) async {
-    final response = await DoctorRegisterationApi.verifyDocOtp(
-        widget.email, otpController.text);
-    if (response['message'] == 'Success') {
+    // final response = await DoctorRegisterationApi.verifyDocOtp(
+    //     widget.email, otpController.text);
+    // if (response['message'] == 'Success') {
+    //   GoRouter.of(context).pushNamed(DoctorRoutes.homePage);
+    // } else {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     SnackBar(content: Text('Invalid OTP')),
+    //   );
+    // }
+      final doctorProvider = Provider.of<DoctorProvider>(context, listen: false);
+    
+    // Call verifyDoctorOtp from DoctorProvider
+    await doctorProvider.verifyDoctorOtp(
+      email: widget.email,
+      otp: otpController.text,
+    );
+
+    // Check the provider state after verification
+    if (doctorProvider.isLoggedIn) {
+      // Navigate to the home page if logged in
       GoRouter.of(context).pushNamed(DoctorRoutes.homePage);
     } else {
+      // Show error message if not logged in
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Invalid OTP')),
       );

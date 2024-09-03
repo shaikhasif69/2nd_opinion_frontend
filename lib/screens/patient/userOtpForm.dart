@@ -1,7 +1,14 @@
+import 'package:doctor_opinion/models/hiveModels/user.dart';
+import 'package:doctor_opinion/provider/userProviders/UserProviders.dart';
 import 'package:doctor_opinion/router/NamedRoutes.dart';
+import 'package:doctor_opinion/services/authServices.dart';
+import 'package:doctor_opinion/services/hiveServices.dart';
 import 'package:flutter/material.dart';
 import 'package:doctor_opinion/services/patient/patientServices.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+
+import '../../models/patient/User.dart';
 
 class userOtpFormPage extends StatefulWidget {
   final String email;
@@ -14,18 +21,47 @@ class userOtpFormPage extends StatefulWidget {
 
 class _userOtpFormPageState extends State<userOtpFormPage> {
   final TextEditingController otpController = TextEditingController();
+  final AuthService _authService = AuthService();
   final UserService userService = UserService();
 
   void verifyOtp(BuildContext context) async {
-    final response =
-        await userService.verifyOtp(widget.email, otpController.text);
-    print(response['response']);
-    print('see above!');
-    if (response['response'] == 'Success') {
-      GoRouter.of(context).pushNamed(PatientRoutes.homePage);
-    } else {
+    try {
+      final response =
+          await userService.verifyOtp(widget.email, otpController.text);
+      if (response['response'] == 'Success') {
+        User user = User.fromJson(response['user']);
+        HiveUser hiveUser = HiveUser(
+          id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          address: user.address,
+          phone: user.phone,
+          email: user.email,
+          username: user.username,
+          profilePicture: user.profilePicture,
+          gender: user.gender,
+        );
+
+        final hiveService = HiveService();
+        await hiveService.saveUser(hiveUser);
+        final userProvider = Provider.of<UserProvider>(context, listen: false);
+        userProvider.setUser(User.fromJson(response['user']));
+        await _authService.storeLoginDetails(
+          'user',
+          response['token'] ?? '',
+          widget.email,
+        );
+        print('Navigating to home page...');
+        GoRouter.of(context).pushNamed(PatientRoutes.homePage);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Invalid OTP')),
+        );
+      }
+    } catch (e) {
+      print('Error during OTP verification: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Invalid OTP')),
+        SnackBar(content: Text('An error occurred. Please try again.')),
       );
     }
   }
@@ -76,15 +112,16 @@ class _userOtpFormPageState extends State<userOtpFormPage> {
               TextField(
                 controller: otpController,
                 keyboardType: TextInputType.number,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Enter OTP',
                 ),
-                maxLength: 6, // Adjust the length as needed
+                maxLength: 6,
                 onChanged: (value) {
                   if (value.length == 6) {
-                    verifyOtp(
-                        context); // Automatically verify when 6 digits are entered
+                    print("yes yes all set");
+                    // verifyOtp(
+                    //     context);
                   }
                 },
               ),

@@ -1,3 +1,4 @@
+import 'package:doctor_opinion/components/constant.dart';
 import 'package:doctor_opinion/widgets/chat_screen.dart';
 import 'package:doctor_opinion/widgets/message_all_widget.dart';
 import 'package:flutter/material.dart';
@@ -31,10 +32,10 @@ class _TabBarExampleState extends State<message_tab_all>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: MyColors.backgroundColorLight,
       appBar: AppBar(
         title: Text(
-          "Shedule",
+          "Chats",
           style: GoogleFonts.poppins(color: Colors.black, fontSize: 18.sp),
         ),
         centerTitle: false,
@@ -53,7 +54,7 @@ class _TabBarExampleState extends State<message_tab_all>
             ),
           ),
         ],
-        backgroundColor: Colors.white,
+        backgroundColor: MyColors.backgroundColorLight,
       ),
       body: Column(children: [
         GestureDetector(

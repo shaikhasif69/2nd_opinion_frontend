@@ -1,7 +1,7 @@
-import 'dart:ffi';
 import 'dart:math';
 
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+import 'package:doctor_opinion/components/constant.dart';
 import 'package:doctor_opinion/components/menu_bar.dart';
 import 'package:doctor_opinion/components/rive_utils.dart';
 import 'package:doctor_opinion/components/side_menu.dart';
@@ -20,21 +20,26 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage>
     with SingleTickerProviderStateMixin {
+  bool isSideBarClosed = true;
+
   late AnimationController _animationController;
   late Animation<double> animation;
   late Animation<double> scalAnimation;
+
   late var isSideBar;
 
   @override
   void initState() {
-    _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 100))
-          ..addListener(() {
-            setState(() {});
-          });
-    animation = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
-        parent: _animationController, curve: Curves.fastOutSlowIn));
+    _animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 200))
+      ..addListener(
+        () {
+          setState(() {});
+        },
+      );
     scalAnimation = Tween<double>(begin: 1, end: 0.8).animate(CurvedAnimation(
+        parent: _animationController, curve: Curves.fastOutSlowIn));
+    animation = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
         parent: _animationController, curve: Curves.fastOutSlowIn));
     super.initState();
   }
@@ -45,7 +50,6 @@ class _HomepageState extends State<Homepage>
     super.dispose();
   }
 
-  bool isSideBarClosed = true;
   List<IconData> icons = [
     FontAwesomeIcons.home,
     FontAwesomeIcons.envelope,
@@ -62,39 +66,46 @@ class _HomepageState extends State<Homepage>
     List<Widget> pages = [
       Stack(children: [
         AnimatedPositioned(
-          duration: Duration(milliseconds: 300),
-          curve: Curves.fastOutSlowIn,
           width: sideBarWidth,
-          left: isSideBarClosed ? -(MediaQuery.of(context).size.width / 1) : 0,
           height: MediaQuery.of(context).size.height,
-          child: SideMenu(),
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.fastOutSlowIn,
+          left: isSideBarClosed ? -(MediaQuery.of(context).size.width / 1) : 0,
+          top: 0,
+          child: const SideMenu(),
         ),
         Transform(
           alignment: Alignment.center,
           transform: Matrix4.identity()
             ..setEntry(3, 2, 0.001)
-            ..rotateY(animation.value - 30 * animation.value * pi / 180),
+            ..rotateY(1 * animation.value - 30 * (animation.value) * pi / 180),
           child: Transform.translate(
             offset: Offset(
                 animation.value * MediaQuery.of(context).size.width / 1.44, 0),
             child: Transform.scale(
               scale: isSideBarClosed ? 1 : 0.87,
               // scale: scalAnimation.value,
-              child: ClipRRect(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      bottomLeft: isSideBarClosed
-                          ? Radius.zero
-                          : const Radius.circular(30)),
-                  child: Dashboard()),
+              // child: ClipRRect(
+              //     borderRadius: BorderRadius.only(
+              //         topLeft: const Radius.circular(30),
+              //         bottomLeft: isSideBarClosed
+              //             ? Radius.zero
+              //             : const Radius.circular(30)),
+              //     child: Dashboard()),
+              child:  ClipRRect(
+                  borderRadius:const BorderRadius.all(
+                    Radius.circular(24),
+                  ),
+                  child: Dashboard(),
+                ),
             ),
           ),
         ),
         AnimatedPositioned(
           duration: const Duration(milliseconds: 200),
+          curve: Curves.fastOutSlowIn,
           left: isSideBarClosed ? 0 : MediaQuery.of(context).size.width / 1.8,
           top: 16,
-          curve: Curves.fastOutSlowIn,
           child: MenuBtn(
             riveOnInit: (artboard) {
               try {
@@ -136,7 +147,9 @@ class _HomepageState extends State<Homepage>
     ];
 
     return Scaffold(
-      backgroundColor: Colors.blueGrey,
+      resizeToAvoidBottomInset: false,
+      extendBody: true,
+      backgroundColor: MyColors.sideMenuColor,
       body: pages[page],
       bottomNavigationBar: AnimatedBottomNavigationBar(
         icons: icons,

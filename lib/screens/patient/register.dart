@@ -1,3 +1,4 @@
+import 'package:doctor_opinion/router/NamedRoutes.dart';
 import 'package:doctor_opinion/screens/doctor/signup.dart';
 import 'package:doctor_opinion/screens/login.dart';
 import 'package:doctor_opinion/screens/loginPage.dart';
@@ -8,6 +9,7 @@ import 'package:doctor_opinion/widgets/doctor/email.dart';
 import 'package:doctor_opinion/widgets/doctor/phone.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -85,11 +87,9 @@ class _RegisterState extends State<Register> {
           ),
         );
       } else {
-        // Handle error
         print(response['error']);
       }
     } else {
-      // Handle invalid form
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Please fix the errors in the form.")));
     }
@@ -254,12 +254,7 @@ class _RegisterState extends State<Register> {
                     const SizedBox(width: 5),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          PageTransition(
-                              type: PageTransitionType.fade,
-                              child: LoginPage()),
-                        );
+                        // GoRouter.of(context).pushNamed(CommonRoutes.onBoardScreen);
                       },
                       child: Text(
                         "Sign in",

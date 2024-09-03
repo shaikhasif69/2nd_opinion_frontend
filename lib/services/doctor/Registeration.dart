@@ -74,6 +74,7 @@ class DoctorRegisterationApi {
       req.fields['lastName'] = lastname;
       req.fields['age'] = age;
       req.fields['gender'] = gender;
+      req.fields["phone"] = phone;
       req.fields['email'] = email;
       req.fields['username'] = username;
       req.fields['password'] = password;
@@ -104,6 +105,9 @@ class DoctorRegisterationApi {
       req.fields['educationList'] = jsonEncode(lis);
 
       var res = await req.send();
+      print("Response status: ${res.statusCode}");
+      var responseBody = await res.stream.bytesToString();
+      print("Response body: $responseBody");
       if (res.statusCode == 200) {
         print("huraaaaaaaay!");
         return true;
@@ -116,7 +120,8 @@ class DoctorRegisterationApi {
     }
   }
 
-  static Future<Map<String, dynamic>> verifyDocOtp(String email, String otp) async {
+  static Future<Map<String, dynamic>> verifyDocOtp(
+      String email, String otp) async {
     print("THIS IS OTP: " + otp + " email: " + email);
     final trimedOpt = otp.trim();
     final trimedEmail = email.trim();
@@ -129,12 +134,15 @@ class DoctorRegisterationApi {
     return jsonDecode(response.body);
   }
 
-  static Future<Map<String, dynamic>> dLogin(String username, String password) async {
+  static Future<Map<String, dynamic>> dLogin(
+      String username, String password) async {
+    print("hello? you see me");
     final response = await http.post(
       Uri.parse('$ip/doctor/login'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'username': username, 'password': password}),
     );
+    print("response body: " + response.body);
     return jsonDecode(response.body);
   }
 }

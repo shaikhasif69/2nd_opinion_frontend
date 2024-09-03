@@ -1,3 +1,4 @@
+import 'package:doctor_opinion/components/constant.dart';
 import 'package:doctor_opinion/components/info_card.dart';
 import 'package:doctor_opinion/components/rive_utils.dart';
 import 'package:doctor_opinion/components/side_menu_title.dart';
@@ -20,7 +21,7 @@ class _SideMenuState extends State<SideMenu> {
       body: Container(
         width: MediaQuery.of(context).size.width / 1.35,
         height: double.infinity,
-        color: Colors.blueGrey,
+        color: MyColors.sideMenuColor,
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

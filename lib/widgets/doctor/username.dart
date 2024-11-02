@@ -1,5 +1,5 @@
 import 'package:doctor_opinion/components/constant.dart';
-import 'package:doctor_opinion/services/doctor/Registeration.dart';
+import 'package:doctor_opinion/services/doctorServices.dart';
 import 'package:flutter/material.dart';
 
 class UserNameWidget extends StatefulWidget {
@@ -43,7 +43,6 @@ class _UserNameWidget extends State<UserNameWidget> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -51,10 +50,11 @@ class _UserNameWidget extends State<UserNameWidget> {
         height: MediaQuery.of(context).size.height * 0.06,
         width: MediaQuery.of(context).size.width * 0.9,
         decoration: BoxDecoration(
-          color: Color.fromARGB(255, 247, 247, 247),
-          borderRadius: BorderRadius.circular(30),
-          border: showBorder ? Border.all(width: 2, color: ourPrimary) : Border.all(width: 0, color: ourPrimary)
-        ),
+            color: Color.fromARGB(255, 247, 247, 247),
+            borderRadius: BorderRadius.circular(30),
+            border: showBorder
+                ? Border.all(width: 2, color: ourPrimary)
+                : Border.all(width: 0, color: ourPrimary)),
         child: Stack(
           children: [
             TextFormField(
@@ -84,7 +84,7 @@ class _UserNameWidget extends State<UserNameWidget> {
                   status = CircularProgressIndicator();
                 });
                 bool res =
-                    await DoctorRegisterationApi.validateUsername(username);
+                    await DoctorServices.validateUsername(username);
                 if (res) {
                   setState(() {
                     status = Icon(Icons.check);

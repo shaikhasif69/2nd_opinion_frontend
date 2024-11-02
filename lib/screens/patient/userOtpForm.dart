@@ -1,10 +1,10 @@
 import 'package:doctor_opinion/models/hiveModels/user.dart';
-import 'package:doctor_opinion/provider/userProviders/UserProviders.dart';
+import 'package:doctor_opinion/provider/UserProviders.dart';
 import 'package:doctor_opinion/router/NamedRoutes.dart';
 import 'package:doctor_opinion/services/authServices.dart';
 import 'package:doctor_opinion/services/hiveServices.dart';
 import 'package:flutter/material.dart';
-import 'package:doctor_opinion/services/patient/patientServices.dart';
+import 'package:doctor_opinion/services/patientServices.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 

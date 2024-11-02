@@ -2,10 +2,9 @@ import 'dart:io';
 
 import 'package:doctor_opinion/main.dart';
 import 'package:doctor_opinion/models/doctor/degrees.dart';
-import 'package:doctor_opinion/provider/docProvider/DocProviders.dart';
+import 'package:doctor_opinion/provider/DocProviders.dart';
 import 'package:doctor_opinion/provider/dropdown.dart';
 import 'package:doctor_opinion/router/NamedRoutes.dart';
-import 'package:doctor_opinion/services/doctor/Registeration.dart';
 import 'package:doctor_opinion/tp.dart';
 import 'package:provider/provider.dart' as pov;
 import 'package:doctor_opinion/widgets/doctor/customDropDown.dart';
@@ -417,7 +416,8 @@ class _EducationalDetails extends ConsumerState<EducationalDetails> {
   bool search = false;
   List<String> data = [];
   Widget build(BuildContext context) {
-    return pov.Consumer<DoctorProvider>(builder: (context, doctorProvider, child) {
+    return pov.Consumer<DoctorProvider>(
+        builder: (context, doctorProvider, child) {
       return Scaffold(
         body: SingleChildScrollView(
           child: Column(
@@ -497,11 +497,10 @@ class _EducationalDetails extends ConsumerState<EducationalDetails> {
                       );
                       if (!doctorProvider.isSubmitting) {
                         print("?? working if?");
-                          print("doctor logged igesss");
-                          GoRouter.of(context).pushNamed(DoctorRoutes.docOtp,
-                          pathParameters: {'email': _email.trim()});
-                      }
-                      else{
+                        print("doctor logged igesss");
+                        GoRouter.of(context).pushNamed(DoctorRoutes.docOtp,
+                            pathParameters: {'email': _email.trim()});
+                      } else {
                         print("what ? ");
                       }
                     }

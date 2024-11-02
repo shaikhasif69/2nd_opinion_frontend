@@ -1,12 +1,12 @@
 import 'package:doctor_opinion/models/hiveModels/user.dart';
 import 'package:doctor_opinion/models/patient/User.dart';
-import 'package:doctor_opinion/provider/userProviders/UserProviders.dart';
+import 'package:doctor_opinion/provider/UserProviders.dart';
 import 'package:doctor_opinion/router/NamedRoutes.dart';
 import 'package:doctor_opinion/screens/login_signup.dart';
 import 'package:doctor_opinion/screens/patient/home_page.dart';
 import 'package:doctor_opinion/services/authServices.dart';
 import 'package:doctor_opinion/services/hiveServices.dart';
-import 'package:doctor_opinion/services/patient/patientServices.dart';
+import 'package:doctor_opinion/services/patientServices.dart';
 import 'package:flutter/material.dart';
 import 'package:doctor_opinion/models/patient/User.dart' as custom_user;
 import 'package:flutter_chat_types/flutter_chat_types.dart' as chat_user;
@@ -50,21 +50,21 @@ class _loginState extends State<login> {
     if (response['success'] == true) {
       User user = User.fromJson(response['user']);
 
-    HiveUser hiveUser = HiveUser(
-      id: user.id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      address: user.address,
-      phone: user.phone,
-      email: user.email,
-      username: user.username,
-      profilePicture: user.profilePicture,
-      gender: user.gender,
-    );
-    
-    // Save HiveUser to Hive
-    final hiveService = HiveService();
-    await hiveService.saveUser(hiveUser);
+      HiveUser hiveUser = HiveUser(
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        address: user.address,
+        phone: user.phone,
+        email: user.email,
+        username: user.username,
+        profilePicture: user.profilePicture,
+        gender: user.gender,
+      );
+
+      // Save HiveUser to Hive
+      final hiveService = HiveService();
+      await hiveService.saveUser(hiveUser);
       final userProvider = Provider.of<UserProvider>(context, listen: false);
       userProvider.setUser(user);
       await _authService.storeLoginDetails(

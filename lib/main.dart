@@ -1,9 +1,10 @@
 import 'package:doctor_opinion/models/hiveModels/doctor_hive.dart';
 import 'package:doctor_opinion/models/hiveModels/user.dart';
-import 'package:doctor_opinion/provider/docProvider/DocProviders.dart';
-import 'package:doctor_opinion/provider/userProviders/UserProviders.dart';
+import 'package:doctor_opinion/provider/DocProviders.dart';
+import 'package:doctor_opinion/provider/UserProviders.dart';
 import 'package:doctor_opinion/router/router.dart';
 import 'package:doctor_opinion/screens/loginPage.dart';
+import 'package:doctor_opinion/services/authServices.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
@@ -24,6 +25,7 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(HiveUserAdapter());
   Hive.registerAdapter(DoctorHiveAdapter());
+  await AuthService.getPref();
   runApp(
     riverpod.ProviderScope(
       child: provider.MultiProvider(

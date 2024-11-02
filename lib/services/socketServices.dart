@@ -13,7 +13,6 @@ class SocketService {
     });
 
     _socket?.on('newMessage', (data) {
-      // Handle new message
     });
 
     _socket?.onDisconnect((_) {

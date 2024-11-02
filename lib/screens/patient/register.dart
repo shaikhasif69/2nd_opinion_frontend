@@ -3,7 +3,7 @@ import 'package:doctor_opinion/screens/doctor/signup.dart';
 import 'package:doctor_opinion/screens/login.dart';
 import 'package:doctor_opinion/screens/loginPage.dart';
 import 'package:doctor_opinion/screens/patient/userOtpForm.dart';
-import 'package:doctor_opinion/services/patient/patientServices.dart';
+import 'package:doctor_opinion/services/patientServices.dart';
 import 'package:doctor_opinion/widgets/Auth_text_field.dart';
 import 'package:doctor_opinion/widgets/doctor/email.dart';
 import 'package:doctor_opinion/widgets/doctor/phone.dart';

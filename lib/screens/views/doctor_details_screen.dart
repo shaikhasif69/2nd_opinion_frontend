@@ -239,7 +239,8 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          GoRouter.of(context).pushNamed(PatientRoutes.bookAppointment);
+                          GoRouter.of(context)
+                              .pushNamed(PatientRoutes.bookAppointment);
                         },
                         child: Container(
                           height: MediaQuery.of(context).size.height * 0.06,

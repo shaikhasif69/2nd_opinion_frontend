@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:doctor_opinion/models/hiveModels/doctor_hive.dart';
+import 'package:doctor_opinion/services/doctorServices.dart';
 import 'package:doctor_opinion/services/hiveServices.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:doctor_opinion/services/doctor/Registeration.dart';
 import 'package:doctor_opinion/models/doctor/Doctor.dart';
 
 class DoctorProvider with ChangeNotifier {
@@ -45,7 +45,7 @@ class DoctorProvider with ChangeNotifier {
     _isSubmitting = true;
     notifyListeners();
     try {
-      bool success = await DoctorRegisterationApi.signin(
+      bool success = await DoctorServices.signin(
         firstName: firstName,
         lastname: lastName,
         age: age,
@@ -79,24 +79,24 @@ class DoctorProvider with ChangeNotifier {
     _isSubmitting = true;
     notifyListeners();
     try {
-      var response = await DoctorRegisterationApi.verifyDocOtp(email, otp);
+      var response = await DoctorServices.verifyDocOtp(email, otp);
       if (response['message'] == 'Success') {
-        var doctorData = response['doctor']; 
+        var doctorData = response['doctor'];
         Doctor doctor = Doctor.fromJson(doctorData);
         DoctorHive hiveDoctor = DoctorHive(
-      id: doctor.id,
-      firstName: doctor.firstName,
-      lastName: doctor.lastName,
-      address: doctor.address,
-      phone: doctor.phone,
-      email: doctor.email,
-      username: doctor.username,
-      profilePicture: doctor.profilePicture,
-      gender: doctor.gender,
-    );
-    
-    final hiveService = HiveService();
-    await hiveService.saveDcotr(hiveDoctor);
+          id: doctor.id,
+          firstName: doctor.firstName,
+          lastName: doctor.lastName,
+          address: doctor.address,
+          phone: doctor.phone,
+          email: doctor.email,
+          username: doctor.username,
+          profilePicture: doctor.profilePicture,
+          gender: doctor.gender,
+        );
+
+        final hiveService = HiveService();
+        await hiveService.saveDcotr(hiveDoctor);
         setDoctor(doctor);
         print("Doctor is logged in: ${isLoggedIn}");
         print("Doctor logged in successfully!");

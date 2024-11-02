@@ -1,5 +1,5 @@
 import 'package:doctor_opinion/components/constant.dart';
-import 'package:doctor_opinion/services/doctor/Registeration.dart';
+import 'package:doctor_opinion/services/doctorServices.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 
@@ -24,7 +24,7 @@ class _Phonewidget extends State<Phonewidget> {
   Widget? status = null;
   String? erro = null;
   bool isLable = true;
- bool showBorder = false;
+  bool showBorder = false;
 
   final FocusNode _focusNode = FocusNode();
 
@@ -43,6 +43,7 @@ class _Phonewidget extends State<Phonewidget> {
     _focusNode.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -50,11 +51,11 @@ class _Phonewidget extends State<Phonewidget> {
         height: MediaQuery.of(context).size.height * 0.06,
         width: MediaQuery.of(context).size.width * 0.9,
         decoration: BoxDecoration(
-          color: Color.fromARGB(255, 247, 247, 247),
-          borderRadius: BorderRadius.circular(30),
-          border: showBorder ? Border.all(width: 2, color: ourPrimary) : Border.all(width: 0, color: ourPrimary)
-
-        ),
+            color: Color.fromARGB(255, 247, 247, 247),
+            borderRadius: BorderRadius.circular(30),
+            border: showBorder
+                ? Border.all(width: 2, color: ourPrimary)
+                : Border.all(width: 0, color: ourPrimary)),
         child: Stack(
           children: [
             TextFormField(
@@ -97,7 +98,7 @@ class _Phonewidget extends State<Phonewidget> {
                   status = CircularProgressIndicator();
                 });
 
-                bool res = await DoctorRegisterationApi.validatePhone(phone);
+                bool res = await DoctorServices.validatePhone(phone);
                 if (res == true) {
                   setState(() {
                     status = Icon(Icons.check);

@@ -14,15 +14,13 @@ import 'package:page_transition/page_transition.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class Dashboard extends StatelessWidget {
-   Dashboard({super.key});
+  Dashboard({super.key});
 
-
-
-final List<String> imgList = [
-  'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
-  'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
-  'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',
-];
+  final List<String> imgList = [
+    'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
+    'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
+    'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,8 +80,8 @@ final List<String> imgList = [
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
       body: SingleChildScrollView(
         child: Column(children: [
-        RecomendDoctorCorousel(imgList: imgList),
-         const SizedBox(
+          RecomendDoctorCorousel(imgList: imgList),
+          const SizedBox(
             height: 20,
           ),
           Padding(
@@ -128,7 +126,7 @@ final List<String> imgList = [
               listIcons(Icon: "lib/icons/Ambulance.png", text: "Ambulance"),
             ],
           ),
-           Padding(
+          Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -161,7 +159,6 @@ final List<String> imgList = [
               ],
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
             child: Container(
@@ -196,8 +193,7 @@ final List<String> imgList = [
           SizedBox(
             height: 10,
           ),
-          
-           BannerCarousel(),
+          BannerCarousel(),
           const SizedBox(
             height: 20,
           ),
@@ -269,7 +265,7 @@ final List<String> imgList = [
               ),
             ),
           ),
-                 const SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Padding(
@@ -308,32 +304,31 @@ final List<String> imgList = [
             height: 10,
           ),
           SizedBox(
-              width: MediaQuery.of(context).size.width * 1,
+            width: MediaQuery.of(context).size.width * 1,
             height: 155,
             child: ListView(
-                physics: BouncingScrollPhysics(),
-                scrollDirection: Axis.vertical,
-                children: [
-                  article(
-                image: "images/article1.png",
-                dateText: "Jun 10, 2021 ",
-                duration: "5min read",
-                mainText:
-                    "The 25 Healthiest Fruits You Can Eat,\nAccording to a Nutritionist"),
-                    article(
-                image: "images/article1.png",
-                dateText: "Jun 10, 2021 ",
-                duration: "5min read",
-                mainText:
-                    "The 25 Healthiest Fruits You Can Eat,\nAccording to a Nutritionist"),
-                    article(
-                image: "images/article1.png",
-                dateText: "Jun 10, 2021 ",
-                duration: "5min read",
-                mainText:
-                    "The 25 Healthiest Fruits You Can Eat,\nAccording to a Nutritionist"),
-                ],
-
+              physics: BouncingScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              children: [
+                article(
+                    image: "images/article1.png",
+                    dateText: "Jun 10, 2021 ",
+                    duration: "5min read",
+                    mainText:
+                        "The 25 Healthiest Fruits You Can Eat,\nAccording to a Nutritionist"),
+                article(
+                    image: "images/article1.png",
+                    dateText: "Jun 10, 2021 ",
+                    duration: "5min read",
+                    mainText:
+                        "The 25 Healthiest Fruits You Can Eat,\nAccording to a Nutritionist"),
+                article(
+                    image: "images/article1.png",
+                    dateText: "Jun 10, 2021 ",
+                    duration: "5min read",
+                    mainText:
+                        "The 25 Healthiest Fruits You Can Eat,\nAccording to a Nutritionist"),
+              ],
             ),
           ),
         ]),

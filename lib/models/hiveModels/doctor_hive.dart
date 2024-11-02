@@ -60,7 +60,7 @@ class DoctorHive {
 
   Doctor toDoctor() {
     return Doctor(
-      id: id,
+      id: id ?? '',
       firstName: firstName,
       lastName: lastName,
       address: address,

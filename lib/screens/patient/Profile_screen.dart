@@ -1,6 +1,6 @@
 import 'package:doctor_opinion/components/constant.dart';
 import 'package:doctor_opinion/models/hiveModels/user.dart';
-import 'package:doctor_opinion/provider/userProviders/UserProviders.dart';
+import 'package:doctor_opinion/provider/UserProviders.dart';
 import 'package:doctor_opinion/services/hiveServices.dart';
 import 'package:doctor_opinion/widgets/profile_list.dart';
 import 'package:flutter/cupertino.dart';
@@ -39,7 +39,7 @@ class _Profile_screenState extends State<Profile_screen> {
     }
   }
 
-   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: MyColors.backgroundColorLight,
@@ -60,29 +60,34 @@ class _Profile_screenState extends State<Profile_screen> {
         padding: const EdgeInsets.all(10),
         children: [
           Column(
-            children:  [
-              SizedBox(height: 30,),
+            children: [
+              SizedBox(
+                height: 30,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Padding(
-                    padding:  EdgeInsets.only(left: 10.0),
-                    child: Text("Profile", style: TextStyle(
-                      fontSize: 25, 
-                      fontWeight: FontWeight.w700
-                    ),),
+                    padding: EdgeInsets.only(left: 10.0),
+                    child: Text(
+                      "Profile",
+                      style:
+                          TextStyle(fontSize: 25, fontWeight: FontWeight.w700),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 6.0),
                     child: GestureDetector(
-                      onTap: (){
-                        print("tap tap");
-                      },
-                      child: Icon(Icons.settings)),
+                        onTap: () {
+                          print("tap tap");
+                        },
+                        child: Icon(Icons.settings)),
                   )
                 ],
               ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               const CircleAvatar(
                 radius: 50,
                 backgroundImage: NetworkImage(
@@ -205,6 +210,7 @@ class _Profile_screenState extends State<Profile_screen> {
     );
   }
 }
+
 class ProfileCompletionCard {
   final String title;
   final String buttonText;

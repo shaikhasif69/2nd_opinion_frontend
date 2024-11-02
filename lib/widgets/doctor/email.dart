@@ -1,5 +1,5 @@
 import 'package:doctor_opinion/components/constant.dart';
-import 'package:doctor_opinion/services/doctor/Registeration.dart';
+import 'package:doctor_opinion/services/doctorServices.dart';
 import 'package:flutter/material.dart';
 
 class EmailWidget extends StatefulWidget {
@@ -24,7 +24,7 @@ class _EmailWidget extends State<EmailWidget> {
   Widget? status = null;
   String? erro = null;
   bool isLable = true;
-   bool showBorder = false;
+  bool showBorder = false;
 
   final FocusNode _focusNode = FocusNode();
 
@@ -51,10 +51,11 @@ class _EmailWidget extends State<EmailWidget> {
         height: MediaQuery.of(context).size.height * 0.06,
         width: MediaQuery.of(context).size.width * 0.9,
         decoration: BoxDecoration(
-          color: Color.fromARGB(255, 247, 247, 247),
-          borderRadius: BorderRadius.circular(30),
-          border: showBorder ? Border.all(width: 2, color: ourPrimary) : Border.all(width: 0, color: ourPrimary)
-        ),
+            color: Color.fromARGB(255, 247, 247, 247),
+            borderRadius: BorderRadius.circular(30),
+            border: showBorder
+                ? Border.all(width: 2, color: ourPrimary)
+                : Border.all(width: 0, color: ourPrimary)),
         child: Stack(
           children: [
             TextFormField(
@@ -95,7 +96,7 @@ class _EmailWidget extends State<EmailWidget> {
                   status = CircularProgressIndicator();
                 });
 
-                bool res = await DoctorRegisterationApi.validateEmail(email);
+                bool res = await DoctorServices.validateEmail(email);
                 if (res == true) {
                   setState(() {
                     status = Icon(Icons.check);

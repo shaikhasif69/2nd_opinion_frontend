@@ -1,10 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:doctor_opinion/components/constant.dart';
 import 'package:doctor_opinion/models/hiveModels/doctor_hive.dart';
+import 'package:doctor_opinion/router/NamedRoutes.dart';
+import 'package:doctor_opinion/services/authServices.dart';
 import 'package:doctor_opinion/services/hiveServices.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:go_router/go_router.dart';
 
 class DoctorProfilePage extends StatefulWidget {
   const DoctorProfilePage({Key? key}) : super(key: key);
@@ -58,14 +61,14 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
         children: [
           // COLUMN THAT WILL CONTAIN THE PROFILE
           Column(
-            children:  [
+            children: [
               const CircleAvatar(
                 radius: 50,
                 backgroundImage: AssetImage(
                   "lib/icons/theSergeon.jpg",
                 ),
               ),
-             const SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(
                 userName,
                 style: const TextStyle(
@@ -159,9 +162,9 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
           ),
           const SizedBox(height: 35),
           ...List.generate(
-            customListTiles.length,
+            customListTiles(context).length,
             (index) {
-              final tile = customListTiles[index];
+              final tile = customListTiles(context)[index];
               return Padding(
                 padding: const EdgeInsets.only(bottom: 5),
                 child: Card(
@@ -171,6 +174,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                     leading: Icon(tile.icon),
                     title: Text(tile.title),
                     trailing: const Icon(Icons.chevron_right),
+                    onTap: tile.onTap,
                   ),
                 ),
               );
@@ -214,23 +218,37 @@ List<ProfileCompletionCard> profileCompletionCards = [
 class CustomListTile {
   final IconData icon;
   final String title;
+  final void Function() onTap;
   CustomListTile({
     required this.icon,
     required this.title,
+    required this.onTap,
   });
 }
 
-List<CustomListTile> customListTiles = [
+List<CustomListTile> customListTiles(BuildContext context) => [
   CustomListTile(
     icon: Icons.insights,
     title: "Activity",
+    onTap: () {
+      print("Activity tapped");
+    },
   ),
   CustomListTile(
-    title: "Notifications",
     icon: CupertinoIcons.bell,
+    title: "Notifications",
+    onTap: () {
+      print("Notifications tapped");
+    },
   ),
   CustomListTile(
-    title: "Logout",
     icon: CupertinoIcons.arrow_right_arrow_left,
+    title: "Logout",
+    onTap: () {
+      AuthService.pref.clear();
+      GoRouter.of(context).pushReplacement(CommonRoutes.onBoardScreen);
+      print("Logged out successfully");
+    },
   ),
 ];
+

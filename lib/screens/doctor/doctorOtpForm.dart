@@ -1,8 +1,11 @@
-import 'package:doctor_opinion/provider/docProvider/DocProviders.dart';
+import 'package:doctor_opinion/models/doctor/Doctor.dart';
+import 'package:doctor_opinion/models/hiveModels/doctor_hive.dart';
+import 'package:doctor_opinion/provider/DocProviders.dart';
 import 'package:doctor_opinion/router/NamedRoutes.dart';
-import 'package:doctor_opinion/services/doctor/Registeration.dart';
+import 'package:doctor_opinion/services/doctorServices.dart';
+import 'package:doctor_opinion/services/hiveServices.dart';
 import 'package:flutter/material.dart';
-import 'package:doctor_opinion/services/patient/patientServices.dart';
+import 'package:doctor_opinion/services/patientServices.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +23,7 @@ class _DoctorOptFormState extends State<DoctorOptForm> {
   final UserService userService = UserService();
 
   void verifyOtp(BuildContext context) async {
-    // final response = await DoctorRegisterationApi.verifyDocOtp(
+    // final response = await DoctorServices.verifyDocOtp(
     //     widget.email, otpController.text);
     // if (response['message'] == 'Success') {
     //   GoRouter.of(context).pushNamed(DoctorRoutes.homePage);
@@ -29,24 +32,52 @@ class _DoctorOptFormState extends State<DoctorOptForm> {
     //     SnackBar(content: Text('Invalid OTP')),
     //   );
     // }
-      final doctorProvider = Provider.of<DoctorProvider>(context, listen: false);
-    
+    // final doctorProvider = Provider.of<DoctorProvider>(context, listen: false);
+
     // Call verifyDoctorOtp from DoctorProvider
-    await doctorProvider.verifyDoctorOtp(
-      email: widget.email,
-      otp: otpController.text,
-    );
+    // await doctorProvider.verifyDoctorOtp(
+    //   email: widget.email,
+    //   otp: otpController.text,
+    // );
+
+final response = await DoctorServices.verifyDocOtp(widget.email, otpController.text);
+ if (response['message'] == 'Success') {
+        var doctorData = response['doctor'];
+        Doctor doctor = Doctor.fromJson(doctorData);
+        DoctorHive hiveDoctor = DoctorHive(
+          id: doctor.id,
+          firstName: doctor.firstName,
+          lastName: doctor.lastName,
+          address: doctor.address,
+          phone: doctor.phone,
+          email: doctor.email,
+          username: doctor.username,
+          profilePicture: doctor.profilePicture,
+          gender: doctor.gender,
+        );
+
+        final hiveService = HiveService();
+        await hiveService.saveDcotr(hiveDoctor);
+      GoRouter.of(context).pushNamed(DoctorRoutes.homePage);
 
     // Check the provider state after verification
-    if (doctorProvider.isLoggedIn) {
-      // Navigate to the home page if logged in
-      GoRouter.of(context).pushNamed(DoctorRoutes.homePage);
-    } else {
+    // if (doctorProvider.isLoggedIn) {
+    //   // Navigate to the home page if logged in
+    //   GoRouter.of(context).pushNamed(DoctorRoutes.homePage);
+    // } else {
+    //   // Show error message if not logged in
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     SnackBar(content: Text('Invalid OTP')),
+    //   );
+    // }
+  }
+  else {
       // Show error message if not logged in
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Invalid OTP')),
       );
     }
+
   }
 
   @override
@@ -118,4 +149,5 @@ class _DoctorOptFormState extends State<DoctorOptForm> {
       ),
     );
   }
+
 }

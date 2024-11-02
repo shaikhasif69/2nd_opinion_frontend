@@ -21,4 +21,5 @@ class PatientRoutes {
 class CommonRoutes {
   static String login = "/login";
   static String onBoardScreen = "/on-board-user";
+  static String splashScreen = "/splashScreen";
 }

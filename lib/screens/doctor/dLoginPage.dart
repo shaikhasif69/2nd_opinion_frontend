@@ -4,7 +4,7 @@ import 'package:doctor_opinion/models/hiveModels/doctor_hive.dart';
 import 'package:doctor_opinion/router/NamedRoutes.dart';
 import 'package:doctor_opinion/screens/login_signup.dart';
 import 'package:doctor_opinion/services/authServices.dart';
-import 'package:doctor_opinion/services/doctor/Registeration.dart';
+import 'package:doctor_opinion/services/doctorServices.dart';
 import 'package:doctor_opinion/services/hiveServices.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -32,7 +32,7 @@ class _DoctorLoginState extends State<DoctorLogin> {
       isLoading = true;
     });
 
-    final response = await DoctorRegisterationApi.dLogin(
+    final response = await DoctorServices.dLogin(
       email.text.trim(),
       password.text.trim(),
     );
@@ -53,9 +53,9 @@ class _DoctorLoginState extends State<DoctorLogin> {
         profilePicture: doctor.profilePicture,
         gender: doctor.gender,
       );
-      
-    final hiveService = HiveService();
-    await hiveService.saveDcotr(hiveDoctor);
+
+      final hiveService = HiveService();
+      await hiveService.saveDcotr(hiveDoctor);
       await _authService.storeLoginDetails(
         'doctor',
         response['token'] ?? '',

@@ -1,9 +1,10 @@
 import 'package:doctor_opinion/components/constant.dart';
 import 'package:doctor_opinion/models/patient/User.dart';
-import 'package:doctor_opinion/provider/userProviders/UserProviders.dart';
-import 'package:doctor_opinion/services/doctor/doctorServices.dart';
+import 'package:doctor_opinion/provider/UserProviders.dart';
+import 'package:doctor_opinion/services/doctorServices.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 class DoctorDashboard extends StatefulWidget {
   DoctorDashboard({super.key});
 
@@ -56,7 +57,8 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
             itemBuilder: (context, index) {
               final user = users[index];
               return ListTile(
-                title: Text("${user.firstName ?? 'N/A'} ${user.lastName ?? 'N/A'}"),
+                title: Text(
+                    "${user.firstName ?? 'N/A'} ${user.lastName ?? 'N/A'}"),
                 subtitle: Text(user.email ?? 'No email'),
               );
             },

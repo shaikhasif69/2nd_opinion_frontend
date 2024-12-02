@@ -1,6 +1,5 @@
 import 'package:doctor_opinion/models/hiveModels/user.dart';
 import 'package:doctor_opinion/models/patient/User.dart';
-import 'package:doctor_opinion/provider/UserProviders.dart';
 import 'package:doctor_opinion/router/NamedRoutes.dart';
 import 'package:doctor_opinion/screens/login_signup.dart';
 import 'package:doctor_opinion/screens/patient/home_page.dart';
@@ -32,52 +31,109 @@ class _loginState extends State<login> {
 
   bool isLoading = false;
 
+//   Future<void> _login() async {
+//   setState(() {
+//     isLoading = true;
+//   });
+
+//   try {
+//     final response = await UserService.login(
+//       email.text.trim(),
+//       password.text.trim(),
+//     );
+
+//     setState(() {
+//       isLoading = false;
+//     });
+
+//     if (response['success'] == true) {
+//       // Parse response into User model
+//       final user = User.fromJson(response);
+
+//       // Extract UserObject
+//       final userObject = user.userObject;
+
+//       // Save user data to Hive
+//       final hiveService = HiveService();
+//       final hiveUser = HiveUser(
+//         id: userObject.id,
+//         firstName: userObject.firstName,
+//         lastName: userObject.lastName,
+//         // address: userObject.address,
+//         phone: userObject.phone,
+//         email: userObject.email,
+//         username: userObject.username,
+//         profilePicture: userObject.profilePicture,
+//         gender: userObject.gender,
+//       );
+//       await hiveService.saveUser(hiveUser);
+
+//       // Save token and login details
+//       final prefs = await SharedPreferences.getInstance();
+//       await prefs.setBool('user_isLoggedIn', true);
+//       await prefs.setString('auth_token', user.token);
+
+//       // Update user provider
+
+//       // Navigate to the home page
+//       GoRouter.of(context).go(PatientRoutes.homePage);
+//     } else {
+//       ScaffoldMessenger.of(context).showSnackBar(
+//         SnackBar(content: Text('Invalid credentials, please try again')),
+//       );
+//     }
+//   } catch (e) {
+//     setState(() {
+//       isLoading = false;
+//     });
+//     ScaffoldMessenger.of(context).showSnackBar(
+//       SnackBar(content: Text('An error occurred: $e')),
+//     );
+//   }
+// }
+
+
   Future<void> _login() async {
-    // print("????");
     setState(() {
       isLoading = true;
     });
 
     final response = await UserService.login(
       email.text.trim(),
-      password.text.trim(),
+      password.text.trim()
     );
-    print("BROOOOOOOOOOOOOOOOOO");
     setState(() {
       isLoading = false;
     });
 
+    print("soemthig: $response");
+
     if (response['success'] == true) {
-      User user = User.fromJson(response['user']);
+
+      User user = User.fromJson(response);
 
       HiveUser hiveUser = HiveUser(
-        id: user.id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        address: user.address,
-        phone: user.phone,
-        email: user.email,
-        username: user.username,
-        profilePicture: user.profilePicture,
-        gender: user.gender,
+        id: user.userObject.id,
+        firstName: user.userObject.firstName,
+        lastName: user.userObject.lastName,
+        address: "",
+        phone: user.userObject.phone,
+        email: user.userObject.email,
+        username: user.userObject.username,
+        profilePicture: "",
+        gender: "",
       );
 
       // Save HiveUser to Hive
       final hiveService = HiveService();
       await hiveService.saveUser(hiveUser);
-      final userProvider = Provider.of<UserProvider>(context, listen: false);
-      userProvider.setUser(user);
       await _authService.storeLoginDetails(
         'user',
         response['token'] ?? '',
         email.text.trim(),
       );
-      // GoRouter.of(context).pushReplacementNamed(PatientRoutes.homePage);
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => Homepage(),
-        ),
-      );
+      GoRouter.of(context).go(PatientRoutes.homePage);
+
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Invalid credentials, please try again')),
@@ -96,11 +152,7 @@ class _loginState extends State<login> {
               width: MediaQuery.of(context).size.width * 0.06,
               child: Image.asset("lib/icons/back2.png")),
           onPressed: () {
-            Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.leftToRight,
-                    child: login_signup()));
+            GoRouter.of(context).pushNamed(CommonRoutes.onBoardScreen);
           },
         ),
         centerTitle: true,
@@ -159,7 +211,15 @@ class _loginState extends State<login> {
               height: MediaQuery.of(context).size.height * 0.05,
               width: MediaQuery.of(context).size.width * 0.9,
               child: ElevatedButton(
-                onPressed: _login,
+                onPressed: () {
+                  if (email.text.isEmpty || password.text.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Please enter detials')),
+                    );
+                  } else {
+                    _login();
+                  }
+                },
                 // GoRouterof(context).pushNamed(PatientRoutes.homePage);
 
                 style: ElevatedButton.styleFrom(

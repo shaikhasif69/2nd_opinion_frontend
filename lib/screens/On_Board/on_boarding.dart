@@ -73,13 +73,9 @@ class _on_boardingState extends State<on_boarding> {
                         //   context,
                         //   onValue: (_) {},
                         // );
-                        // GoRouter.of(context)
-                        //     .pushNamed(CommonRoutes.onBoardScreen);
-                        Navigator.push(
-                            context,
-                            PageTransition(
-                                type: PageTransitionType.bottomToTop,
-                                child: OnbodingScreen()));
+                        GoRouter.of(context)
+                            .pushNamed(PatientRoutes.uLogin);
+                     
                       },
                       child: Container(
                         height: MediaQuery.of(context).size.height * 0.05,

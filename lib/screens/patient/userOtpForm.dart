@@ -1,5 +1,4 @@
 import 'package:doctor_opinion/models/hiveModels/user.dart';
-import 'package:doctor_opinion/provider/UserProviders.dart';
 import 'package:doctor_opinion/router/NamedRoutes.dart';
 import 'package:doctor_opinion/services/authServices.dart';
 import 'package:doctor_opinion/services/hiveServices.dart';
@@ -30,29 +29,27 @@ class _userOtpFormPageState extends State<userOtpFormPage> {
           await userService.verifyOtp(widget.email, otpController.text);
       if (response['response'] == 'Success') {
         User user = User.fromJson(response['user']);
-        HiveUser hiveUser = HiveUser(
-          id: user.id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          address: user.address,
-          phone: user.phone,
-          email: user.email,
-          username: user.username,
-          profilePicture: user.profilePicture,
-          gender: user.gender,
-        );
+        // HiveUser hiveUser = HiveUser(
+        //   id: user.id,
+        //   firstName: user.firstName,
+        //   lastName: user.lastName,
+        //   address: user.address,
+        //   phone: user.phone,
+        //   email: user.email,
+        //   username: user.username,
+        //   profilePicture: user.profilePicture,
+        //   gender: user.gender,
+        // );
 
-        final hiveService = HiveService();
-        await hiveService.saveUser(hiveUser);
-        final userProvider = Provider.of<UserProvider>(context, listen: false);
-        userProvider.setUser(User.fromJson(response['user']));
+        // final hiveService = HiveService();
+        // await hiveService.saveUser(hiveUser);
         await _authService.storeLoginDetails(
           'user',
           response['token'] ?? '',
           widget.email,
         );
         print('Navigating to home page...');
-        GoRouter.of(context).pushNamed(PatientRoutes.homePage);
+        GoRouter.of(context).go(PatientRoutes.homePage);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Invalid OTP')),

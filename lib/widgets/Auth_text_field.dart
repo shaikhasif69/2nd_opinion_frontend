@@ -40,11 +40,11 @@ class _AuthTextFieldState extends State<AuthTextField> {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.06,
-        width: MediaQuery.of(context).size.width * 0.9,
+        // height: MediaQuery.of(context).size.height * 0.06,
+        // width: MediaQuery.of(context).size.width * 0.9,
         decoration: BoxDecoration(
           color: Color.fromARGB(255, 247, 247, 247),
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(20),
           border: showBorder ? Border.all(width: 2, color: ourPrimary) : Border.all(width: 0, color: ourPrimary)
         ),
         child: TextField(

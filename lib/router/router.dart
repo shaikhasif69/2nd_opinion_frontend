@@ -6,6 +6,7 @@ import 'package:doctor_opinion/screens/doctor/dHomePage.dart';
 import 'package:doctor_opinion/screens/doctor/dLoginPage.dart';
 import 'package:doctor_opinion/screens/doctor/doctorOtpForm.dart';
 import 'package:doctor_opinion/screens/doctor/signup.dart';
+import 'package:doctor_opinion/screens/login.dart';
 import 'package:doctor_opinion/screens/loginPage.dart';
 import 'package:doctor_opinion/screens/patient/login_form.dart';
 import 'package:doctor_opinion/screens/patient/userOtpForm.dart';
@@ -18,6 +19,7 @@ import 'package:doctor_opinion/screens/views/Screen1.dart';
 import 'package:doctor_opinion/screens/views/appointment.dart';
 import 'package:doctor_opinion/screens/views/doctor_details_screen.dart';
 import 'package:doctor_opinion/screens/views/searchPage.dart';
+import 'package:doctor_opinion/screens/views/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,13 +28,13 @@ class MyGoRouter {
   final GoRouter router = GoRouter(routes: [
     //Patient routes
     //uncomment this later!
-    // GoRoute(
-    //   path: "/",
-    //   name: CommonRoutes.login,
-    //   pageBuilder: (context, state) {
-    //     return MaterialPage(child: on_boarding());
-    //   },
-    // ),
+    GoRoute(
+      path: CommonRoutes.login,
+      name: CommonRoutes.login,
+      pageBuilder: (context, state) {
+        return MaterialPage(child: on_boarding());
+      },
+    ),
     GoRoute(
       path: '/',
       redirect: (context, state) async {
@@ -47,8 +49,8 @@ class MyGoRouter {
         } else if (isUserLoggedIn) {
           return PatientRoutes.homePage;
         } else {
-          return DoctorRoutes.loginPage;
-          // return CommonRoutes.onBoardScreen;
+          // return DoctorRoutes.loginPage;
+          return CommonRoutes.splashScreen;
         }
       },
     ),
@@ -59,6 +61,13 @@ class MyGoRouter {
         name: CommonRoutes.onBoardScreen,
         pageBuilder: (context, state) {
           return const MaterialPage(child: on_boarding());
+        }),
+
+         GoRoute(
+        path: CommonRoutes.splashScreen,
+        name: CommonRoutes.splashScreen,
+        pageBuilder: (context, state) {
+          return const MaterialPage(child: SplashScreen());
         }),
 
     GoRoute(
@@ -72,6 +81,15 @@ class MyGoRouter {
       name: DoctorRoutes.loginPage,
       pageBuilder: (context, state) {
         return MaterialPage(child: DoctorLogin());
+      },
+    ),
+
+    // user login : 
+    GoRoute(
+      path: PatientRoutes.uLogin,
+      name: PatientRoutes.uLogin,
+      pageBuilder: (context, state) {
+        return MaterialPage(child: login());
       },
     ),
     GoRoute(
@@ -100,12 +118,7 @@ class MyGoRouter {
         pageBuilder: (context, state) {
           return MaterialPage(child: Register());
         }),
-    // GoRoute(
-    //     path: CommonRoutes.onBoardScreen,
-    //     name: CommonRoutes.onBoardScreen,
-    //     pageBuilder: (context, state) {
-    //       return MaterialPage(child: OnbodingScreen());
-    //     }),
+   
     GoRoute(
         path: PatientRoutes.pProfile,
         name: PatientRoutes.pProfile,

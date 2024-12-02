@@ -32,7 +32,10 @@ class HiveUser extends HiveObject {
   final String gender;
 
 
-
+  Future<void> clearUser() async {
+    final box = await Hive.openBox<HiveUser>('userBox');
+    await box.clear(); 
+  }
 
 
   HiveUser({

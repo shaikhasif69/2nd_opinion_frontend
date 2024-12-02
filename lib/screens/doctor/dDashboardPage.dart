@@ -58,8 +58,8 @@ class _DoctorDashboardState extends State<DoctorDashboard> {
               final user = users[index];
               return ListTile(
                 title: Text(
-                    "${user.firstName ?? 'N/A'} ${user.lastName ?? 'N/A'}"),
-                subtitle: Text(user.email ?? 'No email'),
+                    "${user.userObject.firstName ?? 'N/A'} ${user.userObject.lastName ?? 'N/A'}"),
+                subtitle: Text(user.userObject.email ?? 'No email'),
               );
             },
           ),

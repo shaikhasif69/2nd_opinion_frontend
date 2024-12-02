@@ -41,12 +41,12 @@ class _DoctorLoginState extends State<DoctorLogin> {
     });
 
     if (response['success'] == true) {
-      Doctor doctor = Doctor.fromJson(response['doctor']);
+      DoctorClass doctor = DoctorClass.fromJson(response['doctor']);
       DoctorHive hiveDoctor = DoctorHive(
         id: doctor.id,
         firstName: doctor.firstName,
         lastName: doctor.lastName,
-        address: doctor.address,
+        address: "",
         phone: doctor.phone,
         email: doctor.email,
         username: doctor.username,

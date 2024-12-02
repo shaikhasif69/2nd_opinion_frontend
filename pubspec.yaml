@@ -91,6 +91,8 @@ flutter:
     - images/
     - lib/icons/
     - assets/
+    - assets/Backgrounds/
+    - assets/images/
     - assets/RiveAssets/
     - assets/RiveAssets/icons.riv
     - assets/RiveAssets/hamburger_menu.riv

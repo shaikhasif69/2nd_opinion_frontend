@@ -43,12 +43,12 @@ class _DoctorOptFormState extends State<DoctorOptForm> {
 final response = await DoctorServices.verifyDocOtp(widget.email, otpController.text);
  if (response['message'] == 'Success') {
         var doctorData = response['doctor'];
-        Doctor doctor = Doctor.fromJson(doctorData);
+        DoctorClass doctor = DoctorClass.fromJson(doctorData);
         DoctorHive hiveDoctor = DoctorHive(
           id: doctor.id,
           firstName: doctor.firstName,
           lastName: doctor.lastName,
-          address: doctor.address,
+          address: '',
           phone: doctor.phone,
           email: doctor.email,
           username: doctor.username,

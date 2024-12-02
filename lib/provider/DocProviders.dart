@@ -72,42 +72,42 @@ class DoctorProvider with ChangeNotifier {
     }
   }
 
-  Future<void> verifyDoctorOtp({
-    required String email,
-    required String otp,
-  }) async {
-    _isSubmitting = true;
-    notifyListeners();
-    try {
-      var response = await DoctorServices.verifyDocOtp(email, otp);
-      if (response['message'] == 'Success') {
-        var doctorData = response['doctor'];
-        Doctor doctor = Doctor.fromJson(doctorData);
-        DoctorHive hiveDoctor = DoctorHive(
-          id: doctor.id,
-          firstName: doctor.firstName,
-          lastName: doctor.lastName,
-          address: doctor.address,
-          phone: doctor.phone,
-          email: doctor.email,
-          username: doctor.username,
-          profilePicture: doctor.profilePicture,
-          gender: doctor.gender,
-        );
+  // Future<void> verifyDoctorOtp({
+  //   required String email,
+  //   required String otp,
+  // }) async {
+  //   _isSubmitting = true;
+  //   notifyListeners();
+  //   try {
+  //     var response = await DoctorServices.verifyDocOtp(email, otp);
+  //     if (response['message'] == 'Success') {
+  //       var doctorData = response['doctor'];
+  //       Doctor doctor = Doctor.fromJson(doctorData);
+  //       DoctorHive hiveDoctor = DoctorHive(
+  //         id: doctor.id,
+  //         firstName: doctor.firstName,
+  //         lastName: doctor.lastName,
+  //         address: doctor.address,
+  //         phone: doctor.phone,
+  //         email: doctor.email,
+  //         username: doctor.username,
+  //         profilePicture: doctor.profilePicture,
+  //         gender: doctor.gender,
+  //       );
 
-        final hiveService = HiveService();
-        await hiveService.saveDcotr(hiveDoctor);
-        setDoctor(doctor);
-        print("Doctor is logged in: ${isLoggedIn}");
-        print("Doctor logged in successfully!");
-      } else {
-        print("OTP verification failed: ${response['message']}");
-      }
-    } catch (e) {
-      print("error: " + e.toString());
-    } finally {
-      _isSubmitting = false;
-      notifyListeners();
-    }
-  }
+  //       final hiveService = HiveService();
+  //       await hiveService.saveDcotr(hiveDoctor);
+  //       setDoctor(doctor);
+  //       print("Doctor is logged in: ${isLoggedIn}");
+  //       print("Doctor logged in successfully!");
+  //     } else {
+  //       print("OTP verification failed: ${response['message']}");
+  //     }
+  //   } catch (e) {
+  //     print("error: " + e.toString());
+  //   } finally {
+  //     _isSubmitting = false;
+  //     notifyListeners();
+  //   }
+  // }
 }

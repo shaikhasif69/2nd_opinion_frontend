@@ -1,13 +1,15 @@
 import 'package:doctor_opinion/components/constant.dart';
 import 'package:doctor_opinion/models/hiveModels/user.dart';
-import 'package:doctor_opinion/provider/UserProviders.dart';
+import 'package:doctor_opinion/router/NamedRoutes.dart';
 import 'package:doctor_opinion/services/hiveServices.dart';
 import 'package:doctor_opinion/widgets/profile_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile_screen extends StatefulWidget {
   const Profile_screen({super.key});
@@ -18,12 +20,38 @@ class Profile_screen extends StatefulWidget {
 
 class _Profile_screenState extends State<Profile_screen> {
   late String userName = "";
+  late String phone = "";
+  late String email = "";
+  late String profilePicture = "";
 
   @override
   void initState() {
     super.initState();
     getUserDetails();
   }
+
+  Future<void> handleLogout(BuildContext context) async {
+  final hiveService = HiveService();
+ HiveUser? user = await hiveService.getUser();
+
+  // Clear Hive user data
+  await user!.clearUser();
+
+  // Clear shared preferences login status
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.remove('user_isLoggedIn');
+
+  // Clear state
+  setState(() {
+    userName = "";
+    phone = "";
+    email = "";
+    profilePicture = "";
+  });
+
+  GoRouter.of(context).go(CommonRoutes.login); 
+}
+
 
   Future<void> getUserDetails() async {
     final hiveService = HiveService();
@@ -34,76 +62,69 @@ class _Profile_screenState extends State<Profile_screen> {
       print('User Name: ${user.firstName} ${user.lastName}');
       setState(() {
         userName = '${user.firstName} ${user.lastName}';
+        phone = user.phone;
+        email = user.email;
+        profilePicture = user.profilePicture;
       });
       // Use the user data as needed
     }
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: MyColors.backgroundColorLight,
-      // appBar: AppBar(
-      //   elevation: 0,
-      //   backgroundColor: Colors.transparent,
-      //   foregroundColor: Colors.black,
-      //   title: const Text("PROFILE"),
-      //   centerTitle: true,
-      //   actions: [
-      //     IconButton(
-      //       onPressed: () {},
-      //       icon: const Icon(Icons.settings_rounded),
-      //     )
-      //   ],
-      // ),
-      body: ListView(
-        padding: const EdgeInsets.all(10),
+Widget build(BuildContext context) {
+  print(profilePicture);
+  return Scaffold(
+    backgroundColor: MyColors.backgroundColorLight,
+    body: SingleChildScrollView(
+      padding: const EdgeInsets.all(10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
+          const SizedBox(height: 30),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(
-                height: 30,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(left: 10.0),
-                    child: Text(
-                      "Profile",
-                      style:
-                          TextStyle(fontSize: 25, fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 6.0),
-                    child: GestureDetector(
-                        onTap: () {
-                          print("tap tap");
-                        },
-                        child: Icon(Icons.settings)),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              const CircleAvatar(
-                radius: 50,
-                backgroundImage: NetworkImage(
-                  "https://images.unsplash.com/photo-1554151228-14d9def656e4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=386&q=80",
+              const Padding(
+                padding: EdgeInsets.only(left: 10.0),
+                child: Text(
+                  "Profile",
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700),
                 ),
               ),
-              const SizedBox(height: 10),
-              Text(
-                userName,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+              Padding(
+                padding: const EdgeInsets.only(right: 6.0),
+                child: GestureDetector(
+                  onTap: () {
+                    print("tap tap");
+                  },
+                  child: Icon(Icons.settings),
                 ),
               ),
-              Text("Junior Product Designer")
             ],
+          ),
+          const SizedBox(height: 10),
+          Center(
+            child: CircleAvatar(
+              radius: 50,
+              backgroundImage: NetworkImage(
+                profilePicture,
+              ),
+            ),
+          ),
+          const SizedBox(height: 10),
+          Center(
+            child: Column(
+              children: [
+                Text(
+                  userName,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const Text("Junior Product Designer"),
+              ],
+            ),
           ),
           const SizedBox(height: 25),
           Row(
@@ -122,7 +143,7 @@ class _Profile_screenState extends State<Profile_screen> {
                 style: TextStyle(
                   color: Colors.blue,
                 ),
-              )
+              ),
             ],
           ),
           const SizedBox(height: 10),
@@ -171,10 +192,11 @@ class _Profile_screenState extends State<Profile_screen> {
                             style: ElevatedButton.styleFrom(
                               elevation: 0,
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10)),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
                             ),
                             child: Text(card.buttonText),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -186,29 +208,35 @@ class _Profile_screenState extends State<Profile_screen> {
               itemCount: profileCompletionCards.length,
             ),
           ),
-          const SizedBox(height: 35),
-          ...List.generate(
-            customListTiles.length,
-            (index) {
-              final tile = customListTiles[index];
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 5),
-                child: Card(
-                  elevation: 4,
-                  shadowColor: Colors.black12,
-                  child: ListTile(
-                    leading: Icon(tile.icon),
-                    title: Text(tile.title),
-                    trailing: const Icon(Icons.chevron_right),
+          const SizedBox(height: 15),
+           SizedBox(
+            height: 300,  
+            child: ListView.builder(
+              itemCount: customListTiles(context, handleLogout).length,
+              itemBuilder: (context, index) {
+                final tile = customListTiles(context, handleLogout)[index];
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 5),
+                  child: Card(
+                    elevation: 4,
+                    shadowColor: Colors.black12,
+                    child: ListTile(
+                      leading: Icon(tile.icon),
+                      title: Text(tile.title),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: tile.onTap,
+                    ),
                   ),
-                ),
-              );
-            },
-          )
+                );
+              },
+            ),
+          ),
         ],
       ),
-    );
-  }
+    ),
+  );
+}
+
 }
 
 class ProfileCompletionCard {
@@ -239,31 +267,39 @@ List<ProfileCompletionCard> profileCompletionCards = [
     buttonText: "Add",
   ),
 ];
-
 class CustomListTile {
   final IconData icon;
   final String title;
+  final VoidCallback onTap;  
+
   CustomListTile({
     required this.icon,
     required this.title,
+    required this.onTap,  
   });
 }
 
-List<CustomListTile> customListTiles = [
+List<CustomListTile> customListTiles(BuildContext context, Function handleLogout) => [
   CustomListTile(
     icon: Icons.insights,
     title: "Activity",
-  ),
-  CustomListTile(
-    icon: Icons.location_on_outlined,
-    title: "Location",
+    onTap: () {
+      print("Activity clicked");
+    },
   ),
   CustomListTile(
     title: "Notifications",
     icon: CupertinoIcons.bell,
+    onTap: () {
+      print("Notifications clicked");
+    },
   ),
   CustomListTile(
     title: "Logout",
     icon: CupertinoIcons.arrow_right_arrow_left,
+    onTap: () {
+      print("Logout clicked");
+      handleLogout(context);
+    },
   ),
 ];

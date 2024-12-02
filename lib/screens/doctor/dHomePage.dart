@@ -209,15 +209,15 @@ class _DoctorHomePageState extends State<DoctorHomePage>
                       navBar: navBar,
                       press: () {
                         print('index: ' + index.toString());
-                        RiveUtils.chnageSMIBoolState(navBar.rive.status!);
+                        RiveUtils.chnageSMIBoolState(navBar.rive!.status!);
                         updateSelectedBtmNav(navBar);
                          setState(() {
                           page = index;
                         });
                       },
                       riveOnInit: (artboard) {
-                        navBar.rive.status = RiveUtils.getRiveInput(artboard,
-                            stateMachineName: navBar.rive.stateMachineName);
+                        navBar.rive!.status = RiveUtils.getRiveInput(artboard,
+                            stateMachineName: navBar.rive!.stateMachineName);
                       },
                       selectedNav: selectedBottonNav,
                     );

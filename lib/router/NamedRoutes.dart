@@ -9,6 +9,7 @@ class DoctorRoutes {
 
 class PatientRoutes {
   static String signUp = "/patient/signUp";
+  static String uLogin = "/patient/u-Login";
   static String pProfile = "/patient/profile";
   static String homePage = "/patient/homepage";
   static String doctorProfile = "/patient/dprofile";

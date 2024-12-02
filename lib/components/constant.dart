@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 // String ip = "https://doctor-hub-six.vercel.app/api";
 
-String ip = "http://192.168.0.102:3000/api";
-String chatIp = "http://192.168.0.102:3000/api/chat";
+String ip = "http://192.168.0.105:3000/api";
+String chatIp = "http://192.168.0.105:3000/api/chat";
 
 Color ourPrimary = const Color.fromARGB(255, 3, 190, 150);
 

@@ -1,10 +1,13 @@
+import 'package:flutter/material.dart';
+
 import 'rive_model.dart';
 
 class Menu {
   final String title;
-  final RiveModel rive;
+  final RiveModel? rive;
+  final IconData? icon;
 
-  Menu({required this.title, required this.rive});
+  Menu({required this.title, this.rive, this.icon});
 }
 
 List<Menu> sidebarMenus = [
@@ -14,6 +17,10 @@ List<Menu> sidebarMenus = [
         src: "assets/RiveAssets/icons.riv",
         artboard: "HOME",
         stateMachineName: "HOME_interactivity"),
+  ),
+  Menu(
+    title: "My Orders",  // Using a standard Flutter icon here
+    icon: Icons.shopping_cart,
   ),
   Menu(
     title: "Search",

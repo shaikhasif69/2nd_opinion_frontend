@@ -44,12 +44,12 @@ class DoctorHive {
     required this.gender,
   });
 
-  factory DoctorHive.fromDoctor(Doctor doctor) {
+  factory DoctorHive.fromDoctor(DoctorClass doctor) {
     return DoctorHive(
       id: doctor.id,
       firstName: doctor.firstName,
       lastName: doctor.lastName,
-      address: doctor.address,
+      address: "",
       phone: doctor.phone,
       email: doctor.email,
       username: doctor.username,
@@ -58,19 +58,18 @@ class DoctorHive {
     );
   }
 
-  Doctor toDoctor() {
-    return Doctor(
+  DoctorClass toDoctor() {
+    return DoctorClass(
       id: id ?? '',
       firstName: firstName,
       lastName: lastName,
-      address: address,
-      phone: phone,
+      phone: phone.toString(),
       email: email,
       username: username,
-      profilePicture: profilePicture,
+      profilePicture: profilePicture.toString(),
       gender: gender,
       education: [],
-      achievements: [],
+      achievements: [], ratings: 0, verified: false, specialty: [],
     );
   }
 }

@@ -31,8 +31,8 @@ class BtmNavItem extends StatelessWidget {
             child: Opacity(
               opacity: selectedNav == navBar ? 1 : 0.5,
               child: RiveAnimation.asset(
-                navBar.rive.src,
-                artboard: navBar.rive.artboard,
+                navBar.rive!.src,
+                artboard: navBar.rive!.artboard,
                 onInit: riveOnInit,
               ),
             ),

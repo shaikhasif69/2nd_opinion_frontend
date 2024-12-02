@@ -156,17 +156,17 @@ class DoctorServices {
     );
     if (response.statusCode == 200) {
       final body = jsonDecode(response.body);
-        return {
-          'success': true,
-          'doctor': body['doctor'],
-          'token': body['token'],
-        };
+      return {
+        'success': true,
+        'doctor': body['doctor'],
+        'token': body['token'],
+      };
     } else {
-        print("Sign-up failed: ${response.statusCode}");
-        return {
-          'success': false,
-          'message': jsonDecode(response.body)['message'],
-        };
+      print("Sign-up failed: ${response.statusCode}");
+      return {
+        'success': false,
+        'message': jsonDecode(response.body)['message'],
+      };
     }
   }
 

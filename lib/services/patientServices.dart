@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:doctor_opinion/components/constant.dart';
 import 'package:doctor_opinion/models/patient/User.dart';
 import 'package:doctor_opinion/models/doctor/Doctor.dart';
-import 'package:doctor_opinion/provider/UserProviders.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
@@ -80,13 +79,12 @@ class UserService {
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'username': username, 'password': password}),
     );
-
     if (response.statusCode == 200) {
       final jsonResponse = jsonDecode(response.body);
-      User user = User.fromJson(jsonResponse['user']);
       return jsonResponse;
     } else {
-      throw Exception('Failed to login');
+      return {'error': 'Invalid credentials, please try again'};
+
     }
   }
 
@@ -100,7 +98,6 @@ class UserService {
       if (response.statusCode == 200) {
         final List<dynamic> jsonResponse = jsonDecode(response.body);
 
-        // Map each JSON item to a Doctor instance and return the list
         List<Doctor> doctors = jsonResponse.map((doctorJson) {
           return Doctor.fromJson(doctorJson);
         }).toList();

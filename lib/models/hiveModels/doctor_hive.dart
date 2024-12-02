@@ -68,8 +68,7 @@ class DoctorHive {
       username: username,
       profilePicture: profilePicture.toString(),
       gender: gender,
-      education: [],
-      achievements: [], ratings: 0, verified: false, specialty: [],
+       ratings: 0, verified: false, specialty: [],
     );
   }
 }

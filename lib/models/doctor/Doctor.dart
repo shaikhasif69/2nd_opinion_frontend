@@ -114,7 +114,6 @@
 //   }
 // }
 
-
 class Doctor {
   bool success;
   DoctorClass doctor;
@@ -165,8 +164,6 @@ class DoctorClass {
   String username;
   String profilePicture;
   String gender;
-  List<Education> education;
-  List<dynamic> achievements;
   List<String> specialty;
 
   DoctorClass({
@@ -180,8 +177,6 @@ class DoctorClass {
     required this.username,
     required this.profilePicture,
     required this.gender,
-    required this.education,
-    required this.achievements,
     required this.specialty,
   });
 
@@ -197,10 +192,6 @@ class DoctorClass {
       username: json['username'] ?? '',
       profilePicture: json['profilePicture'] ?? '',
       gender: json['gender'] ?? '',
-      education: (json['education'] as List)
-          .map((e) => Education.fromJson(e))
-          .toList(),
-      achievements: json['achievements'] ?? [],
       specialty: List<String>.from(json['specialty'] ?? []),
     );
   }
@@ -217,8 +208,6 @@ class DoctorClass {
       'username': username,
       'profilePicture': profilePicture,
       'gender': gender,
-      'education': education.map((e) => e.toJson()).toList(),
-      'achievements': achievements,
       'specialty': specialty,
     };
   }
@@ -234,8 +223,6 @@ class DoctorClass {
     String? username,
     String? profilePicture,
     String? gender,
-    List<Education>? education,
-    List<dynamic>? achievements,
     List<String>? specialty,
   }) =>
       DoctorClass(
@@ -249,47 +236,6 @@ class DoctorClass {
         username: username ?? this.username,
         profilePicture: profilePicture ?? this.profilePicture,
         gender: gender ?? this.gender,
-        education: education ?? this.education,
-        achievements: achievements ?? this.achievements,
         specialty: specialty ?? this.specialty,
-      );
-}
-
-class Education {
-  String title;
-  String document;
-  String id;
-
-  Education({
-    required this.title,
-    required this.document,
-    required this.id,
-  });
-
-  factory Education.fromJson(Map<String, dynamic> json) {
-    return Education(
-      title: json['title'] ?? '',
-      document: json['document'] ?? '',
-      id: json['id'] ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'title': title,
-      'document': document,
-      'id': id,
-    };
-  }
-
-  Education copyWith({
-    String? title,
-    String? document,
-    String? id,
-  }) =>
-      Education(
-        title: title ?? this.title,
-        document: document ?? this.document,
-        id: id ?? this.id,
       );
 }

@@ -64,7 +64,7 @@ class UserProvider with ChangeNotifier {
   }
 
   List<User>? get users => _users;
-  
+
   void setUsers(List<User> users) {
     _users = users;
     notifyListeners();
@@ -82,16 +82,13 @@ class UserProvider with ChangeNotifier {
     }
   }
 
-  // Clear the user data
   void clearUser() {
     _user = null;
     notifyListeners();
   }
 
-  // Check if a user is logged in
   bool get isLoggedIn => _user != null;
 
-  // Update notification preferences
   void updateNotificationPreferences(NotificationPreferences preferences) {
     if (_user != null) {
       final updatedUserObject = _user!.userObject.copyWith(
@@ -100,4 +97,11 @@ class UserProvider with ChangeNotifier {
       updateUser(updatedUserObject);
     }
   }
+
+    void clearUsers() {
+    _users = null;
+    notifyListeners();
+  }
+  bool get hasUsers => _users != null && _users!.isNotEmpty;
+
 }

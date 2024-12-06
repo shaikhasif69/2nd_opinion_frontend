@@ -58,11 +58,11 @@ class _TabBarExampleState extends State<message_tab_all>
       body: Column(children: [
         GestureDetector(
           onTap: () {
-            Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.bottomToTop,
-                    child: chat_screen()));
+            // Navigator.push(
+            //     context,
+            //     PageTransition(
+            //         type: PageTransitionType.bottomToTop,
+            //         child: chat_screen()));
           },
           child: message_all_widget(
             image: "lib/icons/male-doctor.png",

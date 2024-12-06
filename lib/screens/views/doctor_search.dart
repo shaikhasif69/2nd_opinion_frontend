@@ -54,7 +54,7 @@ class doctor_search extends StatelessWidget {
       body: SafeArea(
           child: Column(
         children: [
-          GestureDetector(
+          // GestureDetector(
             // onTap: () {
             //   Navigator.push(
             //       context,
@@ -62,37 +62,37 @@ class doctor_search extends StatelessWidget {
             //           type: PageTransitionType.rightToLeft,
             //           child: DoctorDetails()));
             // },
-            child: doctorList(
-                distance: "800m Away",
-                image: "lib/icons/male-doctor.png",
-                maintext: "Dr. Marcus Horizon",
-                numRating: "4.7",
-                subtext: "Chardiologist"),
-          ),
-          doctorList(
-              distance: "800m Away",
-              image: "lib/icons/docto3.png",
-              maintext: "Dr. Marcus Horizon",
-              numRating: "4.7",
-              subtext: "Chardiologist"),
-          doctorList(
-              distance: "800m Away",
-              image: "lib/icons/doctor2.png",
-              maintext: "Dr. Marcus Horizon",
-              numRating: "4.7",
-              subtext: "Chardiologist"),
-          doctorList(
-              distance: "800m Away",
-              image: "lib/icons/black-doctor.png",
-              maintext: "Dr. Marcus Horizon",
-              numRating: "4.7",
-              subtext: "Chardiologist"),
-          doctorList(
-              distance: "800m Away",
-              image: "lib/icons/male-doctor.png",
-              maintext: "Dr. Marcus Horizon",
-              numRating: "4.7",
-              subtext: "Chardiologist"),
+          //   child: doctorList(
+          //       distance: "800m Away",
+          //       image: "lib/icons/male-doctor.png",
+          //       maintext: "Dr. Marcus Horizon",
+          //       numRating: "4.7",
+          //       subtext: "Chardiologist"),
+          // ),
+          // doctorList(
+          //     distance: "800m Away",
+          //     image: "lib/icons/docto3.png",
+          //     maintext: "Dr. Marcus Horizon",
+          //     numRating: "4.7",
+          //     subtext: "Chardiologist"),
+          // doctorList(
+          //     distance: "800m Away",
+          //     image: "lib/icons/doctor2.png",
+          //     maintext: "Dr. Marcus Horizon",
+          //     numRating: "4.7",
+          //     subtext: "Chardiologist"),
+          // doctorList(
+          //     distance: "800m Away",
+          //     image: "lib/icons/black-doctor.png",
+          //     maintext: "Dr. Marcus Horizon",
+          //     numRating: "4.7",
+          //     subtext: "Chardiologist"),
+          // doctorList(
+          //     distance: "800m Away",
+          //     image: "lib/icons/male-doctor.png",
+          //     maintext: "Dr. Marcus Horizon",
+          //     numRating: "4.7",
+          //     subtext: "Chardiologist"),
         ],
       )),
     );

@@ -1,9 +1,11 @@
+import 'package:doctor_opinion/models/doctor/Doctor.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class chat_doctor extends StatelessWidget {
-  const chat_doctor({super.key});
+  DoctorClass doctor;
+   chat_doctor({required this.doctor, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,7 @@ class chat_doctor extends StatelessWidget {
                       height: 10,
                     ),
                     Text(
-                      "Dr. Marcus Horizon",
+                     doctor.firstName + " " + doctor.lastName,
                       style: GoogleFonts.poppins(
                           fontSize: 17.sp,
                           fontWeight: FontWeight.w500,

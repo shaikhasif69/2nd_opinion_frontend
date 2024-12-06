@@ -151,15 +151,15 @@ class _D_chatPageState extends State<D_chatPage>
 
                       return GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            PageTransition(
-                                type: PageTransitionType.bottomToTop,
-                                // child: Text("something here1")
-                                child: chat_screen()
-                                // child: ChatScreen(chatId: chat['_id']),
-                                ),
-                          );
+                          // Navigator.push(
+                          //   context,
+                          //   PageTransition(
+                          //       type: PageTransitionType.bottomToTop,
+                          //       // child: Text("something here1")
+                          //       child: chat_screen()
+                          //       // child: ChatScreen(chatId: chat['_id']),
+                          //       ),
+                          // );
                         },
                         child: message_all_widget(
                           image: "lib/icons/male-doctor.png",

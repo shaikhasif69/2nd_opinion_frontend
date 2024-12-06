@@ -1,4 +1,5 @@
 import 'package:doctor_opinion/components/side_menu.dart';
+import 'package:doctor_opinion/models/doctor/Doctor.dart';
 import 'package:doctor_opinion/router/NamedRoutes.dart';
 import 'package:doctor_opinion/screens/On_Board/on_boarding.dart';
 import 'package:doctor_opinion/screens/On_Board/onboding_screen.dart';
@@ -20,6 +21,7 @@ import 'package:doctor_opinion/screens/views/appointment.dart';
 import 'package:doctor_opinion/screens/views/doctor_details_screen.dart';
 import 'package:doctor_opinion/screens/views/searchPage.dart';
 import 'package:doctor_opinion/screens/views/splash_screen.dart';
+import 'package:doctor_opinion/widgets/chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -140,12 +142,24 @@ class MyGoRouter {
           return MaterialPage(child: searchPage());
         }),
 
-    GoRoute(
-        path: PatientRoutes.doctorProfile,
-        name: PatientRoutes.doctorProfile,
-        pageBuilder: (context, state) {
-          return MaterialPage(child: DoctorDetails());
-        }),
+GoRoute(
+  path: PatientRoutes.doctorProfile,
+  name: PatientRoutes.doctorProfile,
+  pageBuilder: (context, state) {
+    final doctor = state.extra as DoctorClass;
+    return MaterialPage(
+      child: DoctorDetails(doctor: doctor),
+    );
+  },
+),
+
+  GoRoute(path: 
+  PatientRoutes.chatDoctorScreen,
+  name: PatientRoutes.chatDoctorScreen,
+  pageBuilder: (context, state) {
+    final doctor = state.extra as DoctorClass;
+    return MaterialPage(child: ChatScreen(doctor: doctor));
+  },),
     GoRoute(
         path: PatientRoutes.bookAppointment,
         name: PatientRoutes.bookAppointment,

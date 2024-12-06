@@ -1,23 +1,24 @@
+import 'package:doctor_opinion/models/doctor/Doctor.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class doctorList extends StatelessWidget {
-  final String image;
-  final String maintext;
-  final String subtext;
-  final String numRating;
-  final String distance;
+DoctorClass doctor;
 
   doctorList(
-      {required this.distance,
-      required this.image,
-      required this.maintext,
-      required this.numRating,
-      required this.subtext});
+      {required this.doctor,
+});
 
+var specialty = "";
   @override
   Widget build(BuildContext context) {
+    if(doctor.specialty.isEmpty){
+      specialty = "No speciality";
+    }
+    else{
+      specialty = doctor.specialty.first;
+    }
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Center(
@@ -41,7 +42,7 @@ class doctorList extends StatelessWidget {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
                     image: DecorationImage(
-                        image: AssetImage(image),
+                        image: NetworkImage(doctor.profilePicture),
                         filterQuality: FilterQuality.high,
                         fit: BoxFit.contain)),
               ),
@@ -55,14 +56,14 @@ class doctorList extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      maintext,
+                      doctor.firstName + " " + doctor.lastName,
                       style: GoogleFonts.poppins(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                     Text(
-                      subtext,
+                      specialty,
                       style: GoogleFonts.poppins(
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w400,
@@ -90,7 +91,7 @@ class doctorList extends StatelessWidget {
                                       filterQuality: FilterQuality.high)),
                             ),
                             Text(
-                              numRating,
+                              doctor.ratings.toString(),
                               style: GoogleFonts.poppins(
                                   fontSize: 11.sp,
                                   color: Color.fromARGB(255, 4, 179, 120),
@@ -119,7 +120,7 @@ class doctorList extends StatelessWidget {
                         width: 4,
                       ),
                       Text(
-                        distance,
+                        "130m away",
                         style: GoogleFonts.poppins(
                             fontSize: 11.sp,
                             color: Color.fromARGB(255, 133, 133, 133),

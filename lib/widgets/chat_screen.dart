@@ -1,298 +1,174 @@
-import 'package:doctor_opinion/widgets/chat_doctor.dart';
-import 'package:doctor_opinion/widgets/chat_info.dart';
+import 'package:doctor_opinion/models/hiveModels/user.dart';
+import 'package:doctor_opinion/services/chat_service.dart';
+import 'package:doctor_opinion/services/hiveServices.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_ui/flutter_chat_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
-class chat_screen extends StatelessWidget {
-  const chat_screen({super.key});
+class ChatScreen extends StatefulWidget {
+  final dynamic doctor;
+
+  const ChatScreen({Key? key, required this.doctor}) : super(key: key);
+
+  @override
+  _ChatScreenState createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends State<ChatScreen> {
+  final ChatService _chatService = ChatService();
+  final TextEditingController _messageController = TextEditingController();
+  late IO.Socket _socket;
+  String? _chatId;
+  List<dynamic> _messages = [];
+  late String userId;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeChat();
+  }
+
+
+  Future<void> getUserDetails() async {
+    final hiveService = HiveService();
+    HiveUser? user = await hiveService.getUser();
+
+    if (user != null) {
+      print('User ID: ${user.id}');
+      print('User Name: ${user.firstName} ${user.lastName}');
+      setState(() {
+       userId = user.id;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _socket.disconnect();
+    super.dispose();
+  }
+
+  Future<void> _initializeChat() async {
+    // Initialize chat via API
+    final chatData = await _chatService.getOrCreateChat(
+      userId, 
+      widget.doctor.id,
+    );
+
+    if (chatData != null) {
+      setState(() {
+        _chatId = chatData["chatId"];
+        _messages = chatData["messages"];
+      });
+
+      // Initialize WebSocket connection
+      _chatService.initSocketConnection();
+      _socket = _chatService.socket;
+
+      // Join the chat room
+      _chatService.joinChatRoom(userId, widget.doctor.id);
+
+      // Listen for new messages
+      _chatService.listenForNewMessages((message) {
+        setState(() {
+          _messages.add(message);
+        });
+      });
+    }
+  }
+
+  void _sendMessage() async {
+    if (_messageController.text.trim().isEmpty) return;
+
+    final messageText = _messageController.text.trim();
+    _messageController.clear();
+
+    // Send message via API
+    if (_chatId != null) {
+      final message = await _chatService.sendMessage(
+        _chatId!,
+        userId, // Replace with actual user ID
+        "User", // Sender model
+        messageText,
+      );
+
+      if (message != null) {
+        // Send message via WebSocket
+        _chatService.sendMessageViaSocket(
+          _chatId!,
+          userId,
+          "User",
+          messageText,
+        );
+
+        // Add message to the local UI
+        setState(() {
+          _messages.add(message);
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        // Leading icon for navigation
-        leading: GestureDetector(
-          onTap: () {
-            // Navigator.push(
-            //     context,
-            //     PageTransition(
-            //         type: PageTransitionType.fade, child: Homepage()));
-          },
-          child: Container(
-            height: 10,
-            width: 10,
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-              image: AssetImage("lib/icons/back1.png"),
-            )),
-          ),
-        ),
-        // Title of the chat screen
+        leading: BackButton(color: Colors.black),
         title: Text(
-          "Dr. Marcus Horizon",
-          style: GoogleFonts.poppins(
-              color: Colors.black,
-              fontWeight: FontWeight.w500,
-              fontSize: 17.sp),
+          "${widget.doctor.firstName} ${widget.doctor.lastName}",
+          style: TextStyle(color: Colors.black),
         ),
-        centerTitle: false,
+        backgroundColor: Colors.white,
         elevation: 0,
-        toolbarHeight: 100,
-        actions: [
+      ),
+      body: Column(
+        children: [
+          // Messages List
+          Expanded(
+            child: ListView.builder(
+              itemCount: _messages.length,
+              itemBuilder: (context, index) {
+                final message = _messages[index];
+                final isMine = message["senderId"] == userId; // Replace with actual user ID
+
+                return Align(
+                  alignment: isMine ? Alignment.centerRight : Alignment.centerLeft,
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: isMine ? Colors.green[100] : Colors.grey[300],
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(message["text"]),
+                  ),
+                );
+              },
+            ),
+          ),
+
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.all(10.0),
             child: Row(
               children: [
-                // Video call icon
-                Container(
-                  height: 18,
-                  width: 18,
-                  decoration: const BoxDecoration(
-                      image: DecorationImage(
-                    image: AssetImage("lib/icons/video_call.png"),
-                  )),
+                Expanded(
+                  child: TextField(
+                    controller: _messageController,
+                    decoration: InputDecoration(
+                      hintText: "Type a message...",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                  ),
                 ),
-                const SizedBox(
-                  width: 15,
-                ),
-                // Call icon
-                Container(
-                  height: 18,
-                  width: 18,
-                  decoration: const BoxDecoration(
-                      image: DecorationImage(
-                    image: AssetImage("lib/icons/call.png"),
-                  )),
-                ),
-                const SizedBox(
-                  width: 15,
-                ),
-                // More options icon
-                Container(
-                  height: 18,
-                  width: 18,
-                  decoration: const BoxDecoration(
-                      image: DecorationImage(
-                    image: AssetImage("lib/icons/more.png"),
-                  )),
+                IconButton(
+                  icon: Icon(Icons.send),
+                  onPressed: _sendMessage,
                 ),
               ],
             ),
           ),
-        ],
-        backgroundColor: Colors.white,
-      ),
-      body: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(18),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Widget to display chat information
-                const chat_info(),
-                const SizedBox(
-                  height: 30,
-                ),
-                // Widget to display doctor's information
-                const chat_doctor(),
-                const SizedBox(
-                  height: 15,
-                ),
-                // Container for user's introductory message
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.03,
-                  width: MediaQuery.of(context).size.width * 0.4500,
-                  decoration: const BoxDecoration(
-                    color: Color.fromARGB(255, 236, 232, 232),
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(10),
-                      bottomLeft: Radius.circular(10),
-                      bottomRight: Radius.circular(10),
-                    ),
-                  ),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Hello. how can i help you?",
-                          style: TextStyle(fontSize: 15.sp),
-                        )
-                      ]),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                // Container for user's message
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.09,
-                      width: MediaQuery.of(context).size.width * 0.5,
-                      decoration: const BoxDecoration(
-                        color: Color.fromARGB(255, 0, 131, 113),
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(0),
-                          topLeft: Radius.circular(10),
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10),
-                        ),
-                      ),
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Expanded(
-                              child: Padding(
-                                padding: EdgeInsets.all(8.0),
-                                // User's message content
-                                child: Text(
-                                  "I have suffering from headache and cold for 3 days, I took 2 tablets of dolo,\nbut still pain",
-                                  style: TextStyle(
-                                      fontSize: 14.sp, color: Colors.white),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: MediaQuery.of(context).size.height * 0.02,
-                              width: MediaQuery.of(context).size.width * 0.05,
-                              decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                      image: AssetImage("lib/icons/ticks.png"),
-                                      filterQuality: FilterQuality.high)),
-                            )
-                          ]),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                // Widget to display doctor's information
-                const chat_doctor(),
-                const SizedBox(
-                  height: 15,
-                ),
-                // Container for user's introductory message
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.03,
-                  width: MediaQuery.of(context).size.width * 0.4500,
-                  decoration: const BoxDecoration(
-                    color: Color.fromARGB(255, 236, 232, 232),
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(10),
-                      bottomLeft: Radius.circular(10),
-                      bottomRight: Radius.circular(10),
-                    ),
-                  ),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Hello. how can i help you?",
-                          style: TextStyle(fontSize: 14.sp),
-                        )
-                      ]),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                // Container for user's message
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.09,
-                      width: MediaQuery.of(context).size.width * 0.5,
-                      decoration: const BoxDecoration(
-                        color: Color.fromARGB(255, 0, 131, 113),
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(0),
-                          topLeft: Radius.circular(10),
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10),
-                        ),
-                      ),
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Expanded(
-                              child: Padding(
-                                padding: EdgeInsets.all(8.0),
-                                // User's message content
-                                child: Text(
-                                  "I have suffering from headache and cold for 3 days, I took 2 tablets of dolo,\nbut still pain",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 13.sp),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: MediaQuery.of(context).size.height * 0.02,
-                              width: MediaQuery.of(context).size.width * 0.05,
-                              decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                      image: AssetImage("lib/icons/ticks.png"),
-                                      filterQuality: FilterQuality.high)),
-                            ),
-                          ]),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Container(
-            height: MediaQuery.of(context).size.height * 0.1,
-            child: Row(children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Center(
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.1,
-                    width: MediaQuery.of(context).size.width * 0.82,
-                    child: TextField(
-                      textAlign: TextAlign.start,
-                      textInputAction: TextInputAction.none,
-                      obscureText: false,
-                      keyboardType: TextInputType.emailAddress,
-                      textAlignVertical: TextAlignVertical.center,
-                      decoration: InputDecoration(
-                        focusColor: Colors.black26,
-                        fillColor: Color.fromARGB(255, 247, 247, 247),
-                        filled: true,
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                          ),
-                          child: Container(
-                            height: 10,
-                            width: 10,
-                            child: Image.asset("lib/icons/pin.png"),
-                          ),
-                        ),
-                        prefixIconColor: const Color.fromARGB(255, 3, 190, 150),
-                        label: Text("Type message ..."),
-                        floatingLabelBehavior: FloatingLabelBehavior.never,
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ]),
-          )
         ],
       ),
     );

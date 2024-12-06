@@ -121,11 +121,11 @@ class _NotificationPageState extends State<NotificationPage>
                     ),
                     GestureDetector(
           onTap: () {
-            Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.bottomToTop,
-                    child: chat_screen()));
+            // Navigator.push(
+            //     context,
+            //     PageTransition(
+            //         type: PageTransitionType.bottomToTop,
+            //         child: chat_screen()));
           },
           child: message_all_widget(
             image: "lib/icons/personPic.png",

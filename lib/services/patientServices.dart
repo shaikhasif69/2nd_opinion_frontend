@@ -68,7 +68,7 @@ class UserService {
         throw Exception('User data not found in response');
       }
 
-      User user = User.fromJson(jsonResponse['user']);
+      // User user = User.fromJson(jsonResponse['user']);
 
       return jsonResponse;
     } else {
@@ -123,17 +123,26 @@ class UserService {
     try {
       var token = prefs.getString("user_token");
       final response = await http.get(
-        Uri.parse('$ip/api/doctor/top-doctors'),
+        Uri.parse('$ip/doctor/top-doctors'),
         headers: {
-          'Authorization': token.toString(),
+          'Authorization': "Bearer $token",
           'Content-Type': 'application/json'
         },
       );
 
+      print("working top " +  response.statusCode.toString());
+
       if (response.statusCode == 200) {
-        final jsonResponse = jsonDecode(response.body);
-        DoctorClass doctorClass = DoctorClass.fromJson(jsonResponse);
-        return [doctorClass];
+      print("working top 2");
+
+        final jsonResponse = jsonDecode(response.body) as List<dynamic>;
+      print("json response is: " + jsonResponse.toString());
+
+      List<DoctorClass> doctors = jsonResponse
+          .map((doctor) => DoctorClass.fromJson(doctor as Map<String, dynamic>))
+          .toList();
+
+      return doctors;
       } else {
         throw Exception('Failed to load doctors');
       }
@@ -146,13 +155,15 @@ class UserService {
   Future<List<DoctorClass>> fetchAvailableDoctors(String currentTime) async {
     try {
       var token = prefs.getString("user_token");
+
       final response = await http.get(
-        Uri.parse('$ip/api/doctor/available-doctors?currentTime=$currentTime'),
+        Uri.parse('$ip/doctor/available-doctors?currentTime=$currentTime'),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
         },
       );
+
 
       if (response.statusCode == 200) {
         List data = json.decode(response.body);
@@ -170,7 +181,7 @@ class UserService {
     try {
       var token = prefs.getString("user_token");
       final response = await http.get(
-        Uri.parse('$ip/api/doctor/search-doctors?name=$name'),
+        Uri.parse('$ip/doctor/search-doctors?name=$name'),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
@@ -193,7 +204,7 @@ class UserService {
   try {
     var token = prefs.getString("user_token");
     final response = await http.get(
-      Uri.parse('$ip/api/doctor/get-all-specialties'),
+      Uri.parse('$ip/doctor/get-all-specialties'),
       headers: {
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json',
@@ -215,7 +226,7 @@ Future<List<DoctorClass>> fetchDoctorsBySpecialty(String specialty) async {
   try {
     var token = prefs.getString("user_token");
     final response = await http.get(
-      Uri.parse('$ip/api/doctor/doctor-by-speciality/specialty?specialty=$specialty'),
+      Uri.parse('$ip/doctor/doctor-by-speciality/specialty?specialty=$specialty'),
       headers: {
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json',
@@ -238,7 +249,7 @@ Future<List<DoctorClass>> fetchDoctorsByLocation(String city) async {
   try {
     var token = prefs.getString("user_token");
     final response = await http.get(
-      Uri.parse('$ip/api/doctor/doctors-by-location?city=$city'),
+      Uri.parse('$ip/doctor/doctors-by-location?city=$city'),
       headers: {
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json',

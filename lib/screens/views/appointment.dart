@@ -56,13 +56,13 @@ class appointment extends StatelessWidget {
               const SizedBox(
                 height: 5,
               ),
-              doctorList(
-                distance: "800m away",
-                image: "lib/icons/male-doctor.png",
-                maintext: "Dr. Marcus Horizon",
-                numRating: "4.7",
-                subtext: "Cardiologist",
-              ),
+              // doctorList(
+              //   distance: "800m away",
+              //   image: "lib/icons/male-doctor.png",
+              //   maintext: "Dr. Marcus Horizon",
+              //   numRating: "4.7",
+              //   subtext: "Cardiologist",
+              // ),
               const SizedBox(
                 height: 10,
               ),

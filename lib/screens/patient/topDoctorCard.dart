@@ -1,23 +1,26 @@
+import 'package:doctor_opinion/models/doctor/Doctor.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class TopDoctorCard extends StatelessWidget {
-  final String image;
-  final String maintext;
-  final String subtext;
-  final String numRating;
-  final String distance;
+ DoctorClass doctor;
 
   TopDoctorCard(
-      {required this.distance,
-      required this.image,
-      required this.maintext,
-      required this.numRating,
-      required this.subtext});
+      {required this.doctor,
+     });
+    
 
   @override
   Widget build(BuildContext context) {
+    var something = "123";
+    if(doctor.specialty.isEmpty){
+      something = "No Specialty";
+    }
+    else{
+      something = doctor.specialty.first;
+    }
+    print("doctor: image: " +  doctor.profilePicture.toString());
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Container(
@@ -34,9 +37,10 @@ class TopDoctorCard extends StatelessWidget {
             //   height: 8,
             // ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
-                  height: 155,
+                  height: 185,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
@@ -46,13 +50,13 @@ class TopDoctorCard extends StatelessWidget {
                           height: 10,
                         ),
                         Text(
-                          maintext,
+                          doctor.firstName + " " + doctor.lastName,
                           style: GoogleFonts.poppins(
                               fontSize: 14.sp, fontWeight: FontWeight.bold),
                         ),
                         //Sub text
                         Text(
-                          subtext,
+                          something,
                           style: GoogleFonts.poppins(
                               fontSize: 12.sp,
                               color: Colors.black45,
@@ -122,7 +126,7 @@ class TopDoctorCard extends StatelessWidget {
                                   width: 5,
                                 ),
                                 Text(
-                                  numRating,
+                                  doctor.ratings.toString(),
                                   style: GoogleFonts.poppins(
                                       fontSize: 14.sp,
                                       color: Color.fromARGB(255, 4, 179, 120),
@@ -172,7 +176,7 @@ class TopDoctorCard extends StatelessWidget {
                   width: 110,
                   decoration: BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage(image),
+                          image: NetworkImage(doctor.profilePicture),
                           filterQuality: FilterQuality.high,
                           fit: BoxFit.cover),
                       shape: BoxShape.circle),

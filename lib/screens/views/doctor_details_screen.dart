@@ -1,3 +1,4 @@
+import 'package:doctor_opinion/models/doctor/Doctor.dart';
 import 'package:doctor_opinion/router/NamedRoutes.dart';
 import 'package:doctor_opinion/router/router.dart';
 import 'package:doctor_opinion/screens/views/appointment.dart';
@@ -10,6 +11,10 @@ import 'package:page_transition/page_transition.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class DoctorDetails extends StatefulWidget {
+  DoctorClass doctor;
+
+  DoctorDetails({required this.doctor});
+
   @override
   _DoctorDetailsState createState() => _DoctorDetailsState();
 }
@@ -42,7 +47,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
             ),
           ),
           title: Text(
-            "Top Doctors",
+            "Doctor",
             style: GoogleFonts.poppins(color: Colors.black, fontSize: 18.sp),
           ),
           centerTitle: true,
@@ -74,11 +79,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                   height: 5,
                 ),
                 doctorList(
-                  distance: "800m away",
-                  image: "lib/icons/male-doctor.png",
-                  maintext: "Dr. Marcus Horizon",
-                  numRating: "4.7",
-                  subtext: "Cardiologist",
+                  doctor: widget.doctor,
                 ),
                 const SizedBox(
                   height: 15,
@@ -160,7 +161,6 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                 const SizedBox(
                   height: 20,
                 ),
-                //Time select container importing widget from widgets/times_select
                 Container(
                   height: MediaQuery.of(context).size.height * 0.2400,
                   width: MediaQuery.of(context).size.width * 0.9,
@@ -225,17 +225,22 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.06,
-                        width: MediaQuery.of(context).size.width * 0.1300,
-                        decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 247, 247, 247),
-                            borderRadius: BorderRadius.circular(18),
-                            image: const DecorationImage(
-                                image: AssetImage(
-                                  "lib/icons/appoint.png",
-                                ),
-                                filterQuality: FilterQuality.high)),
+                      GestureDetector(
+                        onTap: () {
+                          GoRouter.of(context).pushNamed(PatientRoutes.chatDoctorScreen, extra: widget.doctor);
+                        },
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.06,
+                          width: MediaQuery.of(context).size.width * 0.1300,
+                          decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 247, 247, 247),
+                              borderRadius: BorderRadius.circular(18),
+                              image: const DecorationImage(
+                                  image: AssetImage(
+                                    "lib/icons/appoint.png",
+                                  ),
+                                  filterQuality: FilterQuality.high)),
+                        ),
                       ),
                       GestureDetector(
                         onTap: () {

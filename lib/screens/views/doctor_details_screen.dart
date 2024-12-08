@@ -1,7 +1,10 @@
 import 'package:doctor_opinion/models/doctor/Doctor.dart';
+import 'package:doctor_opinion/models/hiveModels/user.dart';
 import 'package:doctor_opinion/router/NamedRoutes.dart';
 import 'package:doctor_opinion/router/router.dart';
 import 'package:doctor_opinion/screens/views/appointment.dart';
+import 'package:doctor_opinion/services/hiveServices.dart';
+import 'package:doctor_opinion/services/socketServices.dart';
 import 'package:doctor_opinion/widgets/date_select.dart';
 import 'package:doctor_opinion/widgets/doctorList.dart';
 import 'package:flutter/material.dart';
@@ -22,10 +25,30 @@ class DoctorDetails extends StatefulWidget {
 class _DoctorDetailsState extends State<DoctorDetails> {
   bool showExtendedText = false;
 
+  @override
+  void initState() {
+    super.initState();
+    getUserId();
+  }
+
+   String userId = "";
+  final socketConnection = SocketConnection();
+
+ 
   void toggleTextVisibility() {
     setState(() {
       showExtendedText = !showExtendedText;
     });
+  }
+
+  Future<void> getUserId() async {
+    final hiveService = HiveService();
+    HiveUser? user = await hiveService.getUser();
+    if (user != null) {
+      setState(() {
+        userId = user.id;
+      });
+    } 
   }
 
   @override
@@ -227,7 +250,12 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          GoRouter.of(context).pushNamed(PatientRoutes.chatDoctorScreen, extra: widget.doctor);
+                          // Initialize SocketConnection (can be a singleton or passed as dependency)
+    //                 socketConnection.initializeSocket(); 
+    // socketConnection.joinChatRoom(userId, widget.doctor.id);
+                          GoRouter.of(context).pushNamed(
+                              PatientRoutes.chatDoctorScreen,
+                              extra: widget.doctor);
                         },
                         child: Container(
                           height: MediaQuery.of(context).size.height * 0.06,

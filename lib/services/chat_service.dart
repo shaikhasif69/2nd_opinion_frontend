@@ -13,6 +13,7 @@ class ChatService {
 
   Future<Map<String, dynamic>?> getOrCreateChat(String userId, String doctorId) async {
     try {
+      print("hitting me??");
       var token = prefs.getString("user_token");
 
       final response = await http.get(Uri.parse("$baseUrl/$userId/$doctorId"), headers: {
@@ -20,10 +21,13 @@ class ChatService {
         'Authorization' : "Bearer $token"
       });
 
+      print("response code; " + response.statusCode.toString());
+
       if (response.statusCode == 200) {
         print("worked??");
         return jsonDecode(response.body);
       } else {
+        print("what errro?");
         debugPrint("Error: ${response.statusCode} ${response.body}");
       }
     } catch (e) {

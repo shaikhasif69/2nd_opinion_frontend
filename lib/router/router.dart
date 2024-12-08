@@ -21,7 +21,7 @@ import 'package:doctor_opinion/screens/views/appointment.dart';
 import 'package:doctor_opinion/screens/views/doctor_details_screen.dart';
 import 'package:doctor_opinion/screens/views/searchPage.dart';
 import 'package:doctor_opinion/screens/views/splash_screen.dart';
-import 'package:doctor_opinion/widgets/chat_screen.dart';
+import 'package:doctor_opinion/widgets/chat_with_doc_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -65,7 +65,7 @@ class MyGoRouter {
           return const MaterialPage(child: on_boarding());
         }),
 
-         GoRoute(
+    GoRoute(
         path: CommonRoutes.splashScreen,
         name: CommonRoutes.splashScreen,
         pageBuilder: (context, state) {
@@ -86,7 +86,7 @@ class MyGoRouter {
       },
     ),
 
-    // user login : 
+    // user login :
     GoRoute(
       path: PatientRoutes.uLogin,
       name: PatientRoutes.uLogin,
@@ -120,7 +120,7 @@ class MyGoRouter {
         pageBuilder: (context, state) {
           return MaterialPage(child: Register());
         }),
-   
+
     GoRoute(
         path: PatientRoutes.pProfile,
         name: PatientRoutes.pProfile,
@@ -142,24 +142,25 @@ class MyGoRouter {
           return MaterialPage(child: searchPage());
         }),
 
-GoRoute(
-  path: PatientRoutes.doctorProfile,
-  name: PatientRoutes.doctorProfile,
-  pageBuilder: (context, state) {
-    final doctor = state.extra as DoctorClass;
-    return MaterialPage(
-      child: DoctorDetails(doctor: doctor),
-    );
-  },
-),
+    GoRoute(
+      path: PatientRoutes.doctorProfile,
+      name: PatientRoutes.doctorProfile,
+      pageBuilder: (context, state) {
+        final doctor = state.extra as DoctorClass;
+        return MaterialPage(
+          child: DoctorDetails(doctor: doctor),
+        );
+      },
+    ),
 
-  GoRoute(path: 
-  PatientRoutes.chatDoctorScreen,
-  name: PatientRoutes.chatDoctorScreen,
-  pageBuilder: (context, state) {
-    final doctor = state.extra as DoctorClass;
-    return MaterialPage(child: ChatScreen(doctor: doctor));
-  },),
+    GoRoute(
+      path: PatientRoutes.chatDoctorScreen,
+      name: PatientRoutes.chatDoctorScreen,
+      pageBuilder: (context, state) {
+        final doctor = state.extra as DoctorClass;
+        return MaterialPage(child: ChatWithDocScreen(doctor: doctor));
+      },
+    ),
     GoRoute(
         path: PatientRoutes.bookAppointment,
         name: PatientRoutes.bookAppointment,

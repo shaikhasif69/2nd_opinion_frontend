@@ -83,10 +83,15 @@ class UserService {
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'username': username, 'password': password}),
     );
+    print("response code: " + response.statusCode.toString());
     if (response.statusCode == 200) {
       final jsonResponse = jsonDecode(response.body);
       return jsonResponse;
-    } else {
+    }
+    else if(response.statusCode == 404){
+      return {"error": "Something Went Wrong"};
+    }
+     else {
       return {'error': 'Invalid credentials, please try again'};
     }
   }

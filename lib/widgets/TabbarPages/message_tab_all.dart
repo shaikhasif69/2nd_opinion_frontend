@@ -1,5 +1,5 @@
 import 'package:doctor_opinion/components/constant.dart';
-import 'package:doctor_opinion/widgets/chat_screen.dart';
+import 'package:doctor_opinion/widgets/chat_with_doc_screen.dart';
 import 'package:doctor_opinion/widgets/message_all_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

@@ -83,7 +83,7 @@ class UserObject {
     return UserObject(
       notificationPreferences:
           NotificationPreferences.fromJson(json['notificationPreferences']),
-      id: json['id'] ?? '',
+      id: json['_id'] ?? '',
       firstName: json['firstName'] ?? '',
       lastName: json['lastName'] ?? '',
       email: json['email'] ?? '',
@@ -98,7 +98,7 @@ class UserObject {
   Map<String, dynamic> toJson() {
     return {
       'notificationPreferences': notificationPreferences.toJson(),
-      'id': id,
+      '_id': id,
       'firstName': firstName,
       'lastName': lastName,
       'email': email,

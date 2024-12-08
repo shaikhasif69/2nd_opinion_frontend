@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class chat_doctor extends StatelessWidget {
+class chat_doctor_profile_widget extends StatelessWidget {
   DoctorClass doctor;
-   chat_doctor({required this.doctor, super.key});
+   chat_doctor_profile_widget({required this.doctor, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,13 +16,13 @@ class chat_doctor extends StatelessWidget {
           width: MediaQuery.of(context).size.width * 0.8,
           child: Row(children: [
             Container(
-              height: MediaQuery.of(context).size.height * 0.06,
+              height: MediaQuery.of(context).size.height * 0.07,
               width: MediaQuery.of(context).size.width * 0.1500,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: Colors.black,
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                    image: AssetImage("lib/icons/male-doctor.png"),
+                    image: NetworkImage(doctor.profilePicture),
                     filterQuality: FilterQuality.high),
               ),
             ),
@@ -35,9 +35,6 @@ class chat_doctor extends StatelessWidget {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
                     Text(
                      doctor.firstName + " " + doctor.lastName,
                       style: GoogleFonts.poppins(

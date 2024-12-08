@@ -5,6 +5,7 @@ import 'package:doctor_opinion/provider/UserProviders.dart';
 import 'package:doctor_opinion/router/router.dart';
 import 'package:doctor_opinion/screens/loginPage.dart';
 import 'package:doctor_opinion/services/authServices.dart';
+import 'package:doctor_opinion/services/socketServices.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
@@ -25,6 +26,7 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(HiveUserAdapter());
   Hive.registerAdapter(DoctorHiveAdapter());
+    socketConnection.initializeSocket();
   await AuthService.getPref();
   runApp(
     riverpod.ProviderScope(

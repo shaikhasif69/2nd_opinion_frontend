@@ -136,7 +136,7 @@ class _DashboardState extends ConsumerState<Dashboard> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    GoRouter.of(context).pushNamed(PatientRoutes.doctorProfile);
+                    print("categories is tapped!");
                     // Navigator.push(
                     //     context,
                     //     PageTransition(
@@ -154,95 +154,34 @@ class _DashboardState extends ConsumerState<Dashboard> {
               ],
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              listIcons(Icon: "lib/icons/Doctor.png", text: "Doctor"),
-              listIcons(Icon: "lib/icons/Pharmacy.png", text: "Pharmacy"),
-              listIcons(Icon: "lib/icons/Hospital.png", text: "Hospital"),
-              listIcons(Icon: "lib/icons/Ambulance.png", text: "Ambulance"),
-            ],
-          ),
+          Container(
+  height: MediaQuery.of(context).size.height * 0.16, 
+  child: ListView(
+    scrollDirection: Axis.horizontal,
+    children: [
+      listIcons(Icon: "lib/icons/Doctor.png", text: "Doctor"),
+      listIcons(Icon: "lib/icons/Pharmacy.png", text: "Pharmacy"),
+      listIcons(Icon: "lib/icons/Hospital.png", text: "Hospital"),
+      listIcons(Icon: "lib/icons/Ambulance.png", text: "Ambulance"),
+    ],
+  ),
+),
+
           _sectionHeader("Available Doctors", onTap: () {
             // Navigate to the full list of available doctors
           }),
           _doctorList(doctorState, doctorType: "available"),
           SizedBox(
-            height: 10,
+            height: 20,
           ),
           BannerCarousel(),
           const SizedBox(
             height: 20,
           ),
           _sectionHeader("Top Doctors", onTap: () {
-            // Navigate to the full list of top-rated doctors
+            // Navigate tso the full list of top-rated doctors
           }),
-          // SizedBox(
-          //   height: 20,
-          // ),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 15),
-          //   child: Container(
-          //     height: 190,
-          //     width: MediaQuery.of(context).size.width * 1,
-          //     child: ListView(
-          //       physics: BouncingScrollPhysics(),
-          //       scrollDirection: Axis.horizontal,
-          //       children: [
-          //         list_doctor1(
-          //             distance: "130m Away",
-          //             image: "lib/icons/male-doctor.png",
-          //             maintext: "Dr. Marcus Horizon",
-          //             numRating: "4.7",
-          //             subtext: "Chardiologist"),
-          //         list_doctor1(
-          //             distance: "130m Away",
-          //             image: "lib/icons/docto3.png",
-          //             maintext: "Dr. Maria Elena",
-          //             numRating: "4.6",
-          //             subtext: "Psychologist"),
-          //         list_doctor1(
-          //             distance: "2km away",
-          //             image: "lib/icons/doctor2.png",
-          //             maintext: "Dr. Stevi Jessi",
-          //             numRating: "4.8",
-          //             subtext: "Orthopedist"),
-          //       ],
-          //     ),
-          //   ),
-          // ),
-          // SizedBox(height: 20,),
-          //   Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          //   child: Container(
-          //     height: 160,
-          //     width: MediaQuery.of(context).size.width * 1,
-          //     child: ListView(
-          //       physics: BouncingScrollPhysics(),
-          //       scrollDirection: Axis.horizontal,
-          //       children: [
-          //         // TopDoctorCard(
-          //         //     distance: "130m Away",
-          //         //     image: "lib/icons/male-doctor.png",
-          //         //     maintext: "Dr. Marcus Horizon",
-          //         //     numRating: "4.7",
-          //         //     subtext: "Chardiologist"),
-          //         // TopDoctorCard(
-          //         //     distance: "130m Away",
-          //         //     image: "lib/icons/docto3.png",
-          //         //     maintext: "Dr. Maria Elena",
-          //         //     numRating: "4.6",
-          //         //     subtext: "Psychologist"),
-          //         // TopDoctorCard(
-          //         //     distance: "2km away",
-          //         //     image: "lib/icons/doctor2.png",
-          //         //     maintext: "Dr. Stevi Jessi",
-          //         //     numRating: "4.8",
-          //         //     subtext: "Orthopedist"),
-          //       ],
-          //     ),
-          //   ),
-          // ),
+     
           _doctorList(doctorState, doctorType: "top"),
           const SizedBox(
             height: 10,

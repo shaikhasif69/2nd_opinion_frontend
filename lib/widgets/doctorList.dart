@@ -50,7 +50,7 @@ var specialty = "";
                 width: 10,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.1200,
+                height: MediaQuery.of(context).size.height * 0.1400,
                 width: MediaQuery.of(context).size.width * 0.4,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,7 +1,7 @@
 import 'package:doctor_opinion/components/constant.dart';
 import 'package:doctor_opinion/services/chatServices.dart';
 import 'package:doctor_opinion/services/socketServices.dart';
-import 'package:doctor_opinion/widgets/chat_screen.dart';
+import 'package:doctor_opinion/widgets/chat_with_doc_screen.dart';
 import 'package:doctor_opinion/widgets/message_all_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -28,20 +28,20 @@ class _D_chatPageState extends State<D_chatPage>
     super.initState();
     tabController = TabController(length: 3, vsync: this);
     chats = ChatService().fetchChatsForDoctor(widget.doctorId);
-    SocketService.connect();
+    // SocketService.connect();
 
-    SocketService.socket?.on('newMessage', (data) {
-      setState(() {
-        chats = ChatService().fetchChatsForDoctor(widget.doctorId);
-        // Alternatively, you can directly update the chat list with the new message data
-      });
-    });
+    // SocketService.socket?.on('newMessage', (data) {
+    //   setState(() {
+    //     chats = ChatService().fetchChatsForDoctor(widget.doctorId);
+    //     // Alternatively, you can directly update the chat list with the new message data
+    //   });
+    // });
   }
 
   @override
   void dispose() {
     tabController.dispose();
-    SocketService.socket?.disconnect();
+    // SocketService.socket?.disconnect();
     super.dispose();
   }
 

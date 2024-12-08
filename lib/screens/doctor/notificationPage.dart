@@ -1,6 +1,6 @@
 import 'package:doctor_opinion/components/constant.dart';
 import 'package:doctor_opinion/screens/views/shedule_tab1.dart';
-import 'package:doctor_opinion/widgets/chat_screen.dart';
+import 'package:doctor_opinion/widgets/chat_with_doc_screen.dart';
 import 'package:doctor_opinion/widgets/message_all_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -95,19 +95,22 @@ class _NotificationPageState extends State<NotificationPage>
                                 controller: tabController,
                                 tabs: const [
                                   Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 10.0),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 10.0),
                                     child: Tab(
                                       text: "Chats",
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 10.0),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 10.0),
                                     child: Tab(
                                       text: "Reports",
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 10.0),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 10.0),
                                     child: Tab(
                                       text: "Others",
                                     ),
@@ -120,31 +123,31 @@ class _NotificationPageState extends State<NotificationPage>
                       ),
                     ),
                     GestureDetector(
-          onTap: () {
-            // Navigator.push(
-            //     context,
-            //     PageTransition(
-            //         type: PageTransitionType.bottomToTop,
-            //         child: chat_screen()));
-          },
-          child: message_all_widget(
-            image: "lib/icons/personPic.png",
-            Maintext: "Rakesh Patel",
-            subtext: "I don,t have any fever.",
-            time: "1.04",
-            message_count: "2",
-          ),
-        ),
+                      onTap: () {
+                        // Navigator.push(
+                        //     context,
+                        //     PageTransition(
+                        //         type: PageTransitionType.bottomToTop,
+                        //         child: chat_screen()));
+                      },
+                      child: message_all_widget(
+                        image: "lib/icons/personPic.png",
+                        Maintext: "Rakesh Patel",
+                        subtext: "I don,t have any fever.",
+                        time: "1.04",
+                        message_count: "2",
+                      ),
+                    ),
                     // Expanded(
-                        // child: TabBarView(
-                        //     controller: tabController,
-                        //     children: const [
-                        //   shedule_tab1(),
-                        //   shedule_tab1(),
-                        //   shedule_tab1(),
-                        //   // shedule_tab2(),
-                        //   // shedule_tab2(),
-                        // ]))
+                    // child: TabBarView(
+                    //     controller: tabController,
+                    //     children: const [
+                    //   shedule_tab1(),
+                    //   shedule_tab1(),
+                    //   shedule_tab1(),
+                    //   // shedule_tab2(),
+                    //   // shedule_tab2(),
+                    // ]))
                   ],
                 ),
               ),

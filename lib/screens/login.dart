@@ -111,7 +111,6 @@ class _loginState extends State<login> {
     if (response['success'] == true) {
 
       User user = User.fromJson(response);
-
       HiveUser hiveUser = HiveUser(
         id: user.userObject.id,
         firstName: user.userObject.firstName,

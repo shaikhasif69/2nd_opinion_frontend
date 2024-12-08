@@ -68,7 +68,7 @@ class DoctorClass {
     return DoctorClass(
       ratings: json['ratings'] ?? 0,
       verified: json['verified'] ?? false,
-      id: json['id'] ?? '',
+      id: json['_id'] ?? '',
       firstName: json['firstName'] ?? '',
       lastName: json['lastName'] ?? '',
       phone: json['phone'] ?? '',
@@ -84,7 +84,7 @@ class DoctorClass {
     return {
       'ratings': ratings,
       'verified': verified,
-      'id': id,
+      '_id': id,
       'firstName': firstName,
       'lastName': lastName,
       'phone': phone,

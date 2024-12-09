@@ -135,10 +135,8 @@ class UserService {
         },
       );
 
-      print("working top " +  response.statusCode.toString());
 
       if (response.statusCode == 200) {
-      print("working top 2");
 
         final jsonResponse = jsonDecode(response.body) as List<dynamic>;
       print("json response is: " + jsonResponse.toString());

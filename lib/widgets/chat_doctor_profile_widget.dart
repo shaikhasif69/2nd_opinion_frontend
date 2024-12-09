@@ -4,8 +4,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class chat_doctor_profile_widget extends StatelessWidget {
-  DoctorClass doctor;
-   chat_doctor_profile_widget({required this.doctor, super.key});
+  // DoctorClass doctor;
+  String docFirstName;
+  String docSecName;
+  String docProfilePic;
+
+   chat_doctor_profile_widget({required this.docFirstName, required this.docSecName, required this.docProfilePic, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +26,7 @@ class chat_doctor_profile_widget extends StatelessWidget {
                 color: Colors.black,
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                    image: NetworkImage(doctor.profilePicture),
+                    image: NetworkImage(docProfilePic),
                     filterQuality: FilterQuality.high),
               ),
             ),
@@ -36,7 +40,7 @@ class chat_doctor_profile_widget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                     doctor.firstName + " " + doctor.lastName,
+                     docFirstName + " " + docSecName,
                       style: GoogleFonts.poppins(
                           fontSize: 17.sp,
                           fontWeight: FontWeight.w500,

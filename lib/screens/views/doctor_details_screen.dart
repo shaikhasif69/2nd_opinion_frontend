@@ -255,7 +255,12 @@ class _DoctorDetailsState extends State<DoctorDetails> {
     // socketConnection.joinChatRoom(userId, widget.doctor.id);
                           GoRouter.of(context).pushNamed(
                               PatientRoutes.chatDoctorScreen,
-                              extra: widget.doctor);
+                              pathParameters: {
+                                "docId": widget.doctor.id,
+                                "docFirstName": widget.doctor.firstName,
+                                "docSecondName": widget.doctor.lastName,
+                                "docProfilePic": widget.doctor.profilePicture
+                              });
                         },
                         child: Container(
                           height: MediaQuery.of(context).size.height * 0.06,

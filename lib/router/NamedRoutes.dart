@@ -17,7 +17,7 @@ class PatientRoutes {
   static String dashboard = "/patient/dashboard";
   static String forgetPass = "/patient/forgetPass";
   static String searchSection = "/patient/searchPage";
-  static String chatDoctorScreen = "/patient/chatDoctorScreen";
+  static String chatDoctorScreen = "/patient/chatDoctorScreen/:docId/:docFirstName/:docSecondName/:docProfilePic";
 }
 
 class CommonRoutes {

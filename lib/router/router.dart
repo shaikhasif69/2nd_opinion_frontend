@@ -157,8 +157,18 @@ class MyGoRouter {
       path: PatientRoutes.chatDoctorScreen,
       name: PatientRoutes.chatDoctorScreen,
       pageBuilder: (context, state) {
-        final doctor = state.extra as DoctorClass;
-        return MaterialPage(child: ChatWithDocScreen(doctor: doctor));
+        final docId = state.pathParameters['docId']!;
+        final docFirstName = state.pathParameters['docFirstName']!;
+        final docSecondName = state.pathParameters['docSecondName']!;
+        final docProfilePic = state.pathParameters['docProfilePic']!;
+        return MaterialPage(
+          child: ChatWithDocScreen(
+            docId: docId,
+            docFirstName: docFirstName,
+            docProfilePic: docProfilePic,
+            docSecName: docSecondName,
+          ),
+        );
       },
     ),
     GoRoute(

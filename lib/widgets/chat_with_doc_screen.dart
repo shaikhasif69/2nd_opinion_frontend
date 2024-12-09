@@ -9,9 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:doctor_opinion/models/flutter_chat_types.dart' as types;
 
 class ChatWithDocScreen extends StatefulWidget {
-  final DoctorClass doctor;
+  // final DoctorClass doctor;
+  String docId; 
+    String docFirstName;
+  String docSecName;
+  String docProfilePic;
 
-  ChatWithDocScreen({required this.doctor, Key? key}) : super(key: key);
+
+  ChatWithDocScreen({required this.docId, required this.docFirstName, required this.docProfilePic, required this.docSecName, Key? key}) : super(key: key);
 
   @override
   State<ChatWithDocScreen> createState() => _ChatWithDocScreenState();
@@ -57,7 +62,7 @@ class _ChatWithDocScreenState extends State<ChatWithDocScreen> {
     }
 
     print("Joining chat room...");
-    socketConnection.joinChatRoom(userId, widget.doctor.id);
+    socketConnection.joinChatRoom(userId, widget.docId);
 
     while (ChatSessionManager().chatId == null) {
       print("Waiting for chatId to be set...");
@@ -77,7 +82,6 @@ class _ChatWithDocScreenState extends State<ChatWithDocScreen> {
       return;
     }
 
-    // Handle new messages received
     socketConnection.listenForNewMessages((data) {
       print("Received new message: $data");
       setState(() {
@@ -87,7 +91,7 @@ class _ChatWithDocScreenState extends State<ChatWithDocScreen> {
             id: DateTime.now().millisecondsSinceEpoch.toString(),
             author: types.User(
               id: data["senderId"],
-              role: types.mapStringToRole(data["senderRole"]), // Map role
+              role: types.mapStringToRole(data["senderRole"]),  
             ),
             text: data["text"],
             createdAt: DateTime.now().millisecondsSinceEpoch,
@@ -96,7 +100,6 @@ class _ChatWithDocScreenState extends State<ChatWithDocScreen> {
       });
     });
 
-    // Listen for previousMessages within the joinChatRoom logic
     socketConnection.socket.on("previousMessages", (data) {
       print("Previous messages received: $data");
       if (data != null && data["messages"] is List) {
@@ -233,7 +236,9 @@ class _ChatWithDocScreenState extends State<ChatWithDocScreen> {
         //       fontSize: 17.sp),
         // ),
         title: chat_doctor_profile_widget(
-          doctor: widget.doctor,
+          docFirstName: widget.docFirstName,
+          docSecName: widget.docSecName,
+          docProfilePic: widget.docProfilePic,
         ),
         centerTitle: false,
         elevation: 0,

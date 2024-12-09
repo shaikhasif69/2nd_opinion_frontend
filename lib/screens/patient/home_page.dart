@@ -7,6 +7,7 @@ import 'package:doctor_opinion/components/rive_utils.dart';
 import 'package:doctor_opinion/components/side_menu.dart';
 import 'package:doctor_opinion/screens/patient/Dashboard_screen.dart';
 import 'package:doctor_opinion/screens/patient/Profile_screen.dart';
+import 'package:doctor_opinion/screens/patient/message_section.dart';
 import 'package:doctor_opinion/screens/patient/shedule_screen.dart';
 import 'package:doctor_opinion/widgets/TabbarPages/message_tab_all.dart';
 import 'package:flutter/material.dart';
@@ -141,7 +142,7 @@ class _HomepageState extends State<Homepage>
           ),
         )
       ]),
-      message_tab_all(),
+      MessageAndConsultationSection(),
       shedule_screen(),
       Profile_screen()
     ];
